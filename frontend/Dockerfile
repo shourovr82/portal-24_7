@@ -1,18 +1,11 @@
-FROM node:18.3.0-alpine3.14
+FROM node:18.16.0-alpine3.17
 
-# Create app directory
 WORKDIR /app
-
+COPY package.json yarn.lock ./
+RUN yarn install 
 COPY . .
 
-RUN yarn install 
-
-
 EXPOSE 3100
-
-RUN ["chmod", "+x", "./entrypoint.sh"]
-
-ENTRYPOINT ["sh", "./entrypoint.sh"]
 
 CMD yarn dev
 
