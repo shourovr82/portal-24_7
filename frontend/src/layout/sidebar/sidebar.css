@@ -1,0 +1,9 @@
+.local-link::before {
+    content: url("");
+    margin-top: 6px;
+    width: 10px;
+    height: 10px;
+    background-color: #7F56D9;
+    border-radius: 100%;
+  }
+  
