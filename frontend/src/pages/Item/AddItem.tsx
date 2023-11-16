@@ -54,6 +54,7 @@ const AddItem = () => {
       data: createData,
     },
   ] = useCreateNewItemMutation();
+  console.log(createData);
 
   interface IFormInput {
     itemName: string;

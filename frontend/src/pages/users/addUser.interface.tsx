@@ -1,12 +1,14 @@
+import { FileType } from "rsuite/esm/Uploader";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type Inputs = {
   firstName: string;
   lastName: string;
-  profileImage: string;
+  profileImage: FileType | undefined;
   email: string;
   password: string;
   role: string | null;
-  userStatus: string | null;
+  userStatus?: string | null;
 };
 export type ILogin = {
   email: string;

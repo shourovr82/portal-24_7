@@ -5,18 +5,18 @@ import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import routes from './app/routes';
 
 import cookieParser from 'cookie-parser';
-import fs from "fs"
+import fs from 'fs';
 
 const app: Application = express();
 
 // create uploads directory while starting the application
-if (!fs.existsSync("./uploads")){
-  fs.mkdirSync("./uploads");
+if (!fs.existsSync('./uploads')) {
+  fs.mkdirSync('./uploads');
 }
 
 // Create user directory in the /uploads path while starting the application
-if (!fs.existsSync("./uploads/user")){
-  fs.mkdirSync("./uploads/user");
+if (!fs.existsSync('./uploads/user')) {
+  fs.mkdirSync('./uploads/user');
 }
 
 app.use(

@@ -5,11 +5,14 @@ import { FileType } from "rsuite/esm/Uploader";
 import toast from "react-hot-toast";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 
-const UserImageUpload = ({
-  handleChangeFile,
-}: {
-  handleChangeFile: (arg0: FileType | undefined) => void;
-}) => {
+interface UserImageUploadProps {
+  field: {
+    onChange: (file: FileType | undefined) => void;
+    value: FileType | undefined;
+  };
+}
+
+const UserImageUpload = ({ field }: UserImageUploadProps) => {
   const [fileValue, setFileValue] = useState<FileType[]>([]);
   const [imagePreview, setImagePreview] = useState<string | undefined>(
     undefined
@@ -25,7 +28,7 @@ const UserImageUpload = ({
         latestFile.blobFile?.size <= fileSizeLimit
       ) {
         setFileValue([latestFile]);
-        handleChangeFile(latestFile);
+        field.onChange(latestFile);
 
         const file = latestFile;
         const reader = new FileReader();
@@ -49,7 +52,7 @@ const UserImageUpload = ({
     setImagePreview(undefined);
 
     setFileValue([]);
-    handleChangeFile(undefined);
+    field.onChange(undefined);
   };
 
   return (

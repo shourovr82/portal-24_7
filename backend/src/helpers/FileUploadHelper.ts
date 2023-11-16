@@ -6,7 +6,7 @@ import path from 'path';
 // user
 const userStorage = multer.diskStorage({
   destination: function (req, file, callback) {
-    callback(null, 'uploads/user/');
+    callback(null, 'uploads/users/');
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);

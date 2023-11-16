@@ -5,7 +5,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Button, Form, Input, SelectPicker, Tooltip, Whisper } from "rsuite";
 import { useGetAllItemNamesQuery } from "../../redux/features/items/itemApi";
 import { useCreateNewStyleMutation } from "../../redux/features/styles/styleApi";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { renderLoading } from "../../components/renderLoading/RenderLoading";
 import StyleImageUpload from "../../components/styles/uploads/StyleImageUpload";
 import { FileType } from "rsuite/esm/Uploader";
@@ -37,7 +37,14 @@ const AddStyle = () => {
 
   const [
     createNewStyle,
-    { isLoading: createLoading, error: createError, isError, isSuccess },
+    {
+      isLoading: createLoading,
+      error: createError,
+      isError,
+
+      isSuccess,
+      data: createData,
+    },
   ] = useCreateNewStyleMutation();
 
   const {
@@ -47,29 +54,26 @@ const AddStyle = () => {
     formState: { errors },
   } = useForm<IFormInput>();
 
-  const [file, setFile] = useState<FileType | undefined>(undefined);
-
   const handleCreateStyle: SubmitHandler<IFormInput> = async (values) => {
-    // const obj = { ...values };
-    // const styleData = JSON.stringify(obj);
-    // const formData = new FormData();
-    // formData.append("file", file?.blobFile as Blob);
-    // formData.append("data", styleData);
+    const formData = new FormData();
+    formData.append("file", values.file.blobFile as Blob);
 
-    // try {
-    //   await createNewStyle(formData);
-    // } catch (err: any) {
-    //   console.error(err.message);
-    // }
-    console.log(values);
-  };
+    const obj = {
+      styleNo: values.styleNo,
+      fabric: values.fabric,
+      factoryId: values.factoryId,
+      itemId: values.itemId,
+    };
 
-  const handleChangeFile = (fileData: FileType | undefined) => {
-    setFile(fileData);
+    const styleData = JSON.stringify(obj);
+
+    formData.append("data", styleData);
+
+    await createNewStyle(formData);
   };
 
   useEffect(() => {
-    if (isError && !createLoading && !isSuccess) {
+    if (isError && !createLoading && !isSuccess && createError && !createData) {
       toast.error(
         // @ts-ignore
         createError?.message || "Something went wrong",
@@ -77,10 +81,19 @@ const AddStyle = () => {
       );
     }
 
-    if (!isError && !createLoading && isSuccess) {
-      reset();
+    if (!isError && !createLoading && isSuccess && createData && !createError) {
+      reset({
+        fabric: "",
+        factoryId: "",
+        file: undefined,
+        itemId: "",
+        styleNo: "",
+      });
       navigate("/styles/listofstyle");
-      toast.success("Successfully Created New Style", toastMessageSuccess);
+      toast.success(
+        createData?.message || "Successfully Created New Style",
+        toastMessageSuccess
+      );
     }
   }, [createError, createLoading, isError, isSuccess, navigate, reset]);
 
@@ -250,12 +263,38 @@ const AddStyle = () => {
                 />
               </div>
             </div>
-
-            {/* others */}
-
-            <div className="flex  gap-[24px] mb-5"></div>
-
-            <StyleImageUpload handleChangeFile={handleChangeFile} />
+            {/* Style Image */}
+            <div className=" w-full ">
+              <div className="mb-3">
+                <Whisper
+                  speaker={
+                    <Tooltip>Style Image must be less than 512 kb</Tooltip>
+                  }
+                >
+                  <label htmlFor="file" className="text-sm font-medium">
+                    Style Image <InfoOutlineIcon />
+                  </label>
+                </Whisper>
+              </div>
+              <Controller
+                name="file"
+                control={control}
+                rules={{ required: "Style Image is required" }}
+                render={({ field }: any) => (
+                  <div className="rs-form-control-wrapper ">
+                    <StyleImageUpload field={field} />
+                    <Form.ErrorMessage
+                      show={
+                        (!!errors?.file && !!errors?.file?.message) || false
+                      }
+                      placement="topEnd"
+                    >
+                      {errors?.file?.message}
+                    </Form.ErrorMessage>
+                  </div>
+                )}
+              />
+            </div>
 
             <div className="flex justify-end">
               <Button

@@ -2,15 +2,15 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button, SelectPicker } from "rsuite";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { Button, Form, SelectPicker, Tooltip, Whisper } from "rsuite";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Inputs } from "./addUser.interface";
 import { useCreateUserMutation } from "../../redux/features/auth/authApi";
 import UserImageUpload from "../../components/users/AvatarUploader";
-import { useState } from "react";
-import { FileType } from "rsuite/esm/Uploader";
 import toast from "react-hot-toast";
 import { useEffect } from "react";
+import InfoOutlineIcon from "@rsuite/icons/InfoOutline";
+
 import {
   toastMessageError,
   toastMessageSuccess,
@@ -18,11 +18,6 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const AddUser = () => {
-  const [file, setFile] = useState<FileType | undefined>(undefined);
-  const handleChangeFile = (fileData: FileType | undefined) => {
-    setFile(fileData);
-  };
-
   const [createUser, { isError, isSuccess, error, isLoading, data }] =
     useCreateUserMutation();
 
@@ -35,20 +30,22 @@ const AddUser = () => {
     register,
     handleSubmit,
     setValue,
+    control,
     reset,
     formState: { errors },
   } = useForm<Inputs>();
 
   const handleUserCreate: SubmitHandler<Inputs> = async (values) => {
-    if (!file) {
-      toast.error("Profile Image is Required");
-      return; // Stop the function execution
-    }
-
-    const obj = { ...values };
+    const obj = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      password: values.password,
+      role: values.role,
+    };
     const userData = JSON.stringify(obj);
     const formData = new FormData();
-    formData.append("file", file?.blobFile as Blob);
+    formData.append("file", values.profileImage?.blobFile as Blob);
     formData.append("data", userData);
 
     try {
@@ -162,11 +159,41 @@ const AddUser = () => {
             </div>
             {/* 2nd section */}
             <div className="flex justify-between gap-[24px]  mb-5">
-              <div className="flex flex-col gap-3 w-[20%]">
-                <label htmlFor="sku" className="text-sm py-1 font-medium">
-                  Profile Image
-                </label>
-                <UserImageUpload handleChangeFile={handleChangeFile} />
+              <div className=" w-[20%] ">
+                <div className="mb-3">
+                  <Whisper
+                    speaker={
+                      <Tooltip>Profile Image must be less than 512 kb</Tooltip>
+                    }
+                  >
+                    <label
+                      htmlFor="profileImage"
+                      className="text-sm font-medium"
+                    >
+                      Profile Image <InfoOutlineIcon />
+                    </label>
+                  </Whisper>
+                </div>
+                <Controller
+                  name="profileImage"
+                  control={control}
+                  rules={{ required: "Profile Image is required" }}
+                  render={({ field }: any) => (
+                    <div className="rs-form-control-wrapper ">
+                      <UserImageUpload field={field} />
+                      <Form.ErrorMessage
+                        show={
+                          (!!errors?.profileImage &&
+                            !!errors?.profileImage?.message) ||
+                          false
+                        }
+                        placement="topEnd"
+                      >
+                        {errors?.profileImage?.message}
+                      </Form.ErrorMessage>
+                    </div>
+                  )}
+                />
               </div>
 
               {/* Email  */}
