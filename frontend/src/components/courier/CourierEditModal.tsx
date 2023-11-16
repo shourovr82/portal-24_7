@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, DatePicker, Modal, SelectPicker } from "rsuite";
+import { Button, DatePicker, Input, Modal, SelectPicker } from "rsuite";
 import { useGetStyleNoQuery } from "../../redux/features/styles/styleApi";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -28,9 +28,9 @@ const CourierEditModal = ({ open, courierEditData, handleClose }: any) => {
   ] = useEditCourierInfoMutation();
 
   const {
-    register,
     handleSubmit,
     setValue,
+    reset: formReset,
     formState: { errors },
   } = useForm<IFormInput>();
 
@@ -43,6 +43,8 @@ const CourierEditModal = ({ open, courierEditData, handleClose }: any) => {
       courierDetails: data.courierDetails,
       courierDate: data.courierDate,
     };
+
+    console.log(updatedData);
 
     await editCourierInfo({
       id: courierEditData?.courierId,
@@ -64,6 +66,7 @@ const CourierEditModal = ({ open, courierEditData, handleClose }: any) => {
         },
       });
       reset();
+      formReset();
       handleClose();
     }
     if (isError && !isLoading) {
@@ -79,12 +82,24 @@ const CourierEditModal = ({ open, courierEditData, handleClose }: any) => {
           secondary: "#FFFAEE",
         },
       });
+      reset();
     }
   }, [data, error, handleClose, isError, isLoading, isSuccess, reset]);
 
+  const handleCloseModal = () => {
+    reset();
+    formReset();
+    handleClose();
+  };
+
   return (
     <>
-      <Modal size="full" backdrop="static" open={open} onClose={handleClose}>
+      <Modal
+        size="full"
+        backdrop="static"
+        open={open}
+        onClose={handleCloseModal}
+      >
         <Modal.Header>
           <Modal.Title className="font-semibold">
             Edit Courier Details : {courierEditData?.courierName}
@@ -114,6 +129,8 @@ const CourierEditModal = ({ open, courierEditData, handleClose }: any) => {
 
                     <SelectPicker
                       id="courierName"
+                      searchable={false}
+                      cleanable={false}
                       size="lg"
                       defaultValue={courierEditData?.courierName || undefined}
                       data={dataForSelectPicker.courierNamesData ?? []}
@@ -138,6 +155,7 @@ const CourierEditModal = ({ open, courierEditData, handleClose }: any) => {
                       onChange={(value: string | null): void =>
                         setValue("styleNo", value)
                       }
+                      cleanable={false}
                       size="lg"
                       defaultValue={courierEditData?.styleNo || undefined}
                       data={
@@ -166,14 +184,15 @@ const CourierEditModal = ({ open, courierEditData, handleClose }: any) => {
                         </span>
                       )}
                     </div>
-                    <input
+
+                    <Input
+                      size="lg"
                       id="awbNo"
-                      defaultValue={courierEditData?.awbNo}
+                      defaultValue={courierEditData?.awbNo || undefined}
+                      onChange={(e) => setValue("awbNo", e)}
+                      style={{ width: "100%" }}
+                      placeholder="Enter AWB..."
                       type="text"
-                      {...register("awbNo", {
-                        required: "AWB no  is Required ",
-                      })}
-                      className=" border py-2 focus:outline-none px-2 border-[#E4E7EC] rounded-[8px]  "
                     />
                   </div>
                   <div className="flex flex-col gap-3 w-full">
@@ -184,20 +203,16 @@ const CourierEditModal = ({ open, courierEditData, handleClose }: any) => {
                       >
                         Courier Weight
                       </label>
-                      {errors?.courierWeight && (
-                        <span className="text-[10px]  text-white px-1.5 py-0.5 rounded font-medium bg-red-800">
-                          {errors?.courierWeight?.message}
-                        </span>
-                      )}
                     </div>
-                    <input
+
+                    <Input
+                      size="lg"
                       id="courierWeight"
-                      defaultValue={courierEditData?.courierWeight}
+                      defaultValue={courierEditData?.courierWeight || undefined}
+                      onChange={(e) => setValue("courierWeight", e)}
+                      style={{ width: "100%" }}
+                      placeholder="Enter Courier Weight..."
                       type="text"
-                      {...register("courierWeight", {
-                        required: "Courier Details is Required ",
-                      })}
-                      className=" border py-2 focus:outline-none px-2 border-[#E4E7EC] rounded-[8px]  "
                     />
                   </div>
                 </div>
@@ -220,14 +235,17 @@ const CourierEditModal = ({ open, courierEditData, handleClose }: any) => {
                         </span>
                       )}
                     </div>
-                    <input
+
+                    <Input
+                      size="lg"
                       id="courierDetails"
-                      defaultValue={courierEditData?.courierDetails}
+                      defaultValue={
+                        courierEditData?.courierDetails || undefined
+                      }
+                      onChange={(e) => setValue("courierDetails", e)}
+                      style={{ width: "100%" }}
+                      placeholder="Enter Courier Details..."
                       type="text"
-                      {...register("courierDetails", {
-                        required: "Courier Details is Required ",
-                      })}
-                      className=" border py-2 focus:outline-none px-2 border-[#E4E7EC] rounded-[8px]  "
                     />
                   </div>
 
@@ -239,11 +257,6 @@ const CourierEditModal = ({ open, courierEditData, handleClose }: any) => {
                       >
                         Courier Date
                       </label>
-                      {errors?.courierDate && (
-                        <span className="text-[10px]  text-white px-1.5 py-0.5 rounded font-medium bg-red-800">
-                          {errors?.courierDate?.message}
-                        </span>
-                      )}
                     </div>
                     <DatePicker
                       id="courierDate"
@@ -252,6 +265,7 @@ const CourierEditModal = ({ open, courierEditData, handleClose }: any) => {
                           ? moment(courierEditData.courierDate).toDate()
                           : undefined
                       }
+                      cleanable={false}
                       onChange={(value: Date | null): void => {
                         const isoString = value?.toISOString();
                         setValue("courierDate", isoString);
@@ -274,7 +288,7 @@ const CourierEditModal = ({ open, courierEditData, handleClose }: any) => {
                     Submit Changes
                   </Button>
                   <Button
-                    onClick={handleClose}
+                    onClick={handleCloseModal}
                     appearance="ghost"
                     className="hover:border-transparent"
                   >

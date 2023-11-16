@@ -28,11 +28,7 @@ const PortEditModal = ({ open, portEditData, handleClose }: any) => {
     },
   ] = useUpdatePortMutation();
 
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<IFormInput>();
+  const { handleSubmit, setValue, reset: formReset } = useForm<IFormInput>();
 
   const handleUpdatePort: SubmitHandler<IFormInput> = async (data) => {
     const updatedPortData = {
@@ -53,6 +49,7 @@ const PortEditModal = ({ open, portEditData, handleClose }: any) => {
       );
       resetRequestUpdate();
       handleClose();
+      formReset();
     }
     if (!isSuccess && error && !isLoading && isError && !updateData) {
       toast.error(
@@ -60,6 +57,7 @@ const PortEditModal = ({ open, portEditData, handleClose }: any) => {
         error?.message || "Something went wrong",
         toastMessageError
       );
+      resetRequestUpdate();
     }
   }, [
     error,
@@ -71,19 +69,22 @@ const PortEditModal = ({ open, portEditData, handleClose }: any) => {
     handleClose,
   ]);
 
+  const handleCloseModal = () => {
+    handleClose();
+    resetRequestUpdate();
+    formReset();
+  };
   return (
     <div>
       <Modal
         backdrop="static"
         keyboard={false}
         open={open}
-        onClose={handleClose}
+        onClose={handleCloseModal}
       >
         <Modal.Header>
           <Modal.Title>
-            <h3 className="text-lg font-semibold flex items-center gap-1">
-              Edit Port : {portEditData?.portName}
-            </h3>
+            <h3 className="text-lg font-semibold ">Edit Port</h3>
           </Modal.Title>
         </Modal.Header>
 
@@ -103,31 +104,15 @@ const PortEditModal = ({ open, portEditData, handleClose }: any) => {
                     Port Name
                   </label>
                 </div>
-                <Controller
-                  name="portName"
-                  control={control}
-                  render={({ field }: any) => (
-                    <div className="rs-form-control-wrapper ">
-                      <Input
-                        size="lg"
-                        {...field}
-                        defaultValue={portEditData?.portName}
-                        id="portName"
-                        style={{ width: "100%" }}
-                        placeholder="Enter Port Name..."
-                        type="text"
-                      />
-                      <Form.ErrorMessage
-                        show={
-                          (!!errors?.portName && !!errors?.portName?.message) ||
-                          false
-                        }
-                        placement="topEnd"
-                      >
-                        {errors?.portName?.message}
-                      </Form.ErrorMessage>
-                    </div>
-                  )}
+
+                <Input
+                  size="lg"
+                  defaultValue={portEditData?.portName || undefined}
+                  onChange={(e) => setValue("portName", e)}
+                  id="portName"
+                  style={{ width: "100%" }}
+                  placeholder="Enter Port Name..."
+                  type="text"
                 />
               </div>
 
@@ -140,32 +125,15 @@ const PortEditModal = ({ open, portEditData, handleClose }: any) => {
                     Port Address
                   </label>
                 </div>
-                <Controller
-                  name="portAddress"
-                  control={control}
-                  render={({ field }: any) => (
-                    <div className="rs-form-control-wrapper ">
-                      <Input
-                        size="lg"
-                        {...field}
-                        defaultValue={portEditData?.portAddress}
-                        id="portAddress"
-                        style={{ width: "100%" }}
-                        placeholder="Enter Port Address..."
-                        type="text"
-                      />
-                      <Form.ErrorMessage
-                        show={
-                          (!!errors?.portAddress &&
-                            !!errors?.portAddress?.message) ||
-                          false
-                        }
-                        placement="topEnd"
-                      >
-                        {errors?.portAddress?.message}
-                      </Form.ErrorMessage>
-                    </div>
-                  )}
+
+                <Input
+                  size="lg"
+                  defaultValue={portEditData?.portAddress || undefined}
+                  onChange={(e) => setValue("portAddress", e)}
+                  id="portAddress"
+                  style={{ width: "100%" }}
+                  placeholder="Enter Port Address..."
+                  type="text"
                 />
               </div>
 
@@ -188,8 +156,6 @@ const PortEditModal = ({ open, portEditData, handleClose }: any) => {
               </div>
             </form>
           </div>
-
-          {/* modal Footer */}
         </Modal.Body>
       </Modal>
     </div>
