@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button, Form, SelectPicker, Tooltip, Whisper } from "rsuite";
+import { Button, Form, Input, SelectPicker, Tooltip, Whisper } from "rsuite";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Inputs } from "./addUser.interface";
 import { useCreateUserMutation } from "../../redux/features/auth/authApi";
@@ -27,7 +27,6 @@ const AddUser = () => {
   }));
 
   const {
-    register,
     handleSubmit,
     setValue,
     control,
@@ -95,152 +94,235 @@ const AddUser = () => {
           </div>
           <form onSubmit={handleSubmit(handleUserCreate)}>
             {/* 1st section */}
+
             <div className="flex justify-between gap-[24px] mb-5">
               {/* First Name */}
-              <div className="flex flex-col gap-3 w-[35%]">
-                <div className="flex justify-between items-center">
-                  <label
-                    htmlFor="firstName"
-                    className="text-sm py-1 font-medium"
-                  >
+              <div className="flex flex-col gap-3 w-[50%] ">
+                <div>
+                  <label htmlFor="firstName" className="text-sm font-medium">
                     First Name
                   </label>
-                  {errors?.firstName && (
-                    <p className="text-xs bg-red-500 text-white/80 px-3 py-1 rounded-full">
-                      {errors?.firstName?.message}
-                    </p>
-                  )}
                 </div>
-                <input
-                  {...register("firstName", {
-                    required: "First Name is Required",
-                  })}
-                  id="firstName"
-                  type="text"
-                  className="border py-2  focus:border-[#237de1] hover:border-[#237de1] focus:outline-none px-2 border-[#E4E7EC] rounded-[8px]  duration-300 transition-all ease-in-out"
-                />
-              </div>
-              {/* Last Name */}
-              <div className="flex flex-col gap-3 w-[35%]">
-                <div className="flex justify-between items-center">
-                  <label
-                    htmlFor="lastName"
-                    className="text-sm py-1 font-medium"
-                  >
-                    Last Name
-                  </label>
-                  {errors?.lastName && (
-                    <p className="text-xs bg-red-500 text-white/80 px-3 py-1 rounded-full">
-                      {errors?.lastName?.message}
-                    </p>
-                  )}
-                </div>
-                <input
-                  {...register("lastName", {
-                    required: "Last Name is Required",
-                  })}
-                  id="lastName"
-                  type="text"
-                  className="border py-2  focus:border-[#237de1] hover:border-[#237de1] focus:outline-none px-2 border-[#E4E7EC] rounded-[8px]  duration-300 transition-all ease-in-out"
-                />
-              </div>
-              {/* Role  */}
-              <div className="flex flex-col gap-3 w-[30%]">
-                <label htmlFor="sku" className="text-sm py-1 font-medium">
-                  Role
-                </label>
-                <SelectPicker
-                  onChange={onSelectRoleChange}
-                  size="lg"
-                  data={roles}
-                  searchable={false}
-                />
-              </div>
-            </div>
-            {/* 2nd section */}
-            <div className="flex justify-between gap-[24px]  mb-5">
-              <div className=" w-[20%] ">
-                <div className="mb-3">
-                  <Whisper
-                    speaker={
-                      <Tooltip>Profile Image must be less than 512 kb</Tooltip>
-                    }
-                  >
-                    <label
-                      htmlFor="profileImage"
-                      className="text-sm font-medium"
-                    >
-                      Profile Image <InfoOutlineIcon />
-                    </label>
-                  </Whisper>
-                </div>
+
                 <Controller
-                  name="profileImage"
+                  name="firstName"
+                  defaultValue=""
                   control={control}
-                  rules={{ required: "Profile Image is required" }}
+                  rules={{ required: "First Name is Required" }}
                   render={({ field }: any) => (
                     <div className="rs-form-control-wrapper ">
-                      <UserImageUpload field={field} />
+                      <Input
+                        size="lg"
+                        {...field}
+                        id="itemName"
+                        style={{ width: "100%" }}
+                        placeholder="Enter First Name..."
+                        type="text"
+                      />
                       <Form.ErrorMessage
                         show={
-                          (!!errors?.profileImage &&
-                            !!errors?.profileImage?.message) ||
+                          (!!errors?.firstName &&
+                            !!errors?.firstName?.message) ||
                           false
                         }
                         placement="topEnd"
                       >
-                        {errors?.profileImage?.message}
+                        {errors?.firstName?.message}
                       </Form.ErrorMessage>
                     </div>
                   )}
                 />
               </div>
 
+              {/* Last Name */}
+
+              <div className="flex flex-col gap-3 w-[50%] ">
+                <div>
+                  <label htmlFor="lastName" className="text-sm font-medium">
+                    Last Name
+                  </label>
+                </div>
+
+                <Controller
+                  name="lastName"
+                  control={control}
+                  rules={{ required: "Last Name is Required" }}
+                  render={({ field }: any) => (
+                    <div className="rs-form-control-wrapper ">
+                      <Input
+                        size="lg"
+                        {...field}
+                        id="lastName"
+                        style={{ width: "100%" }}
+                        placeholder="Enter Last Name..."
+                        type="text"
+                      />
+                      <Form.ErrorMessage
+                        show={
+                          (!!errors?.lastName && !!errors?.lastName?.message) ||
+                          false
+                        }
+                        placement="topEnd"
+                      >
+                        {errors?.lastName?.message}
+                      </Form.ErrorMessage>
+                    </div>
+                  )}
+                />
+              </div>
+              {/* Role  */}
+              <div className="flex flex-col gap-3 w-[30%]">
+                <label htmlFor="role" className="text-sm  font-medium">
+                  Role
+                </label>
+                <Controller
+                  name="role"
+                  control={control}
+                  rules={{ required: "Role is required" }}
+                  render={({ field }) => (
+                    <div className="rs-form-control-wrapper">
+                      <SelectPicker
+                        size="lg"
+                        data={roles}
+                        value={field.value}
+                        onChange={(value: string | null) =>
+                          field.onChange(value)
+                        }
+                        placeholder="Select Role"
+                        style={{
+                          width: "100%",
+                        }}
+                      />
+                      <Form.ErrorMessage
+                        show={
+                          (!!errors?.role && !!errors?.role?.message) || false
+                        }
+                        placement="topEnd"
+                      >
+                        {errors?.role?.message}
+                      </Form.ErrorMessage>
+                    </div>
+                  )}
+                />{" "}
+              </div>
+            </div>
+            {/* 2nd section */}
+            <div className="flex justify-between gap-[24px]  mb-5">
               {/* Email  */}
-              <div className="flex flex-col gap-3 w-[40%]">
-                <div className="flex justify-between items-center">
-                  <label htmlFor="email" className="text-sm py-1 font-medium">
+
+              <div className="flex flex-col gap-3 w-full ">
+                <div>
+                  <label htmlFor="email" className="text-sm font-medium">
                     Email
                   </label>
-                  {errors?.email && (
-                    <p className="text-xs bg-red-500 text-white/80 px-3 py-1 rounded-full">
-                      {errors?.email?.message}
-                    </p>
-                  )}
                 </div>
-                <input
-                  {...register("email", {
+
+                <Controller
+                  name="email"
+                  control={control}
+                  rules={{
                     required: "Email is Required",
-                  })}
-                  id="email"
-                  type="email"
-                  className="border py-2  focus:border-[#237de1] hover:border-[#237de1] focus:outline-none px-2 border-[#E4E7EC] rounded-[8px]  duration-300 transition-all ease-in-out"
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                      message: "Email must be Valid",
+                    },
+                  }}
+                  render={({ field }: any) => (
+                    <div className="rs-form-control-wrapper ">
+                      <Input
+                        size="lg"
+                        {...field}
+                        id="email"
+                        style={{ width: "100%" }}
+                        placeholder="Enter email..."
+                        type="text"
+                      />
+                      <Form.ErrorMessage
+                        show={
+                          (!!errors?.email && !!errors?.email?.message) || false
+                        }
+                        placement="topEnd"
+                      >
+                        {errors?.email?.message}
+                      </Form.ErrorMessage>
+                    </div>
+                  )}
                 />
               </div>
-              {/* password  */}
-              <div className="flex flex-col gap-3 w-[40%]">
-                <div className="flex justify-between items-center">
-                  <label
-                    htmlFor="password"
-                    className="text-sm py-1 font-medium"
-                  >
+
+              {/* password */}
+              <div className="flex flex-col gap-3 w-full ">
+                <div>
+                  <label htmlFor="password" className="text-sm font-medium">
                     Password
                   </label>
-                  {errors?.password && (
-                    <p className="text-xs bg-red-500 text-white/80 px-3 py-1 rounded-full">
-                      {errors?.password?.message}
-                    </p>
-                  )}
                 </div>
-                <input
-                  {...register("password", {
+
+                <Controller
+                  name="password"
+                  control={control}
+                  rules={{
                     required: "Password is Required",
-                  })}
-                  id="password"
-                  type="password"
-                  className="border py-2  focus:border-[#237de1] hover:border-[#237de1] focus:outline-none px-2 border-[#E4E7EC] rounded-[8px]  duration-300 transition-all ease-in-out"
+                  }}
+                  render={({ field }: any) => (
+                    <div className="rs-form-control-wrapper ">
+                      <Input
+                        size="lg"
+                        {...field}
+                        id="password"
+                        style={{ width: "100%" }}
+                        placeholder="Enter Password..."
+                        type="text"
+                      />
+                      <Form.ErrorMessage
+                        show={
+                          (!!errors?.password && !!errors?.password?.message) ||
+                          false
+                        }
+                        placement="topEnd"
+                      >
+                        {errors?.password?.message}
+                      </Form.ErrorMessage>
+                    </div>
+                  )}
                 />
               </div>
+
+              {/* password  */}
+            </div>
+
+            <div className=" w-[30%] ">
+              <div className="mb-3">
+                <Whisper
+                  speaker={
+                    <Tooltip>Profile Image must be less than 512 kb</Tooltip>
+                  }
+                >
+                  <label htmlFor="profileImage" className="text-sm font-medium">
+                    Profile Image <InfoOutlineIcon />
+                  </label>
+                </Whisper>
+              </div>
+              <Controller
+                name="profileImage"
+                control={control}
+                rules={{ required: "Profile Image is required" }}
+                render={({ field }: any) => (
+                  <div className="rs-form-control-wrapper ">
+                    <UserImageUpload field={field} />
+                    <Form.ErrorMessage
+                      show={
+                        (!!errors?.profileImage &&
+                          !!errors?.profileImage?.message) ||
+                        false
+                      }
+                      placement="topEnd"
+                    >
+                      {errors?.profileImage?.message}
+                    </Form.ErrorMessage>
+                  </div>
+                )}
+              />
             </div>
 
             <div className="flex justify-end">

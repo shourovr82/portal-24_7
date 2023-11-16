@@ -21,8 +21,9 @@ if (!fs.existsSync('./uploads/user')) {
 
 app.use(
   cors({
-    origin: ['http://localhost:3100'],
+    origin: 'http://localhost:3100',
     credentials: true,
+    // methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   })
 );
 app.use(cookieParser());

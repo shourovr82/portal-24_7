@@ -68,6 +68,21 @@ const updateUser = z.object({
     profileImage: z
       .string({ invalid_type_error: 'profileImage must be in string' })
       .optional(),
+    email: z
+      .string({
+        invalid_type_error: 'email must be in string',
+      })
+      .optional(),
+    password: z
+      .string({
+        invalid_type_error: 'password must be in string',
+      })
+      .optional(),
+    profileId: z
+      .string({
+        invalid_type_error: 'Profile Id must be in string',
+      })
+      .optional(),
     role: z
       .enum([...ZodUserRoles] as [string, ...string[]], {
         invalid_type_error: 'role must be in string',

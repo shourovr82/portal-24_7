@@ -200,7 +200,7 @@ const StyleListsTable = ({
                   <Popover>
                     <div>
                       <img
-                        src={rowData.image}
+                        src={`http://localhost:7000/${rowData.image}`}
                         alt={rowData.image}
                         className="h-52 w-52  object-cover"
                       />
@@ -210,7 +210,7 @@ const StyleListsTable = ({
               >
                 <div>
                   <img
-                    src={rowData.image}
+                    src={`http://localhost:7000/${rowData.image}`}
                     className="h-10 w-10 object-cover rounded-full"
                   />
                 </div>
@@ -268,12 +268,7 @@ const StyleListsTable = ({
         {/* Fabric */}
         <Column flexGrow={1}>
           <HeaderCell style={headerCss}>Fabric</HeaderCell>
-          <Cell
-            style={cellCss}
-            verticalAlign="middle"
-            dataKey="fabric"
-
-          />
+          <Cell style={cellCss} verticalAlign="middle" dataKey="fabric" />
         </Column>
         {/* Factory Name	 */}
         <Column flexGrow={1} minWidth={110}>

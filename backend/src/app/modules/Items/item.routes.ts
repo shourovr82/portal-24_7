@@ -34,8 +34,8 @@ router.get(
   ItemController.getSingleItem
 );
 // ! Update item----------------------------------->>>
-router.patch(
-  '/:itemId',
+router.post(
+  '/update/:itemId',
   validateRequest(ItemValidation.updateItem),
   auth(UserRoles.ADMIN, UserRoles.SUPERADMIN),
   ItemController.updateItemInformation

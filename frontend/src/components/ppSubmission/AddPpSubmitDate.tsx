@@ -17,7 +17,10 @@ import {
   toastMessageError,
   toastMessageSuccess,
 } from "../../interfacesAndConstants/shared/constants/toastMessages.constants";
-import { useCreatePpSubmittedDateMutation } from "../../redux/features/ppSubmission/ppSubmissionDateApi";
+import {
+  useCreatePpSubmittedDateMutation,
+  useTestPpSubmittedDateMutation,
+} from "../../redux/features/ppSubmission/ppSubmissionDateApi";
 import { useEffect, useState } from "react";
 import InfoOutlineIcon from "@rsuite/icons/InfoOutline";
 interface IFormInput {
@@ -34,10 +37,8 @@ const AddPpSubmitDate = ({ allStyle, isLoadingStyleNo }: any) => {
     formState: { errors },
   } = useForm<IFormInput>();
 
-  const [
-    createPpSubmittedDate,
-    { isLoading, isError, isSuccess, error, data },
-  ] = useCreatePpSubmittedDateMutation();
+  const [testPpSubmittedDate, { isLoading, isError, isSuccess, error, data }] =
+    useTestPpSubmittedDateMutation();
 
   const [styleValue, setStyleValue] = useState<string | null>(null);
 
@@ -59,7 +60,7 @@ const AddPpSubmitDate = ({ allStyle, isLoadingStyleNo }: any) => {
       styleNo: data?.styleNo,
       factorySubmittedDate: data?.factorySubmittedDate,
     };
-    await createPpSubmittedDate(submitData);
+    await testPpSubmittedDate(submitData);
   };
 
   useEffect(() => {
@@ -255,7 +256,7 @@ const AddPpSubmitDate = ({ allStyle, isLoadingStyleNo }: any) => {
                 ? "primary"
                 : "default"
             }`}
-            className={`  bg-[#0284c7] text-white rounded-md  focus:scale-95 scale-100 items-center   flex px-6 py-2`}
+            className={`  bg-[#0284c7] hover:bg-[#0284c7] hover:text-white/80 focus-within:bg-[#0284c7] focus-within:text-white text-white rounded-md  focus:scale-95 scale-100 items-center   flex px-6 py-2`}
           >
             {singleStyle?.PPSubmission?.factorySubmittedDate
               ? "PP Already Submitted"

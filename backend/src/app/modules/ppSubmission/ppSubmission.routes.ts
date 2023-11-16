@@ -10,16 +10,16 @@ const router = express.Router();
 // ! Create New  PPSubmission ------------------------------->>>
 router.post(
   '/submission-date',
-  validateRequest(PPSubmissionValidation.createPPSubmission),
   auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
+  validateRequest(PPSubmissionValidation.createPPSubmission),
   PPSubmissionController.createNewPPSubmission
 );
 
 // ! Update PPSubmission----------------------------------->>>
-router.patch(
-  '/submit-date',
+router.post(
+  '/submit-pp-date',
+  auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
   validateRequest(PPSubmissionValidation.updatePPSubmission),
-  auth(UserRoles.ADMIN, UserRoles.SUPERADMIN),
   PPSubmissionController.updatePPSubmissionInformation
 );
 

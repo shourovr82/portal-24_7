@@ -44,8 +44,11 @@ export type IUpdateProfileReqAndResponse = {
   role?: UserRoles;
 };
 export type IUserUpdateReqAndResponse = {
+  firstName?: string;
+  lastName?: string;
   email?: string;
   password?: string;
   userStatus?: UserStatus;
   role?: UserRoles;
+  profileId?: string;
 };
