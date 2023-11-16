@@ -23,8 +23,7 @@ import {
   IStylesFilterRequest,
 } from './styles.interface';
 
-// modules
-
+// ! create Style
 const createNewStyle = async (
   profileId: string,
   req: Request
@@ -74,50 +73,8 @@ const createNewStyle = async (
   }
   return result;
 };
-// const createNewStyle = async (
-//   profileId: string,
-//   payload: IStyleCreateRequest
-// ): Promise<Styles> => {
-//   const result = await prisma.$transaction(async transactionClient => {
-//     const isExistStyleNo = await prisma.styles.findUnique({
-//       where: {
-//         styleNo: payload.styleNo,
-//       },
-//     });
-//     if (isExistStyleNo) {
-//       throw new ApiError(httpStatus.BAD_REQUEST, 'Style No is already added');
-//     }
 
-//     const isExistItem = await prisma.item.findUnique({
-//       where: {
-//         itemId: payload?.itemId,
-//       },
-//     });
-//     if (!isExistItem) {
-//       throw new ApiError(httpStatus.BAD_REQUEST, 'Item Not Found');
-//     }
-
-//     const newStyleData = {
-//       styleNo: payload.styleNo,
-//       itemId: payload.itemId,
-//       image: payload.image,
-//       fabric: payload.fabric,
-//       profileId,
-//     };
-//     const createdStyle = await transactionClient.styles.create({
-//       data: newStyleData,
-//       include: {
-//         profile: true,
-//       },
-//     });
-//     return createdStyle;
-//   });
-//   if (!result) {
-//     throw new ApiError(httpStatus.BAD_REQUEST, 'Style creation failed');
-//   }
-//   return result;
-// };
-
+// ! get all styles
 const getAllStyles = async (
   filters: IStylesFilterRequest,
   options: IPaginationOptions
@@ -278,6 +235,7 @@ const getAllStyles = async (
   };
 };
 
+// ! get all style No
 const getAllStyleNumbers = async (
   filters: IStylesFilterRequest,
   options: IPaginationOptions
@@ -360,6 +318,7 @@ const getAllStyleNumbers = async (
   };
 };
 
+// ! get single Style
 const getSingleStyle = async (styleNo: string): Promise<Styles | null> => {
   //
 
@@ -397,70 +356,70 @@ const getSingleStyle = async (styleNo: string): Promise<Styles | null> => {
 // ! update style ----------------------
 const updateStyleInformation = async (
   styleNo: string,
-  // payload: Partial<IUpdateStyleRequest>
   req: Request
 ): Promise<Styles | null> => {
-  const file = req.file as IUploadFile;
+  const file = req?.file as IUploadFile;
 
   const filePath = file?.path?.substring(8);
 
-  const data = req.body as IStyleUpdateRequest;
+  const { fabric, factoryId, isActiveStyle, itemId } =
+    req.body as IStyleUpdateRequest;
 
-  const isExistStyle = await prisma.styles.findUnique({
-    where: {
-      styleNo,
-    },
-  });
-  if (!isExistStyle) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Style Not Found !!!');
-  }
-
-  if (data?.factoryId) {
-    const isFactoryExist = await prisma.factory.findUnique({
+  const resultClient = await prisma.$transaction(async transactionClient => {
+    const isExistStyle = await transactionClient.styles.findUnique({
       where: {
-        factoryId: data?.factoryId,
+        styleNo,
       },
     });
-    if (!isFactoryExist) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Factory Not Found !!!');
+    if (!isExistStyle) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Style Not Found !!!');
     }
-  }
-  if (data?.itemId) {
-    const isExistItem = await prisma.item.findUnique({
+
+    if (factoryId) {
+      const isFactoryExist = await transactionClient.factory.findUnique({
+        where: {
+          factoryId,
+        },
+      });
+      if (!isFactoryExist) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'Factory Not Found !!!');
+      }
+    }
+    if (itemId) {
+      const isExistItem = await transactionClient.item.findUnique({
+        where: {
+          itemId,
+        },
+      });
+
+      if (!isExistItem) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Item Not Found');
+      }
+    }
+
+    const updateStyleData: Partial<Styles> = {};
+    if (fabric) updateStyleData['fabric'] = fabric;
+    if (filePath) updateStyleData['image'] = filePath;
+    if (isActiveStyle) updateStyleData['isActiveStyle'] = isActiveStyle;
+    if (factoryId) updateStyleData['factoryId'] = factoryId;
+    if (itemId) updateStyleData['itemId'] = itemId;
+
+    const result = await transactionClient.styles.update({
       where: {
-        itemId: data?.itemId,
+        styleNo,
+      },
+      data: updateStyleData,
+      include: {
+        factory: true,
       },
     });
-
-    if (!isExistItem) {
-      throw new ApiError(httpStatus.BAD_REQUEST, 'Item Not Found');
+    if (!result) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Style Updating Failed !!!');
     }
-    if (isExistItem) {
-      data.itemId = isExistItem.itemId;
-    }
-  }
-
-  const updateStyleData = {
-    itemId: data?.itemId,
-    image: filePath,
-    fabric: data?.fabric,
-    isActiveStyle: data?.isActiveStyle,
-    factoryId: data?.factoryId,
-  };
-
-  const result = await prisma.styles.update({
-    where: {
-      styleNo,
-    },
-    data: updateStyleData,
-    include: {
-      factory: true,
-    },
+    return result;
   });
-  if (!result) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Style Updating Failed !!!');
-  }
-  return result;
+
+  return resultClient;
 };
 
 // ! factory style assign
@@ -620,7 +579,7 @@ const getAllStylesRecentComments = async (): Promise<any> => {
   return styles;
 };
 
-// !----------------------------------get all Stylish---------------------------------------->>>
+// !-------------get all Style Length----------------------->>>
 
 const getAllStylishLength = async (): Promise<{
   total: number | null;

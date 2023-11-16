@@ -229,6 +229,16 @@ const updateOrder = async (
   orderNo: string,
   payload: IOrderUpdateRequest
 ): Promise<Orders> => {
+  const {
+    buyerEtd,
+    factoryEtd,
+    friDate,
+    noOfPack,
+    portId,
+    styleNo,
+    totalPack,
+  } = payload;
+
   const result = await prisma.$transaction(async transactionClient => {
     let totalPc: number | undefined = undefined;
 
@@ -242,20 +252,16 @@ const updateOrder = async (
       throw new ApiError(httpStatus.NOT_FOUND, 'Order Not Found!!');
     }
 
-    if (payload.noOfPack !== undefined || payload.totalPack !== undefined) {
+    if (noOfPack !== undefined || totalPack !== undefined) {
       totalPc =
-        (payload.noOfPack !== undefined
-          ? payload.noOfPack
-          : existingOrder.noOfPack) *
-        (payload.totalPack !== undefined
-          ? payload.totalPack
-          : existingOrder.totalPack);
+        (noOfPack !== undefined ? noOfPack : existingOrder.noOfPack) *
+        (totalPack !== undefined ? totalPack : existingOrder.totalPack);
     }
 
-    if (payload.styleNo) {
+    if (styleNo) {
       const isExistStyle = await transactionClient.styles.findFirst({
         where: {
-          styleNo: payload.styleNo,
+          styleNo,
         },
       });
 
@@ -264,14 +270,21 @@ const updateOrder = async (
       }
     }
 
+    const updatedPoData: Partial<Orders> = {};
+    if (buyerEtd) updatedPoData['buyerEtd'] = buyerEtd;
+    if (friDate) updatedPoData['friDate'] = friDate;
+    if (factoryEtd) updatedPoData['factoryEtd'] = factoryEtd;
+    if (portId) updatedPoData['portId'] = portId;
+    if (styleNo) updatedPoData['styleNo'] = styleNo;
+    if (totalPc) updatedPoData['totalPc'] = totalPc;
+    if (totalPack) updatedPoData['totalPack'] = totalPack;
+    if (noOfPack) updatedPoData['noOfPack'] = noOfPack;
+
     const updatedOrder = await transactionClient.orders.update({
       where: {
         orderNo,
       },
-      data: {
-        ...payload,
-        totalPc,
-      },
+      data: updatedPoData,
       include: {
         style: true,
       },

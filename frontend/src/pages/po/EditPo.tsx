@@ -41,7 +41,6 @@ const EditPoDetails = ({
     useEditOrderInfoMutation();
 
   const {
-    control,
     handleSubmit,
     setValue,
     formState: { errors },
@@ -53,8 +52,7 @@ const EditPoDetails = ({
 
   const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
     const orderData = {
-      totalPack: data.totalPack ? Number(data.totalPack) : undefined,
-      orderNo: data.orderNo,
+      totalPack: data.totalPack,
       styleNo: data.styleNo,
       noOfPack: data.noOfPack,
       portId: data.portId,
@@ -62,7 +60,6 @@ const EditPoDetails = ({
       factoryEtd: data.factoryEtd,
       friDate: data.friDate,
     };
-
     await editOrderInfo({ id: poEditData?.orderNo, data: orderData });
   };
 
@@ -96,6 +93,7 @@ const EditPoDetails = ({
           secondary: "#FFFAEE",
         },
       });
+      reset();
     }
   }, [
     data,
@@ -111,6 +109,7 @@ const EditPoDetails = ({
   const onCloseModal = () => {
     clearErrors();
     formReset();
+    reset();
     handleClosePoEdit();
   };
 
@@ -169,6 +168,7 @@ const EditPoDetails = ({
                       onChange={(value: string | null): void =>
                         setValue("styleNo", value)
                       }
+                      cleanable={false}
                       size="lg"
                       defaultValue={poEditData?.styleNo || undefined}
                       data={
@@ -209,28 +209,16 @@ const EditPoDetails = ({
                       )}
                     </div>
 
-                    <Controller
-                      name="totalPack"
-                      control={control}
-                      rules={{
-                        min: {
-                          value: 0,
-                          message:
-                            "Total Pack must be greater than or equal to 0",
-                        },
-                      }}
-                      render={({ field }: any) => (
-                        <div>
-                          <Input
-                            size="lg"
-                            {...field}
-                            id="totalPack"
-                            defaultValue={poEditData?.totalPack}
-                            type="number"
-                          />
-                        </div>
-                      )}
-                    />
+                    <div>
+                      <Input
+                        size="lg"
+                        onChange={(e) => setValue("totalPack", Number(e))}
+                        id="totalPack"
+                        min={1}
+                        defaultValue={poEditData?.totalPack}
+                        type="number"
+                      />
+                    </div>
                   </div>
                   {/* No Of Pack */}
                   <div className="flex flex-col gap-3 w-full">
@@ -252,6 +240,7 @@ const EditPoDetails = ({
                         setValue("noOfPack", value)
                       }
                       size="lg"
+                      cleanable={false}
                       data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => ({
                         label: item,
                         value: item,
@@ -278,6 +267,7 @@ const EditPoDetails = ({
                         setValue("portId", value)
                       }
                       size="lg"
+                      cleanable={false}
                       data={
                         ports?.data?.map((port: any) => ({
                           label: port?.portName,
@@ -316,6 +306,7 @@ const EditPoDetails = ({
                       }}
                       size="lg"
                       editable={false}
+                      cleanable={false}
                       placeholder="Buyer ETD"
                       placement="topStart"
                     />
@@ -349,6 +340,7 @@ const EditPoDetails = ({
                       }}
                       editable={false}
                       size="lg"
+                      cleanable={false}
                       placeholder="Factory ETD"
                       placement="topStart"
                     />
@@ -372,6 +364,7 @@ const EditPoDetails = ({
                           ? moment(poEditData?.friDate).toDate()
                           : undefined
                       }
+                      cleanable={false}
                       onChange={(value: Date | null): void => {
                         const isoString = value?.toISOString();
                         setValue("friDate", isoString);
