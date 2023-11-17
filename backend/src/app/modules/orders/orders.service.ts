@@ -252,10 +252,20 @@ const updateOrder = async (
       throw new ApiError(httpStatus.NOT_FOUND, 'Order Not Found!!');
     }
 
+    // if (noOfPack !== undefined || totalPack !== undefined) {
+    //   totalPc =
+    //     (noOfPack !== undefined ? noOfPack : existingOrder.noOfPack) *
+    //     (totalPack !== undefined ? totalPack : existingOrder.totalPack);
+    // }
+
     if (noOfPack !== undefined || totalPack !== undefined) {
       totalPc =
-        (noOfPack !== undefined ? noOfPack : existingOrder.noOfPack) *
-        (totalPack !== undefined ? totalPack : existingOrder.totalPack);
+        ((noOfPack !== undefined
+          ? noOfPack
+          : existingOrder.noOfPack) as number) *
+        ((totalPack !== undefined
+          ? totalPack
+          : existingOrder.totalPack) as number);
     }
 
     if (styleNo) {
@@ -276,8 +286,11 @@ const updateOrder = async (
     if (factoryEtd) updatedPoData['factoryEtd'] = factoryEtd;
     if (portId) updatedPoData['portId'] = portId;
     if (styleNo) updatedPoData['styleNo'] = styleNo;
-    if (totalPc) updatedPoData['totalPc'] = totalPc;
-    if (totalPack) updatedPoData['totalPack'] = totalPack;
+    // if (totalPc) updatedPoData['totalPc'] = totalPc;
+    // if (totalPack) updatedPoData['totalPack'] = totalPack;
+    if (totalPc !== undefined) updatedPoData['totalPc'] = BigInt(totalPc);
+    if (totalPack !== undefined) updatedPoData['totalPack'] = BigInt(totalPack);
+
     if (noOfPack) updatedPoData['noOfPack'] = noOfPack;
 
     const updatedOrder = await transactionClient.orders.update({
@@ -656,7 +669,7 @@ const getAprilToSeptSeasonOrdersPC = async (year: number): Promise<number> => {
     },
   });
 
-  return ordersTotalPc._sum.totalPc || 0;
+  return Number(ordersTotalPc._sum.totalPc) || 0;
 };
 
 const getOctToMarchSeasonOrdersPC = async (year: number): Promise<number> => {
@@ -678,7 +691,7 @@ const getOctToMarchSeasonOrdersPC = async (year: number): Promise<number> => {
     },
   });
 
-  return ordersTotalPc._sum.totalPc || 0;
+  return Number(ordersTotalPc._sum.totalPc) || 0;
 };
 
 const getAllOrdersPC = async () => {
