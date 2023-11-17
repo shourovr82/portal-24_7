@@ -9,7 +9,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: Todo
+      POSTGRES_DB: portal_247db
     volumes:
       - type: bind
         source: /root/data_volume/portal_db
@@ -41,4 +41,3 @@ services:
     ports:
       - 3100:80
     restart: always
-    
