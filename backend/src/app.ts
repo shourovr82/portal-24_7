@@ -15,8 +15,16 @@ if (!fs.existsSync('./uploads')) {
 }
 
 // Create user directory in the /uploads path while starting the application
-if (!fs.existsSync('./uploads/user')) {
-  fs.mkdirSync('./uploads/user');
+if (!fs.existsSync('./uploads/users')) {
+  fs.mkdirSync('./uploads/users');
+}
+// Create tack pack directory in the /uploads path while starting the application
+if (!fs.existsSync('./uploads/tackpack')) {
+  fs.mkdirSync('./uploads/tackpack');
+}
+// Create styles directory in the /uploads path while starting the application
+if (!fs.existsSync('./uploads/styles')) {
+  fs.mkdirSync('./uploads/styles');
 }
 
 app.use(
