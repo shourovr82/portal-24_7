@@ -50,7 +50,8 @@
     "build": "tsc",
     "postinstall": "prisma generate",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "migrate": "npx prisma migrate dev"
+    "migrate": "npx prisma migrate dev",
+    "startmigrate": "yarn migrate && node dist/server.js"
   },
   "version": "1.0.0"
 }

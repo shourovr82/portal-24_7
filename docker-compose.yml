@@ -9,10 +9,10 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: Todo
+      POSTGRES_DB: portal247
     volumes:
       - type: bind
-        source: C:\CODEQUIVERS\portal-247\db
+        source: /home/mashod/Projects/db
         target: /var/lib/postgresql/data
     restart: unless-stopped
 
@@ -28,7 +28,7 @@ services:
       - 7000:7000
     volumes:
       - type: bind
-        source: C:\CODEQUIVERS\portal-247\data
+        source: /home/mashod/Projects/data
         target: /app/uploads
     restart: always
 
@@ -39,5 +39,6 @@ services:
       dockerfile: Dockerfile
     container_name: frontend-container
     ports:
-      - 3100:3100
+      - 3100:80
     restart: always
+  
