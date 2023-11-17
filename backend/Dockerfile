@@ -26,5 +26,7 @@ COPY . .
 
 EXPOSE 7000
 
+
+RUN yarn build
 # run the project
-CMD yarn dev
+CMD yarn startmigrate
