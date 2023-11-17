@@ -15,8 +15,16 @@ const ppSubmissionDateApi = baseApi.injectEndpoints({
     }),
     createPpSubmittedDate: builder.mutation({
       query: (data: any) => ({
-        url: `/pp-submission/submit-date`,
+        url: `/pp-submission/submission-date/srv`,
         method: "PATCH",
+        data: data,
+      }),
+      invalidatesTags: [tagTypes.ppSubmission, tagTypes.style],
+    }),
+    testPpSubmittedDate: builder.mutation({
+      query: (data: any) => ({
+        url: `/pp-submission/submit-pp-date`,
+        method: "POST",
         data: data,
       }),
       invalidatesTags: [tagTypes.ppSubmission, tagTypes.style],
@@ -27,4 +35,5 @@ const ppSubmissionDateApi = baseApi.injectEndpoints({
 export const {
   useCreatePpSubmissionDateMutation,
   useCreatePpSubmittedDateMutation,
+  useTestPpSubmittedDateMutation,
 } = ppSubmissionDateApi;

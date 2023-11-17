@@ -46,8 +46,8 @@ const updateProfileInfo = catchAsync(async (req: Request, res: Response) => {
 });
 const updateUserInfo = catchAsync(async (req: Request, res: Response) => {
   const { userId } = req.params;
-  const payload = req.body;
-  const result = await UserService.updateUserInfo(userId, payload);
+
+  const result = await UserService.updateUserInfo(userId, req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

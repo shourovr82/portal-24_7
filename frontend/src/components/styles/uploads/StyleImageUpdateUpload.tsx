@@ -1,33 +1,39 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { Uploader } from "rsuite";
 import { FileType } from "rsuite/esm/Uploader";
 import toast from "react-hot-toast";
-import { AiOutlineCloudUpload } from "react-icons/ai";
 
-interface UserImageUploadProps {
+interface StyleImageUploadProps {
   field: {
     onChange: (file: FileType | undefined) => void;
     value: FileType | undefined;
   };
+  defaultImage: string;
 }
 
-const UserImageUpload = ({ field }: UserImageUploadProps) => {
+const StyleImageUpdateUpload = ({
+  field,
+  defaultImage,
+}: StyleImageUploadProps) => {
   const [fileValue, setFileValue] = useState<FileType[]>([]);
+
   const [imagePreview, setImagePreview] = useState<string | undefined>(
-    undefined
+    (!fileValue?.length && `http://localhost:7000/${defaultImage}`) || undefined
   );
 
   const handleChangeImages = (files: FileType[]) => {
     if (files.length > 0) {
       const latestFile = files[files.length - 1];
-      const fileSizeLimit = 1024 * 1024; // 1 MB
+      const fileSizeLimit = 512 * 1024; // 512 kb
 
       if (
         latestFile.blobFile?.size &&
         latestFile.blobFile?.size <= fileSizeLimit
       ) {
         setFileValue([latestFile]);
+
         field.onChange(latestFile);
 
         const file = latestFile;
@@ -41,7 +47,7 @@ const UserImageUpload = ({ field }: UserImageUploadProps) => {
         reader.readAsDataURL(file.blobFile as File);
       } else {
         clearImagePreview();
-        toast.error("File size exceeds 1MB.");
+        toast.error("File size exceeds 512 Kb.");
       }
     } else {
       clearImagePreview();
@@ -49,14 +55,13 @@ const UserImageUpload = ({ field }: UserImageUploadProps) => {
   };
 
   const clearImagePreview = () => {
-    setImagePreview(undefined);
-
-    setFileValue([]);
+    setImagePreview(`http://localhost:7000/${defaultImage}`);
     field.onChange(undefined);
+    setFileValue([]);
   };
 
   return (
-    <div className="relative mt-1 group">
+    <div className="relative group">
       <Uploader
         fileList={fileValue}
         onChange={handleChangeImages}
@@ -64,40 +69,36 @@ const UserImageUpload = ({ field }: UserImageUploadProps) => {
         autoUpload={false}
         action={""}
         onRemove={clearImagePreview}
-        className="w-full "
+        className="w-full"
         accept="image/*"
       >
-        <div
-          style={{
-            height: 200,
-            width: 200,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: "50%",
-            cursor: "pointer",
-          }}
-        >
-          {imagePreview ? (
+        {imagePreview ? (
+          <div className="relative border-4">
             <img
               src={imagePreview}
               alt="Image Preview"
-              className=" w-[200px] rounded-full h-full object-cover object-center cursor-pointer"
+              className="w-full h-full object-contain object-center cursor-pointer"
               style={{
                 maxWidth: "100%",
                 maxHeight: "200px",
               }}
             />
-          ) : (
-            <span className="text-xs flex justify-center flex-col items-center gap-2 text-center font-semibold text-black/60">
-              <AiOutlineCloudUpload size={40} />
-              Upload
-            </span>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div
+            style={{
+              height: 200,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <span>Click or Drag files to this area to upload</span>
+          </div>
+        )}
       </Uploader>
     </div>
   );
 };
 
-export default UserImageUpload;
+export default StyleImageUpdateUpload;

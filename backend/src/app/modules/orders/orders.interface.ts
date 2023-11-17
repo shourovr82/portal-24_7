@@ -22,15 +22,13 @@ export type IOrderCreateRequest = {
   factoryName: string;
 };
 export type IOrderUpdateRequest = {
-  orderNo?: string;
   styleNo?: string;
   noOfPack?: number;
   totalPack?: number;
-  port?: string;
+  portId?: string;
   buyerEtd?: Date;
   factoryEtd?: Date;
   friDate?: Date;
-  factoryName?: string;
 };
 
 export type IStyleWiseOrders = {

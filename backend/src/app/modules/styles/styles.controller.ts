@@ -60,6 +60,7 @@ const getSingleStyle = catchAsync(async (req: Request, res: Response) => {
 const updateStyleInformation = catchAsync(
   async (req: Request, res: Response) => {
     const { styleNo } = req.params;
+
     const result = await StylesService.updateStyleInformation(styleNo, req);
 
     sendResponse(res, {

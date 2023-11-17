@@ -222,6 +222,18 @@ const updateItemInformation = async (
     if (!existingItem) {
       throw new ApiError(httpStatus.NOT_FOUND, 'Item Not Found!!');
     }
+    const existingItemName = await transactionClient.item.findUnique({
+      where: {
+        itemName: payload.itemName,
+      },
+    });
+
+    if (existingItemName) {
+      throw new ApiError(
+        httpStatus.CONFLICT,
+        'Item Name is already added, try new'
+      );
+    }
 
     const updatedItemDetails = {
       itemName: payload?.itemName,

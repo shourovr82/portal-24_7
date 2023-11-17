@@ -100,8 +100,8 @@ model Item {
 model Orders {
   orderNo       String   @id @unique
   noOfPack      Int
-  totalPack     Int
-  totalPc       Int
+  totalPack     BigInt
+  totalPc       BigInt
   isActiveOrder Boolean  @default(true)
   buyerEtd      DateTime
   factoryEtd    DateTime

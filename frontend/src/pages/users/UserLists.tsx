@@ -174,7 +174,7 @@ const UserLists = () => {
                                 <div className="flex  gap-2">
                                   <div>
                                     <img
-                                      src={singleUser?.profile?.profileImage}
+                                      src={`http://localhost:7000/${singleUser?.profile?.profileImage}`}
                                       className="w-12 h-12 object-cover  rounded-xl"
                                     />
                                   </div>
@@ -208,6 +208,10 @@ const UserLists = () => {
                                 ${
                                   singleUser?.userStatus === "Paused" &&
                                   "bg-[#ffec43] text-yellow-800"
+                                }
+                                ${
+                                  singleUser?.userStatus === "Suspended" &&
+                                  "bg-red-800 text-white"
                                 }
                                 px-3 py-1.5 rounded-full
                                 `}
@@ -258,7 +262,7 @@ const UserLists = () => {
                                       icon={<RiEdit2Line size={20} />}
                                     />
                                   </Whisper>
-                                  <Whisper
+                                  {/* <Whisper
                                     placement="topEnd"
                                     speaker={
                                       <Popover
@@ -278,7 +282,7 @@ const UserLists = () => {
                                         />
                                       }
                                     />
-                                  </Whisper>
+                                  </Whisper> */}
                                 </div>
                               </td>
                             </tr>

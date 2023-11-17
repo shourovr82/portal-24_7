@@ -1,191 +1,255 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { SubmitHandler, useForm } from "react-hook-form";
-import { Button, Modal, SelectPicker } from "rsuite";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { useState } from "react";
+import {
+  Button,
+  Input,
+  InputGroup,
+  Modal,
+  SelectPicker,
+  Tooltip,
+  Whisper,
+} from "rsuite";
 import { useEffect } from "react";
-
 import toast from "react-hot-toast";
-
 import { Inputs } from "./addUser.interface";
 import { useEditUserMutation } from "../../redux/features/users/userApi";
 import {
   toastMessageError,
   toastMessageSuccess,
 } from "../../interfacesAndConstants/shared/constants/toastMessages.constants";
+import InfoOutlineIcon from "@rsuite/icons/InfoOutline";
+
+import EyeIcon from "@rsuite/icons/legacy/Eye";
+import EyeSlashIcon from "@rsuite/icons/legacy/EyeSlash";
 
 const UserEditModal = ({ editUser, openEdit, setOpenEdit }: any) => {
-  console.log(editUser);
+  const [visible, setVisible] = useState(false);
 
-  const roles = ["ADMIN", "USER"].map((item) => ({
-    label: item,
-    value: item,
-  }));
+  const { handleSubmit, setValue, reset: formReset } = useForm<Inputs>();
 
-  const status = ["Active", "Paused", "Suspended"].map((status) => ({
-    label: status,
-    value: status,
-  }));
-
-  console.log(status);
-
-  const { register, handleSubmit, setValue } = useForm<Inputs>();
-
-  const [updateUser, { isLoading, isError, isSuccess, reset }] =
+  const [updateUser, { isLoading, isError, isSuccess, reset, error, data }] =
     useEditUserMutation();
 
   const handleUserCreate: SubmitHandler<Inputs> = async (values) => {
+    const updateUserData = {
+      profileId: editUser?.profile?.profileId,
+      ...values,
+    };
+
     if (editUser) {
-      try {
-        await updateUser({ id: editUser?.userId, data: values });
-      } catch (err: any) {
-        console.error(err.message);
-      }
+      await updateUser({
+        id: editUser?.userId,
+        data: updateUserData,
+      });
     }
   };
 
-  const onSelectRoleChange = (value: string | null): void => {
-    setValue("role", value);
-  };
-
-  const onSelectStatusChange = (value: string | null): void => {
-    setValue("userStatus", value);
-  };
-
   useEffect(() => {
-    if (isError && !isLoading && !isSuccess) {
+    if (isError && !isLoading && !isSuccess && error) {
       toast.error(
         // @ts-ignore
-        "Something went wrong",
+        error?.message || "Something went wrong",
         toastMessageError
       );
     }
 
-    if (!isError && !isLoading && isSuccess) {
-      reset();
+    if (!isError && !isLoading && isSuccess && !error && data) {
+      toast.success(
+        data?.message || "Successfully Updated New User",
+        toastMessageSuccess
+      );
       setOpenEdit(false);
-      toast.success("Successfully Updated New User", toastMessageSuccess);
+      reset();
+      formReset();
     }
   }, [isError, isLoading, isSuccess, reset, setOpenEdit]);
 
   return (
-    <Modal
-      className="w-full"
-      open={openEdit}
-      onClose={() => setOpenEdit(false)}
-    >
+    <Modal size="md" open={openEdit} onClose={() => setOpenEdit(false)}>
       <Modal.Header>
-        <Modal.Title>Modal Title</Modal.Title>
+        <Modal.Title>
+          <h2 className="font-semibold">Edit User Information</h2>
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <section className="mt-5 bg-white border rounded-lg p-5 mb-10">
-          <div className="mb-6">
-            <p className="text-lg font-semibold">User Details</p>
-          </div>
+        <section className=" border rounded-lg py-2 px-3 ">
           <form onSubmit={handleSubmit(handleUserCreate)}>
             {/* 1st section */}
-            <div className="flex justify-between gap-[24px] mb-5">
+
+            <div className="flex justify-between gap-[24px] mb-2">
               {/* First Name */}
-              <div className="flex flex-col gap-3 w-[35%]">
-                <div className="flex justify-between items-center">
-                  <label
-                    htmlFor="firstName"
-                    className="text-sm py-1 font-medium"
-                  >
+              <div className="flex flex-col gap-1 w-[50%] ">
+                <div>
+                  <label htmlFor="firstName" className="text-sm font-medium">
                     First Name
                   </label>
                 </div>
-                <input
-                  {...register("firstName")}
-                  readOnly
-                  defaultValue={editUser?.profile?.firstName}
-                  id="firstName"
+
+                <Input
+                  defaultValue={editUser?.profile?.firstName || undefined}
+                  onChange={(e) => setValue("firstName", e)}
+                  size="lg"
+                  id="itemName"
+                  style={{ width: "100%" }}
+                  placeholder="Enter First Name..."
                   type="text"
-                  className="border py-2  focus:border-[#237de1] hover:border-[#237de1] focus:outline-none px-2 border-[#E4E7EC] rounded-[8px]  duration-300 transition-all ease-in-out"
                 />
               </div>
+
               {/* Last Name */}
-              <div className="flex flex-col gap-3 w-[35%]">
-                <div className="flex justify-between items-center">
-                  <label
-                    htmlFor="lastName"
-                    className="text-sm py-1 font-medium"
-                  >
+
+              <div className="flex flex-col  gap-1 w-[50%] ">
+                <div>
+                  <label htmlFor="lastName" className="text-sm font-medium">
                     Last Name
                   </label>
                 </div>
-                <input
-                  {...register("lastName")}
-                  readOnly
-                  defaultValue={editUser?.profile?.lastName}
+
+                <Input
+                  size="lg"
+                  defaultValue={editUser?.profile?.lastName || undefined}
+                  onChange={(e) => setValue("lastName", e)}
                   id="lastName"
+                  style={{ width: "100%" }}
+                  placeholder="Enter Last Name..."
                   type="text"
-                  className="border py-2  focus:border-[#237de1] hover:border-[#237de1] focus:outline-none px-2 border-[#E4E7EC] rounded-[8px]  duration-300 transition-all ease-in-out"
-                />
-              </div>
-              {/* Role  */}
-              <div className="flex flex-col gap-3 w-[30%]">
-                <label htmlFor="sku" className="text-sm py-1 font-medium">
-                  Role
-                </label>
-                <SelectPicker
-                  readOnly
-                  defaultValue={editUser?.profile?.role}
-                  onChange={onSelectRoleChange}
-                  size="lg"
-                  data={roles}
-                  searchable={false}
-                />
-              </div>
-              <div className="flex flex-col gap-3 w-[30%]">
-                <label htmlFor="sku" className="text-sm py-1 font-medium">
-                  Status
-                </label>
-                <SelectPicker
-                  defaultValue={editUser?.userStatus}
-                  onChange={onSelectStatusChange}
-                  size="lg"
-                  data={status}
-                  searchable={false}
                 />
               </div>
             </div>
             {/* 2nd section */}
-            <div className="flex gap-[10px]  mb-5">
+            <div className="flex justify-between gap-[24px]  ">
               {/* Email  */}
-              <div className="flex flex-col gap-3 w-[40%]">
-                <div className="flex justify-between items-center">
-                  <label htmlFor="email" className="text-sm py-1 font-medium">
+
+              <div className="flex flex-col gap-1 w-full ">
+                <div>
+                  <label htmlFor="email" className="text-sm font-medium">
                     Email
                   </label>
                 </div>
-                <input
-                  {...register("email")}
-                  defaultValue={editUser?.email}
+
+                <Input
+                  size="lg"
+                  defaultValue={editUser?.email || undefined}
+                  onChange={(e) => setValue("email", e)}
                   id="email"
-                  type="email"
-                  className="border py-2  focus:border-[#237de1] hover:border-[#237de1] focus:outline-none px-2 border-[#E4E7EC] rounded-[8px]  duration-300 transition-all ease-in-out"
+                  style={{ width: "100%" }}
+                  placeholder="Enter email..."
+                  type="text"
                 />
               </div>
-              {/* password  */}
-              <div className="flex flex-col gap-3 w-[40%]">
-                <div className="flex justify-between items-center">
-                  <label
-                    htmlFor="password"
-                    className="text-sm py-1 font-medium"
-                  >
+
+              {/* password */}
+              <div className="flex flex-col gap-1 w-full ">
+                <div>
+                  <label htmlFor="password" className="text-sm font-medium">
                     Password
                   </label>
                 </div>
-                <input
-                  {...register("password")}
-                  id="password"
-                  type="password"
-                  className="border py-2  focus:border-[#237de1] hover:border-[#237de1] focus:outline-none px-2 border-[#E4E7EC] rounded-[8px]  duration-300 transition-all ease-in-out"
+                <InputGroup inside>
+                  <Input
+                    onChange={(e) => setValue("password", e)}
+                    type={visible ? "text" : "password"}
+                    placeholder="Enter  password..."
+                  />
+                  <InputGroup.Button onClick={() => setVisible(!visible)}>
+                    {visible ? <EyeIcon /> : <EyeSlashIcon />}
+                  </InputGroup.Button>
+                </InputGroup>
+              </div>
+
+              {/* password  */}
+            </div>
+
+            {/* Role  */}
+            <div className="grid grid-cols-2 gap-6">
+              <div>
+                <div className="my-2">
+                  <label htmlFor="role" className="text-sm  font-medium">
+                    Role
+                  </label>
+                </div>
+
+                <SelectPicker
+                  size="lg"
+                  data={["ADMIN", "USER"].map((item) => ({
+                    label: item,
+                    value: item,
+                  }))}
+                  searchable={false}
+                  defaultValue={editUser?.profile?.role || undefined}
+                  onChange={(value: string | null) => setValue("role", value)}
+                  placeholder="Select Role"
+                  style={{
+                    width: "100%",
+                  }}
+                />
+              </div>
+              {/* Status ------------  */}
+              <div>
+                <div className="my-2">
+                  <label htmlFor="status" className="text-sm  font-medium">
+                    User Status
+                  </label>
+                </div>
+
+                <SelectPicker
+                  size="lg"
+                  data={["Active", "Paused", "Suspended"].map((item) => ({
+                    label: item,
+                    value: item,
+                  }))}
+                  searchable={false}
+                  defaultValue={editUser?.userStatus || undefined}
+                  onChange={(value: string | null) =>
+                    setValue("userStatus", value)
+                  }
+                  placeholder="Select User Status"
+                  style={{
+                    width: "100%",
+                  }}
                 />
               </div>
             </div>
 
-            <div className="flex justify-end">
+            <div className="mt-2 w-[50%] ">
+              <div className="mb-3">
+                <Whisper
+                  speaker={
+                    <Tooltip>Profile Image must be less than 512 kb</Tooltip>
+                  }
+                >
+                  <label htmlFor="profileImage" className="text-sm font-medium">
+                    Profile Image <InfoOutlineIcon />
+                  </label>
+                </Whisper>
+              </div>
+
+              <img
+                src={`http://localhost:7000/${editUser?.profile?.profileImage}`}
+                alt="Image Preview"
+                className=" w-[150px] rounded-full h-full object-cover object-center cursor-pointer"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "200px",
+                }}
+              />
+            </div>
+
+            <div className="flex justify-end gap-5">
+              <Button
+                onClick={() => {
+                  setOpenEdit(false);
+                  reset();
+                  formReset();
+                }}
+                type="button"
+                appearance="ghost"
+                className=" px-6 py-2 rounded-lg"
+              >
+                Cancel
+              </Button>
               <Button
                 type="submit"
                 appearance="primary"

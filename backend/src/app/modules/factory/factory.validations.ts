@@ -5,14 +5,38 @@ import ApiError from '../../../errors/ApiError';
 const createFactory = z.object({
   body: z
     .object({
-      factoryName: z.string({
-        required_error: 'Factory Name is required',
-        invalid_type_error: 'Factory Name must be in String',
-      }),
-      factoryAddress: z.string({
-        required_error: 'Factory Address is required',
-        invalid_type_error: 'Factory Address must be in String',
-      }),
+      factoryName: z
+        .string({
+          required_error: 'Factory Name is required',
+          invalid_type_error: 'Factory Name must be in String',
+        })
+        .refine(value => {
+          if (typeof value === 'string') {
+            if (value.trim() === '') {
+              throw new ApiError(
+                httpStatus.BAD_REQUEST,
+                'Factory Name must not be empty or contain only whitespace'
+              );
+            }
+          }
+          return true;
+        }),
+      factoryAddress: z
+        .string({
+          required_error: 'Factory Address is required',
+          invalid_type_error: 'Factory Address must be in String',
+        })
+        .refine(value => {
+          if (typeof value === 'string') {
+            if (value.trim() === '') {
+              throw new ApiError(
+                httpStatus.BAD_REQUEST,
+                'Factory Address must not be empty or contain only whitespace'
+              );
+            }
+          }
+          return true;
+        }),
     })
     .refine(data => {
       const keys = Object.keys(data);

@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { Modal, SelectPicker } from "rsuite";
+import { Button, Input, Modal, SelectPicker, Tooltip, Whisper } from "rsuite";
 import { FileType } from "rsuite/esm/Uploader";
-import StyleImageUpload from "./uploads/StyleImageUpload";
 import toast from "react-hot-toast";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useGetAllItemNamesQuery } from "../../redux/features/items/itemApi";
 import { renderLoading } from "../renderLoading/RenderLoading";
 import { useEditStyleMutation } from "../../redux/features/styles/styleApi";
@@ -14,27 +13,15 @@ import {
   toastMessageSuccess,
 } from "../../interfacesAndConstants/shared/constants/toastMessages.constants";
 import { useGetAllFactoryNamesQuery } from "../../redux/features/factories/factoryApi";
+import StyleImageUpdateUpload from "./uploads/StyleImageUpdateUpload";
+import InfoOutlineIcon from "@rsuite/icons/InfoOutline";
 
 const StyleEditModal = ({ styleEditData, open, handleClose }: any) => {
   const { data: items, isLoading: isLoadingItemNames } =
     useGetAllItemNamesQuery(null);
 
-  const allItem = items?.data?.map((item: any) => ({
-    label: item.itemName,
-    value: item.itemId,
-  }));
-
   const { data: factories, isLoading: isLoadingFactoryNames } =
     useGetAllFactoryNamesQuery(null);
-
-  const allFactory = factories?.data?.map((factory: any) => ({
-    label: factory.factoryName,
-    value: factory.factoryId,
-  }));
-
-  const onSelectFactoryChange = (value: string | null): void => {
-    setValue("factoryId", value as string);
-  };
 
   interface IFormInput {
     styleNo: string;
@@ -42,127 +29,168 @@ const StyleEditModal = ({ styleEditData, open, handleClose }: any) => {
     factoryId: string | null;
     itemId: string | null;
     file: FileType;
+    isActiveStyle: string;
   }
 
   const [
-    updateStyle,
-    { isLoading: createLoading, error: createError, isError, isSuccess, reset },
+    editStyle,
+    {
+      isLoading: createLoading,
+      error: createError,
+      isError,
+      isSuccess,
+      reset,
+      data: updateData,
+    },
   ] = useEditStyleMutation();
 
   const {
-    register,
     handleSubmit,
     setValue,
+    control,
+    reset: formReset,
     formState: { errors },
   } = useForm<IFormInput>();
 
-  const [file, setFile] = useState<FileType | undefined>(undefined);
-
   const handleUpdateStyle: SubmitHandler<IFormInput> = async (values) => {
-    const obj = { ...values };
-    const styleData = JSON.stringify(obj);
     const formData = new FormData();
-    formData.append("file", file?.blobFile as Blob);
+
+    formData.append("file", values?.file?.blobFile as Blob);
+
+    const styleStatus =
+      values.isActiveStyle === "Active"
+        ? true
+        : values?.isActiveStyle === "Paused"
+        ? false
+        : undefined;
+
+    const obj = {
+      fabric: values.fabric,
+      factoryId: values.factoryId,
+      itemId: values.itemId,
+      isActiveStyle: styleStatus,
+    };
+
+    const styleData = JSON.stringify(obj);
+
     formData.append("data", styleData);
 
-    try {
-      await updateStyle({ id: styleEditData?.styleNo, data: formData });
-    } catch (err: any) {
-      console.error(err.message);
-    }
-  };
-
-  const handleChangeFile = (fileData: FileType | undefined) => {
-    setFile(fileData);
-  };
-  const onSelectItemChange = (value: string | null): void => {
-    setValue("itemId", value);
+    await editStyle({ id: styleEditData?.styleNo, data: formData });
   };
 
   useEffect(() => {
-    if (isError && !createLoading && !isSuccess) {
+    if (isError && !createLoading && !isSuccess && createError) {
       toast.error(
         // @ts-ignore
         createError?.message || "Something went wrong",
         toastMessageError
       );
+      reset();
     }
 
-    if (!isError && !createLoading && isSuccess) {
+    if (!isError && !createLoading && isSuccess && updateData) {
+      toast.success(
+        updateData?.message || "Successfully Updated Style",
+        toastMessageSuccess
+      );
       reset();
       handleClose();
-      toast.success("Successfully Updated Style", toastMessageSuccess);
+      formReset();
     }
   }, [createError, createLoading, handleClose, isError, isSuccess, reset]);
 
+  const handleCloseModal = () => {
+    formReset();
+    reset();
+    handleClose();
+  };
+
   return (
     <>
-      <Modal size="lg" backdrop={false} open={open} onClose={handleClose}>
+      <Modal size="lg" backdrop="static" open={open} onClose={handleCloseModal}>
         <Modal.Header>
           <Modal.Title className="font-bold text-lg pl-7">
-            Edit Your Style - {styleEditData?.styleNo}
+            Edit Style
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <section className="mt-5 bg-white border rounded-lg p-5 mb-10">
+          <section className=" bg-white border rounded-lg px-5 py-2 ">
             <form onSubmit={handleSubmit(handleUpdateStyle)}>
-              <div className="flex gap-[24px] mb-5">
-                <div className="flex flex-col gap-3 w-full">
+              <div className="flex gap-[24px] mb-3">
+                {/* Style No */}
+                <div className="flex flex-col gap-2 w-full">
                   <label htmlFor="styleNo" className="text-sm font-medium">
                     Style No
                   </label>
-                  <input
-                    defaultValue={styleEditData?.styleNo}
+
+                  <Input
+                    size="lg"
                     id="styleNo"
+                    readOnly
+                    defaultValue={styleEditData?.styleNo || undefined}
+                    style={{ width: "100%" }}
+                    placeholder="Style No..."
                     type="text"
-                    disabled
-                    {...register("styleNo")}
-                    className=" disabled:shadow-inner border py-2 focus:outline-none px-2 border-[#E4E7EC] rounded-[8px]  "
                   />
                 </div>
                 {/* Fabric */}
-                <div className="flex flex-col gap-3 w-full">
-                  <div className="flex justify-between items-center">
-                    <label htmlFor="fabric" className="text-sm font-medium">
-                      Fabric
-                    </label>
-                    {errors?.fabric && (
-                      <span className="text-white text-xs bg-red-500 rounded-md px-2 py-0.5">
-                        {errors?.fabric?.message}
-                      </span>
-                    )}
+                <div className="flex flex-col gap-2 w-full">
+                  <div>
+                    <div className="mb-1">
+                      <label
+                        htmlFor="isActiveStyle"
+                        className="text-sm  font-medium"
+                      >
+                        Style Status
+                      </label>
+                    </div>
+
+                    <SelectPicker
+                      size="lg"
+                      data={["Active", "Paused"].map((item) => ({
+                        label: item,
+                        value: item,
+                      }))}
+                      searchable={false}
+                      defaultValue={
+                        (styleEditData?.isActiveStyle && "Active") || undefined
+                      }
+                      onChange={(value: string | null) =>
+                        setValue("isActiveStyle", value as string)
+                      }
+                      placeholder="Select Status"
+                      style={{
+                        width: "100%",
+                      }}
+                    />
                   </div>
-                  <input
-                    defaultValue={styleEditData?.fabric}
-                    id="fabric"
-                    type="text"
-                    {...register("fabric", {
-                      required: "Fabric is required",
-                      minLength: 3,
-                    })}
-                    className="border py-2 focus:outline-none px-2 border-[#E4E7EC] rounded-[8px]  "
-                  />
                 </div>
               </div>
 
-              <div className="flex  gap-[24px] mb-5">
+              <div className="flex  gap-[24px]">
                 {/* item name */}
-                <div className="flex flex-col  gap-3 w-full ">
+                <div className="flex flex-col  gap-2 w-full ">
                   <label htmlFor="sku" className="text-sm font-medium">
                     Item Name
                   </label>
                   <SelectPicker
-                    onChange={onSelectItemChange}
+                    onChange={(e) => setValue("itemId", e)}
                     size="lg"
+                    cleanable={false}
                     defaultValue={styleEditData?.item?.itemId || undefined}
                     menuMaxHeight={200}
-                    data={allItem ?? []}
+                    data={
+                      items?.data?.map((item: any) => ({
+                        label: item.itemName,
+                        value: item.itemId,
+                      })) ?? []
+                    }
                     renderMenu={(menu) =>
                       renderLoading(menu, isLoadingItemNames)
                     }
                   />
                 </div>
-                <div className="flex flex-col gap-3  w-full mb-3">
+                <div className="flex flex-col gap-2  w-full mb-3">
                   <label htmlFor="sku" className="text-sm font-medium">
                     Factory Name
                   </label>
@@ -170,10 +198,16 @@ const StyleEditModal = ({ styleEditData, open, handleClose }: any) => {
                     defaultValue={
                       styleEditData?.factory?.factoryId || undefined
                     }
-                    onChange={onSelectFactoryChange}
+                    onChange={(e) => setValue("factoryId", e)}
                     size="lg"
                     menuMaxHeight={200}
-                    data={allFactory}
+                    cleanable={false}
+                    data={
+                      factories?.data?.map((factory: any) => ({
+                        label: factory.factoryName,
+                        value: factory.factoryId,
+                      })) || []
+                    }
                     renderMenu={(menu) =>
                       renderLoading(menu, isLoadingFactoryNames)
                     }
@@ -181,43 +215,68 @@ const StyleEditModal = ({ styleEditData, open, handleClose }: any) => {
                 </div>
               </div>
 
-              <StyleImageUpload handleChangeFile={handleChangeFile} />
-
-              <div className="flex justify-end">
-                <button
-                  type="submit"
-                  disabled={createLoading}
-                  className={`bg-[#0284c7] text-white rounded-md items-center   flex px-2.5 py-1`}
-                >
-                  {createLoading && (
-                    <>
-                      <svg
-                        className="animate-spin h-5 w-5  mr-3"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        ></circle>
-
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.86 3.169 8.031l2-2.74zM20 12a8 8 0 01-8 8v4c3.627 0 9-5.373 9-12h-4zm-2-5.291l-2 2.74A7.962 7.962 0 0120 12h4c0-3.042-1.135-5.86-3.169-8.031z"
-                        ></path>
-                      </svg>
-                      <span>Updating...</span>
-                    </>
+              <div className=" mb-3  ">
+                <div className="flex mb-2 justify-between items-center">
+                  <label htmlFor="fabric" className="text-sm font-medium">
+                    Fabric
+                  </label>
+                  {errors?.fabric && (
+                    <span className="text-white text-xs bg-red-500 rounded-md px-2 py-0.5">
+                      {errors?.fabric?.message}
+                    </span>
                   )}
+                </div>
+                <Input
+                  size="lg"
+                  id="fabric"
+                  defaultValue={styleEditData?.fabric || undefined}
+                  onChange={(e) => setValue("fabric", e)}
+                  style={{ width: "100%" }}
+                  placeholder="Enter Fabric..."
+                  type="text"
+                />
+              </div>
+              {/* style image */}
+              <div className=" w-full ">
+                <div className="mb-3">
+                  <Whisper
+                    speaker={
+                      <Tooltip>Style Image must be less than 512 kb</Tooltip>
+                    }
+                  >
+                    <label htmlFor="file" className="text-sm font-medium">
+                      Style Image <InfoOutlineIcon />
+                    </label>
+                  </Whisper>
+                </div>
+                <Controller
+                  name="file"
+                  control={control}
+                  render={({ field }: any) => (
+                    <StyleImageUpdateUpload
+                      defaultImage={styleEditData?.image}
+                      field={field}
+                    />
+                  )}
+                />
+              </div>
 
-                  {!createLoading && <span>Update</span>}
-                </button>
+              <div className="flex justify-end  w-full gap-3 col-span-5">
+                <Button
+                  type="submit"
+                  loading={createLoading}
+                  appearance="default"
+                  className="bg-[#0284c7] text-white hover:text-white/80 hover:bg-[#0284c7] focus:bg-[#0284c7] focus:text-white/50"
+                >
+                  Submit Changes
+                </Button>
+                <Button
+                  onClick={handleCloseModal}
+                  appearance="ghost"
+                  className="hover:border-transparent"
+                >
+                  Cancel
+                </Button>
               </div>
             </form>
           </section>
