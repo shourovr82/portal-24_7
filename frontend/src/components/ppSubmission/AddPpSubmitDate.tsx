@@ -18,7 +18,6 @@ import {
   toastMessageSuccess,
 } from "../../interfacesAndConstants/shared/constants/toastMessages.constants";
 import {
-  useCreatePpSubmittedDateMutation,
   useTestPpSubmittedDateMutation,
 } from "../../redux/features/ppSubmission/ppSubmissionDateApi";
 import { useEffect, useState } from "react";

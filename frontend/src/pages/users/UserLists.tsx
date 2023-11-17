@@ -6,7 +6,7 @@ import { useDebounced } from "../../redux/hook";
 import { useState } from "react";
 import { IconButton, Popover, SelectPicker, Whisper } from "rsuite";
 import { HiOutlineEye } from "react-icons/hi";
-import { RiDeleteBinLine, RiEdit2Line } from "react-icons/ri";
+import { RiEdit2Line } from "react-icons/ri";
 import { BiSearchAlt } from "react-icons/bi";
 import UserDetailsModal from "../../components/users/UserDetailsModal";
 import UserEditModal from "./UserEditModal";
@@ -262,27 +262,7 @@ const UserLists = () => {
                                       icon={<RiEdit2Line size={20} />}
                                     />
                                   </Whisper>
-                                  {/* <Whisper
-                                    placement="topEnd"
-                                    speaker={
-                                      <Popover
-                                        arrow={false}
-                                        className="border bg-[#f31260] text-white rounded-full py-1.5  px-5"
-                                      >
-                                        Delete
-                                      </Popover>
-                                    }
-                                  >
-                                    <IconButton
-                                      circle
-                                      icon={
-                                        <RiDeleteBinLine
-                                          className="text-[#f31260]"
-                                          size={20}
-                                        />
-                                      }
-                                    />
-                                  </Whisper> */}
+                                  
                                 </div>
                               </td>
                             </tr>
