@@ -53,9 +53,6 @@ const AddUser = () => {
     }
   };
 
-  // const onSelectRoleChange = (value: string | null): void => {
-  //   setValue("role", value);
-  // };
   const navigate = useNavigate();
 
   useEffect(() => {

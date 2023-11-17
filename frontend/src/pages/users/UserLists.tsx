@@ -262,27 +262,7 @@ const UserLists = () => {
                                       icon={<RiEdit2Line size={20} />}
                                     />
                                   </Whisper>
-                                  {/* <Whisper
-                                    placement="topEnd"
-                                    speaker={
-                                      <Popover
-                                        arrow={false}
-                                        className="border bg-[#f31260] text-white rounded-full py-1.5  px-5"
-                                      >
-                                        Delete
-                                      </Popover>
-                                    }
-                                  >
-                                    <IconButton
-                                      circle
-                                      icon={
-                                        <RiDeleteBinLine
-                                          className="text-[#f31260]"
-                                          size={20}
-                                        />
-                                      }
-                                    />
-                                  </Whisper> */}
+                                  
                                 </div>
                               </td>
                             </tr>
