@@ -28,7 +28,6 @@ const AddUser = () => {
 
   const {
     handleSubmit,
-    setValue,
     control,
     reset,
     formState: { errors },
@@ -54,9 +53,9 @@ const AddUser = () => {
     }
   };
 
-  const onSelectRoleChange = (value: string | null): void => {
-    setValue("role", value);
-  };
+  // const onSelectRoleChange = (value: string | null): void => {
+  //   setValue("role", value);
+  // };
   const navigate = useNavigate();
 
   useEffect(() => {

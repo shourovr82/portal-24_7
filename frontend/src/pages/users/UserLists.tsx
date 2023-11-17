@@ -6,7 +6,7 @@ import { useDebounced } from "../../redux/hook";
 import { useState } from "react";
 import { IconButton, Popover, SelectPicker, Whisper } from "rsuite";
 import { HiOutlineEye } from "react-icons/hi";
-import { RiDeleteBinLine, RiEdit2Line } from "react-icons/ri";
+import { RiEdit2Line } from "react-icons/ri";
 import { BiSearchAlt } from "react-icons/bi";
 import UserDetailsModal from "../../components/users/UserDetailsModal";
 import UserEditModal from "./UserEditModal";

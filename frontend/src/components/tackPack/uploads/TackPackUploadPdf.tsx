@@ -13,9 +13,7 @@ interface TackPackUploadProps {
 }
 const TackPackUploadPdf = ({ field }: TackPackUploadProps) => {
   const [fileValue, setFileValue] = useState<FileType[]>([]);
-  const [imagePreview, setImagePreview] = useState<string | undefined>(
-    undefined
-  );
+  const [setImagePreview] = useState<string | undefined>(undefined);
 
   const handleChangeImages = (files: FileType[]) => {
     if (files.length > 0) {

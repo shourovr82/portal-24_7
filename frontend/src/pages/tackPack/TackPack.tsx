@@ -6,7 +6,7 @@ import { useGetStyleNoQuery } from "../../redux/features/styles/styleApi";
 import { renderLoading } from "../../components/renderLoading/RenderLoading";
 import TackPackUploadPdf from "../../components/tackPack/uploads/TackPackUploadPdf";
 import { FileType } from "rsuite/esm/Uploader";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useCreateTackPackMutation } from "../../redux/features/tackPack/tackPackApi";
 import toast from "react-hot-toast";
 import {
