@@ -23,8 +23,8 @@ const itemsApi = baseApi.injectEndpoints({
 
     updateItem: builder.mutation({
       query: ({ id, data }: any) => ({
-        url: `/items/${id}`,
-        method: "PATCH",
+        url: `/items/update/${id}`,
+        method: "POST",
         data: data,
       }),
       invalidatesTags: [tagTypes.items, tagTypes.style, tagTypes.orders],

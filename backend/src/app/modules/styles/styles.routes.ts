@@ -58,10 +58,16 @@ router.get(
 router.patch(
   '/update/:styleNo',
   auth(UserRoles.ADMIN, UserRoles.SUPERADMIN),
-  FileUploadHelper.uploadStylesImage.single('file'),
+  FileUploadHelper.updateStylesImage.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = StylesValidation.updateStyle.parse(JSON.parse(req.body.data));
     return StylesController.updateStyleInformation(req, res, next);
   }
 );
+router.patch(
+  '/update/:styleNo',
+  auth(UserRoles.ADMIN, UserRoles.SUPERADMIN),
+  StylesController.updateStyleInformation
+);
+
 export const StyleRoutes = router;

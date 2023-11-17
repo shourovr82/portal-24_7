@@ -1,4 +1,4 @@
-import { User } from '@prisma/client';
+import { Profile, User } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import httpStatus from 'http-status';
 import config from '../../../config';
@@ -20,6 +20,13 @@ const getAllUserService = async (
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
 
   const result = await prisma.user.findMany({
+    where: {
+      profile: {
+        role: {
+          in: ['ADMIN', 'USER'],
+        },
+      },
+    },
     skip,
     take: limit,
     select: {
@@ -160,7 +167,7 @@ const updateProfileInfo = async (
 // ! update user info -------------------------------------------------------->>>
 const updateUserInfo = async (
   userId: string,
-  payload: Partial<IUserUpdateReqAndResponse>
+  payload: IUserUpdateReqAndResponse
 ): Promise<{
   message: string;
   updatedInfo: IUserUpdateReqAndResponse;
@@ -169,6 +176,7 @@ const updateUserInfo = async (
     throw new ApiError(httpStatus.BAD_REQUEST, `User ID cannot be changed`);
   }
 
+  console.log('🚀 ~ file: user.service.ts:172 ~ payload:', payload);
   // Check if the user exists
   const existingUser = await prisma.user.findUnique({
     where: {
@@ -180,7 +188,8 @@ const updateUserInfo = async (
     throw new ApiError(httpStatus.NOT_FOUND, 'User not Found !!');
   }
 
-  const { password, email, userStatus } = payload;
+  const { password, email, userStatus, firstName, lastName, role, profileId } =
+    payload;
 
   const updatedData: Partial<User> = {};
 
@@ -205,6 +214,22 @@ const updateUserInfo = async (
     },
     data: updatedData,
   });
+  const updatedProfileData: Partial<Profile> = {};
+  if (firstName) updatedProfileData['firstName'] = firstName;
+  if (lastName) updatedProfileData['lastName'] = lastName;
+  if (role) updatedProfileData['role'] = role;
+
+  if (updatedProfileData) {
+    const updateProfile = await prisma.profile.update({
+      where: {
+        profileId,
+      },
+      data: updatedProfileData,
+    });
+    if (!updateProfile) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'User Update Failed');
+    }
+  }
 
   if (!result) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User Update Failed');
@@ -216,6 +241,9 @@ const updateUserInfo = async (
       email: email,
       password: password,
       userStatus: userStatus,
+      firstName,
+      lastName,
+      role,
     },
   };
 };

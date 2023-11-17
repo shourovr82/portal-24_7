@@ -19,6 +19,7 @@ import InfoOutlineIcon from "@rsuite/icons/InfoOutline";
 interface IFormInput {
   styleNo: string;
   tackPackComment: string;
+  tackPackFile: FileType | undefined;
 }
 
 const TackPack = () => {
@@ -50,23 +51,20 @@ const TackPack = () => {
     formState: { errors },
   } = useForm<IFormInput>();
 
-  const [fileValue, setFileValue] = useState<FileType | undefined>(undefined);
-
   const handleCreateTackPack: SubmitHandler<IFormInput> = async (data) => {
-    const obj = { ...data };
+    const obj = {
+      styleNo: data.styleNo,
+      tackPackComment: data.tackPackComment,
+    };
     const tackPackData = JSON.stringify(obj);
     const formData = new FormData();
-    formData.append("file", fileValue as Blob);
+    formData.append("file", data.tackPackFile?.blobFile as Blob);
     formData.append("data", tackPackData);
     try {
       await CreateTackPack(formData);
     } catch (err: any) {
       console.error(err.message);
     }
-  };
-
-  const handleChangeFile = (file: FileType) => {
-    setFileValue(file?.blobFile);
   };
 
   useEffect(() => {
@@ -199,10 +197,39 @@ const TackPack = () => {
               />
             </div>
 
-            <div className="my-10">
-              <TackPackUploadPdf handleChangeFile={handleChangeFile} />
+            <div className=" w-full ">
+              <div className="my-3">
+                <Whisper
+                  speaker={
+                    <Tooltip>Tack File Pdf must be less than 1 MB</Tooltip>
+                  }
+                >
+                  <label htmlFor="file" className="text-sm font-medium">
+                    Tack Pack File <InfoOutlineIcon />
+                  </label>
+                </Whisper>
+              </div>
+              <Controller
+                name="tackPackFile"
+                control={control}
+                rules={{ required: "Tack Pack File is required" }}
+                render={({ field }: any) => (
+                  <div className="rs-form-control-wrapper ">
+                    <TackPackUploadPdf field={field} />
+                    <Form.ErrorMessage
+                      show={
+                        (!!errors?.tackPackFile &&
+                          !!errors?.tackPackFile?.message) ||
+                        false
+                      }
+                      placement="topEnd"
+                    >
+                      {errors?.tackPackFile?.message}
+                    </Form.ErrorMessage>
+                  </div>
+                )}
+              />
             </div>
-
             <div className="flex justify-end">
               <button
                 type="submit"

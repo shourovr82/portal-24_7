@@ -12,7 +12,7 @@ interface UserImageUploadProps {
   };
 }
 
-const UserImageUpload = ({ field }: UserImageUploadProps) => {
+const UserImageUpdateUploader = ({ field }: UserImageUploadProps) => {
   const [fileValue, setFileValue] = useState<FileType[]>([]);
   const [imagePreview, setImagePreview] = useState<string | undefined>(
     undefined
@@ -69,8 +69,8 @@ const UserImageUpload = ({ field }: UserImageUploadProps) => {
       >
         <div
           style={{
-            height: 200,
-            width: 200,
+            height: 140,
+            width: 140,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -82,7 +82,7 @@ const UserImageUpload = ({ field }: UserImageUploadProps) => {
             <img
               src={imagePreview}
               alt="Image Preview"
-              className=" w-[200px] rounded-full h-full object-cover object-center cursor-pointer"
+              className=" w-[150px] rounded-full h-full object-cover object-center cursor-pointer"
               style={{
                 maxWidth: "100%",
                 maxHeight: "200px",
@@ -100,4 +100,4 @@ const UserImageUpload = ({ field }: UserImageUploadProps) => {
   );
 };
 
-export default UserImageUpload;
+export default UserImageUpdateUploader;

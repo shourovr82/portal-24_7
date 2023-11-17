@@ -50,6 +50,7 @@ const Factory = () => {
         createError?.message || "Something went wrong",
         toastMessageError
       );
+      resetRequestCreate();
     }
   }, [
     createError,

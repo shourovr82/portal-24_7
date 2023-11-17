@@ -1,4 +1,6 @@
 import { z } from 'zod';
+import ApiError from '../../../errors/ApiError';
+import httpStatus from 'http-status';
 
 //     courierName: data.courierName,
 //     awbNo: data.awbNo,
@@ -60,10 +62,32 @@ const updateCourier = z.object({
         .string({
           invalid_type_error: 'Courier Name must be in String',
         })
+        .refine(value => {
+          if (typeof value === 'string') {
+            if (value.trim() === '') {
+              throw new ApiError(
+                httpStatus.BAD_REQUEST,
+                'Courier Name must not be empty or contain only whitespace'
+              );
+            }
+          }
+          return true;
+        })
         .optional(),
       awbNo: z
         .string({
           invalid_type_error: 'Awb No. must be in String',
+        })
+        .refine(value => {
+          if (typeof value === 'string') {
+            if (value.trim() === '') {
+              throw new ApiError(
+                httpStatus.BAD_REQUEST,
+                'AWB no. must not be empty or contain only whitespace'
+              );
+            }
+          }
+          return true;
         })
         .optional(),
       courierDate: z
@@ -75,19 +99,39 @@ const updateCourier = z.object({
         .string({
           invalid_type_error: 'Courier Details must be in String',
         })
+        .refine(value => {
+          if (typeof value === 'string') {
+            if (value.trim() === '') {
+              throw new ApiError(
+                httpStatus.BAD_REQUEST,
+                'Courier Details must not be empty or contain only whitespace'
+              );
+            }
+          }
+          return true;
+        })
         .optional(),
       courierWeight: z
         .string({
           invalid_type_error: 'Courier Weight must be in String',
+        })
+        .refine(value => {
+          if (typeof value === 'string') {
+            if (value.trim() === '') {
+              throw new ApiError(
+                httpStatus.BAD_REQUEST,
+                'Courier Weight must not be empty or contain only whitespace'
+              );
+            }
+          }
+          return true;
         })
         .optional(),
     })
     .refine(data => {
       const keys = Object.keys(data);
       if (keys.length === 0) {
-        throw new Error(
-          'At least one data must be provided in the request body'
-        );
+        throw new Error('At least one data must be provided');
       }
       return true;
     }),

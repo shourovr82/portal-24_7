@@ -28,7 +28,7 @@ const factoriesApi = baseApi.injectEndpoints({
     }),
     createNewFactory: builder.mutation({
       query: (data: any) => ({
-        url: `/factories`,
+        url: `/factories/create-factory`,
         method: "POST",
         data: data,
       }),
@@ -36,7 +36,7 @@ const factoriesApi = baseApi.injectEndpoints({
     }),
     updateFactory: builder.mutation({
       query: ({ id, data }: any) => ({
-        url: `/factories/update/${id}`,
+        url: `/factories/update-factory/${id}`,
         method: "PATCH",
         data: data,
       }),

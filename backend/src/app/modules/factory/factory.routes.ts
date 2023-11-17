@@ -7,18 +7,18 @@ import { FactoryValidation } from './factory.validations';
 
 const router = express.Router();
 
-// ! Create New  factory ------------------------------->>>
-router.post(
-  '/',
-  validateRequest(FactoryValidation.createFactory),
-  auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
-  FactoryController.createNewFactory
-);
 // ! Get all factory----------------------------------->>>
 router.get(
   '/',
   auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
   FactoryController.getAllFactories
+);
+// ! Create New  factory ------------------------------->>>
+router.post(
+  '/create-factory',
+  validateRequest(FactoryValidation.createFactory),
+  auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
+  FactoryController.createNewFactory
 );
 // ! Get all factory----------------------------------->>>
 router.get(
@@ -42,9 +42,9 @@ router.get(
 );
 // ! Update factory----------------------------------->>>
 router.patch(
-  '/update/:factoryId',
+  '/update-factory/:factoryId',
   validateRequest(FactoryValidation.updateFactory),
-  auth(UserRoles.ADMIN, UserRoles.SUPERADMIN),
+  auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
   FactoryController.updateFactoryInformation
 );
 

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Form, Input, Modal } from "rsuite";
+import { Button, Input, Modal } from "rsuite";
 import { useUpdateFactoryMutation } from "../../redux/features/factories/factoryApi";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import {
@@ -28,11 +28,7 @@ const FactoryEditModal = ({ open, factoryEditData, handleClose }: any) => {
     },
   ] = useUpdateFactoryMutation();
 
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<IFormInput>();
+  const { handleSubmit, setValue, reset: formReset } = useForm<IFormInput>();
 
   const handleUpdateFactory: SubmitHandler<IFormInput> = async (data) => {
     const updatedFactoryData = {
@@ -53,6 +49,7 @@ const FactoryEditModal = ({ open, factoryEditData, handleClose }: any) => {
       );
       resetRequestUpdate();
       handleClose();
+      formReset();
     }
     if (!isSuccess && error && !isLoading && isError && !updateData) {
       toast.error(
@@ -71,13 +68,18 @@ const FactoryEditModal = ({ open, factoryEditData, handleClose }: any) => {
     handleClose,
   ]);
 
+  const handleModalClose = () => {
+    handleClose();
+    resetRequestUpdate();
+    formReset();
+  };
   return (
     <div>
       <Modal
         backdrop="static"
         keyboard={false}
         open={open}
-        onClose={handleClose}
+        onClose={handleModalClose}
       >
         <Modal.Header>
           <Modal.Title>
@@ -103,32 +105,15 @@ const FactoryEditModal = ({ open, factoryEditData, handleClose }: any) => {
                     Factory Name
                   </label>
                 </div>
-                <Controller
-                  name="factoryName"
-                  control={control}
-                  render={({ field }: any) => (
-                    <div className="rs-form-control-wrapper ">
-                      <Input
-                        size="lg"
-                        {...field}
-                        defaultValue={factoryEditData?.factoryName}
-                        id="factoryName"
-                        style={{ width: "100%" }}
-                        placeholder="Enter Factory Name..."
-                        type="text"
-                      />
-                      <Form.ErrorMessage
-                        show={
-                          (!!errors?.factoryName &&
-                            !!errors?.factoryName?.message) ||
-                          false
-                        }
-                        placement="topEnd"
-                      >
-                        {errors?.factoryName?.message}
-                      </Form.ErrorMessage>
-                    </div>
-                  )}
+
+                <Input
+                  size="lg"
+                  id="factoryName"
+                  defaultValue={factoryEditData?.factoryName || undefined}
+                  onChange={(e) => setValue("factoryName", e)}
+                  style={{ width: "100%" }}
+                  placeholder="Enter Factory Name..."
+                  type="text"
                 />
               </div>
 
@@ -144,32 +129,15 @@ const FactoryEditModal = ({ open, factoryEditData, handleClose }: any) => {
                     Factory Address
                   </label>
                 </div>
-                <Controller
-                  name="factoryAddress"
-                  control={control}
-                  render={({ field }: any) => (
-                    <div className="rs-form-control-wrapper ">
-                      <Input
-                        size="lg"
-                        {...field}
-                        defaultValue={factoryEditData?.factoryAddress}
-                        id="factoryAddress"
-                        style={{ width: "100%" }}
-                        placeholder="Enter Factory Address..."
-                        type="text"
-                      />
-                      <Form.ErrorMessage
-                        show={
-                          (!!errors?.factoryAddress &&
-                            !!errors?.factoryAddress?.message) ||
-                          false
-                        }
-                        placement="topEnd"
-                      >
-                        {errors?.factoryAddress?.message}
-                      </Form.ErrorMessage>
-                    </div>
-                  )}
+
+                <Input
+                  size="lg"
+                  defaultValue={factoryEditData?.factoryAddress || undefined}
+                  onChange={(e) => setValue("factoryAddress", e)}
+                  id="factoryAddress"
+                  style={{ width: "100%" }}
+                  placeholder="Enter Factory Address..."
+                  type="text"
                 />
               </div>
 
@@ -183,7 +151,7 @@ const FactoryEditModal = ({ open, factoryEditData, handleClose }: any) => {
                   Submit Changes
                 </Button>
                 <Button
-                  onClick={handleClose}
+                  onClick={handleModalClose}
                   appearance="ghost"
                   className="hover:border-transparent"
                 >

@@ -1,38 +1,57 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { Uploader } from "rsuite";
 import { FileType } from "rsuite/esm/Uploader";
 import toast from "react-hot-toast";
 
-const TackPackUploadPdf = ({
-  handleChangeFile,
-}: {
-  handleChangeFile: (arg0: FileType) => void;
-}) => {
+interface TackPackUploadProps {
+  field: {
+    onChange: (file: FileType | undefined) => void;
+    value: FileType | undefined;
+  };
+}
+const TackPackUploadPdf = ({ field }: TackPackUploadProps) => {
   const [fileValue, setFileValue] = useState<FileType[]>([]);
+  const [imagePreview, setImagePreview] = useState<string | undefined>(
+    undefined
+  );
 
   const handleChangeImages = (files: FileType[]) => {
     if (files.length > 0) {
       const latestFile = files[files.length - 1];
-      const fileSizeLimit = 1024 * 1024; // 1 MB
+      const fileSizeLimit = 512 * 2 * 1024; // 512 kb
 
       if (
         latestFile.blobFile?.size &&
         latestFile.blobFile?.size <= fileSizeLimit
       ) {
         setFileValue([latestFile]);
-        handleChangeFile(latestFile);
+
+        field.onChange(latestFile);
 
         const file = latestFile;
         const reader = new FileReader();
 
+        reader.onload = (e) => {
+          const imagePreviewUrl = e.target?.result as string;
+          setImagePreview(imagePreviewUrl);
+        };
+
         reader.readAsDataURL(file.blobFile as File);
       } else {
-        toast.error("File size exceeds 1MB.");
+        clearImagePreview();
+        toast.error("File size exceeds 1 MB.");
       }
     } else {
-      //
+      clearImagePreview();
     }
+  };
+
+  const clearImagePreview = () => {
+    setImagePreview(undefined);
+    field.onChange(undefined);
+    setFileValue([]);
   };
 
   return (
@@ -43,7 +62,8 @@ const TackPackUploadPdf = ({
         draggable
         autoUpload={false}
         action={""}
-        className="w-full "
+        onRemove={clearImagePreview}
+        className="w-full"
         accept=".pdf"
       >
         <div
