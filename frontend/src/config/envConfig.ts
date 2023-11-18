@@ -8,3 +8,6 @@ export const getAuthKey = (): string => {
 export const sideBarModeKey = (): string => {
   return import.meta.env.VITE_SIDEBAR_MODE_KEY;
 };
+export const imageUrlKey = (): string => {
+  return import.meta.env.VITE_IMAGE_URL_KEY;
+};

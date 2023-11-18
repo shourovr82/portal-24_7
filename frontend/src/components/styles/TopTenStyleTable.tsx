@@ -5,13 +5,18 @@ import { useState } from "react";
 import PoModalTable from "./modals/PoModalTable";
 import { useGetRecentCommentsOnStylesQuery } from "../../redux/features/styles/styleApi";
 import moment from "moment";
+import { imageUrlKey } from "../../config/envConfig";
 const { Column, HeaderCell, Cell } = Table;
 
 const ImageCell = ({ rowData, dataKey, ...props }: any) => {
   const speaker = (
     <Popover>
       <div>
-        <img src={rowData?.image} alt="" className="h-48 w-48 object-cover" />
+        <img
+          src={`${imageUrlKey()}/${rowData?.image}`}
+          alt=""
+          className="h-48 w-48 object-cover"
+        />
       </div>
     </Popover>
   );
@@ -20,7 +25,7 @@ const ImageCell = ({ rowData, dataKey, ...props }: any) => {
       <Whisper placement="top" speaker={speaker}>
         <div>
           <img
-            src={rowData?.image}
+            src={`${imageUrlKey()}/${rowData?.image}`}
             className="h-10 w-10 object-cover rounded-full"
           />
         </div>
@@ -37,7 +42,6 @@ const TopTenStyleTable = () => {
   const { data: commentsRes, isLoading } =
     useGetRecentCommentsOnStylesQuery(null);
   const { data } = commentsRes || {};
-  console.log(data?.data);
   return (
     <>
       <PoModalTable open={open} handleClose={handleClose} />

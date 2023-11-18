@@ -33,7 +33,7 @@ const ItemEditModal = ({ open, itemEditData, handleClose }: any) => {
     formState: { errors },
   } = useForm<IFormInput>();
 
-  const handleUpdateFactory: SubmitHandler<IFormInput> = async (data) => {
+  const handleUpdateItem: SubmitHandler<IFormInput> = async (data) => {
     const updatedItemData = {
       itemName: data?.itemName,
     };
@@ -85,24 +85,22 @@ const ItemEditModal = ({ open, itemEditData, handleClose }: any) => {
         <Modal.Header>
           <Modal.Title>
             <h3 className="text-lg font-semibold flex items-center gap-1">
-              Edit Factory : {itemEditData?.itemName}
+              Edit Item
             </h3>
           </Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          {/*  */}
-
           <div className="rounded-lg border bg-white  ">
-            {/* factory */}
+            {/* Item */}
             <form
-              onSubmit={handleSubmit(handleUpdateFactory)}
+              onSubmit={handleSubmit(handleUpdateItem)}
               className="p-3 grid grid-cols-5 gap-2"
             >
-              {/* factory name */}
+              {/* Item name */}
               <div className="flex flex-col gap-2 col-span-5 ">
                 <div>
-                  <label htmlFor="factoryName" className="text-sm font-medium">
+                  <label htmlFor="itemName" className="text-sm font-medium">
                     Item Name
                   </label>
                 </div>
@@ -115,7 +113,7 @@ const ItemEditModal = ({ open, itemEditData, handleClose }: any) => {
                         size="lg"
                         {...field}
                         defaultValue={itemEditData?.itemName}
-                        id="factoryName"
+                        id="itemName"
                         style={{ width: "100%" }}
                         placeholder="Enter Item Name..."
                         type="text"

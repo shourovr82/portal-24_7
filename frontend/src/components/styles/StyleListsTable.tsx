@@ -15,6 +15,7 @@ import StyleEditModal from "./StyleEditModal";
 import PoModalTable from "./modals/PoModalTable";
 import PpSubmissionModal from "./modals/PpSubmissionModal";
 import TechPackModal from "./modals/TechPackModal";
+import { imageUrlKey } from "../../config/envConfig";
 const { Column, HeaderCell, Cell } = Table;
 
 const rowKey = "styleNo";
@@ -200,7 +201,7 @@ const StyleListsTable = ({
                   <Popover>
                     <div>
                       <img
-                        src={`http://localhost:7000/${rowData.image}`}
+                        src={`${imageUrlKey()}/${rowData.image}`}
                         alt={rowData.image}
                         className="h-52 w-52  object-cover"
                       />
@@ -210,7 +211,7 @@ const StyleListsTable = ({
               >
                 <div>
                   <img
-                    src={`http://localhost:7000/${rowData.image}`}
+                    src={`${imageUrlKey()}/${rowData.image}`}
                     className="h-10 w-10 object-cover rounded-full"
                   />
                 </div>

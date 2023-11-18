@@ -73,7 +73,6 @@ const ButtonCell = ({ rowData, ...props }: any) => {
 };
 
 const PoTable = ({ orders }: any) => {
-  // console.log(".............", orders);
   return (
     <>
       <Table

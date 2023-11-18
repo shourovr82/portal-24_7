@@ -8,8 +8,6 @@ import { Modal, Tooltip, Whisper } from "rsuite";
 // }
 
 const PpStrikeOffModal = ({ ppStatusComment, open, handleClose }: any) => {
-  // console.log(ppStatusComment);
-
   return (
     <>
       <Modal overflow={true} size="md" open={open} onClose={handleClose}>

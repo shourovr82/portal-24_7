@@ -67,7 +67,6 @@ const AddPo = () => {
       factoryEtd: data.factoryEtd,
       friDate: data.friDate,
     };
-    console.log(orderData);
     await createNewOrder(orderData);
   };
   const navigate = useNavigate();
