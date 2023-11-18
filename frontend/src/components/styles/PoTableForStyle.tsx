@@ -61,12 +61,12 @@ const PoTableForStyle = ({ orders }: any) => {
                         >
                           Port Name
                         </th>
-                        <th
+                        {/* <th
                           scope="col"
                           className="px-3 py-3.5 text-left text-sm font-semibold text-[#637581] border-r"
                         >
                           PDF
-                        </th>
+                        </th> */}
                       </tr>
                     </thead>
 
@@ -98,9 +98,9 @@ const PoTableForStyle = ({ orders }: any) => {
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
                             backend
                           </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium">
+                          {/* <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium">
                             View
-                          </td>
+                          </td> */}
                         </tr>
                       ))}
                     </tbody>
