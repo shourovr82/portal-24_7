@@ -51,7 +51,6 @@ const UserLists = () => {
 
   return (
     <>
-      {" "}
       <div className="  bg-white  shadow-md  m-5 pb-10 rounded-2xl">
         <header className="px-8 text-2xl font-semibold p-3">Users List</header>
 
@@ -269,7 +268,7 @@ const UserLists = () => {
                               </td>
                             </tr>
                           ))
-                        : ""}
+                        : "No Users Added"}
                     </tbody>
                   </table>
                 </div>
