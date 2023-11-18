@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Modal } from "rsuite";
+import { imageUrlKey } from "../../config/envConfig";
 
 const UserDetailsModal = ({
   openDetails,
   setOpenDetails,
   userDetails,
 }: any) => {
-  console.log(userDetails);
-
   return (
     <>
       <Modal open={openDetails} onClose={() => setOpenDetails(false)}>
@@ -21,7 +20,7 @@ const UserDetailsModal = ({
             <div>
               <img
                 className="w-[150px] h-[150px] object-cover  rounded-full "
-                src={userDetails?.profile?.profileImage}
+                src={`${imageUrlKey()}/${userDetails?.profile?.profileImage}`}
               />
             </div>
             <div className="space-y-3">

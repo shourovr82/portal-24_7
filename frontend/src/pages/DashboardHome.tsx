@@ -7,7 +7,6 @@ import DashBoardBarChart from "../components/dashboard/DashBoardBarChart";
 import NotificationModal from "../components/notifications/NotificationModal";
 import TopTenStyleTable from "../components/styles/TopTenStyleTable";
 import { useGetAllFactoriesLengthQuery } from "../redux/features/factories/factoryApi";
-import { useGetAllNotificationQuery } from "../redux/features/notifications/notificationApi";
 import {
   useGetAllOrdersLengthQuery,
   useGetAllOrdersPcQuery,
@@ -24,10 +23,6 @@ const DashboardHome = () => {
   const { data: allFactories } = useGetAllFactoriesLengthQuery(null);
 
   const { data: allPc, isLoading } = useGetAllOrdersPcQuery(null);
-
-  const { data: allNotification } = useGetAllNotificationQuery(null);
-
-  console.log(allNotification);
 
   return (
     <div>
@@ -83,7 +78,6 @@ const DashboardHome = () => {
             </p>
           </div>
           <div className="flex">
-            {/* <img src={arrowDown} alt="arrowDown" /> */}
             <p className="font-medium text-sm text-[#667085]">
               <span className="text-[#B42318] text-sm font-medium">
                 {" "}
@@ -117,7 +111,6 @@ const DashboardHome = () => {
           </div>
           <div className="flex items-center justify-between">
             <div className="flex">
-              {/* <img src={arrowUp} alt="arrowUp" /> */}
               <p className="font-medium text-sm text-[#667085]">
                 <span className="text-[#B42318] text-sm font-medium">
                   {" "}
@@ -149,7 +142,9 @@ const DashboardHome = () => {
             ? allPc?.data?.map((pc: any, index: number) => (
                 <div
                   className={`flex flex-col  gap-3 m-1 p-5 h-80 w-full ${
-                    index !== allPc?.data?.length - 1 ? "lg:border-r mx-md:border-b" : ""
+                    index !== allPc?.data?.length - 1
+                      ? "lg:border-r mx-md:border-b"
+                      : ""
                   }`}
                   key={pc?.year}
                 >

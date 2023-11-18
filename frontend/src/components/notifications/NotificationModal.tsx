@@ -2,7 +2,8 @@
 import { useState, useEffect } from "react";
 import { Modal, Table } from "rsuite";
 import { useGetAllNotificationQuery } from "../../redux/features/notifications/notificationApi";
-import { cellCss } from "../styles/CommonCss";
+import { cellCss, headerCss } from "../styles/CommonCss";
+import { imageUrlKey } from "../../config/envConfig";
 const { Column, HeaderCell, Cell } = Table;
 
 const NotificationModal = () => {
@@ -37,12 +38,15 @@ const NotificationModal = () => {
   };
 
   const renderImageView = (rowData: any) => (
-    <img src={rowData.Styles.image} alt="Image" style={{ maxWidth: "30%" }} />
+    <img
+      src={`${imageUrlKey()}/${rowData.Styles?.image}`}
+      alt="Style Image"
+      style={{ maxWidth: "30%" }}
+    />
   );
 
   const renderFactoryName = (rowData: any) => (
     <p>
-      {" "}
       {rowData && rowData?.Styles && rowData?.Styles?.factory
         ? rowData?.Styles?.factory?.factoryName
         : "No Factory Assigned"}{" "}
@@ -63,30 +67,28 @@ const NotificationModal = () => {
             <Table
               height={420}
               data={modalData}
-              rowHeight={80}
+              rowHeight={100}
               autoHeight={true}
             >
-              <Column flexGrow={1}>
-                <HeaderCell>Image</HeaderCell>
-                <Cell style={cellCss} dataKey="Styles.image">
-                  {renderImageView}
-                </Cell>
+              <Column flexGrow={1} verticalAlign="middle">
+                <HeaderCell style={headerCss}>Image</HeaderCell>
+                <Cell style={cellCss}>{renderImageView}</Cell>
               </Column>
 
-              <Column flexGrow={2} align="center">
-                <HeaderCell>Style Name</HeaderCell>
+              <Column flexGrow={2} align="center" verticalAlign="middle">
+                <HeaderCell style={headerCss}>Style Name</HeaderCell>
                 <Cell style={cellCss} dataKey="styleNo" />
               </Column>
 
-              <Column flexGrow={2} align="center">
-                <HeaderCell>Factory Name</HeaderCell>
+              <Column flexGrow={2} align="center" verticalAlign="middle">
+                <HeaderCell style={headerCss}>Factory Name</HeaderCell>
                 <Cell style={cellCss} dataKey="Styles.factory">
                   {(rowData) => renderFactoryName(rowData)}
                 </Cell>
               </Column>
 
-              <Column flexGrow={2}>
-                <HeaderCell>Submission Date</HeaderCell>
+              <Column flexGrow={2} verticalAlign="middle">
+                <HeaderCell style={headerCss}>Submission Date</HeaderCell>
                 <Cell style={cellCss} dataKey="factorySubmissionDate">
                   {(rowData) => (
                     <span>

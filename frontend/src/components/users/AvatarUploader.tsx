@@ -21,7 +21,7 @@ const UserImageUpload = ({ field }: UserImageUploadProps) => {
   const handleChangeImages = (files: FileType[]) => {
     if (files.length > 0) {
       const latestFile = files[files.length - 1];
-      const fileSizeLimit = 1024 * 1024; // 1 MB
+      const fileSizeLimit = 512 * 1024; // 512 kb
 
       if (
         latestFile.blobFile?.size &&
@@ -41,7 +41,7 @@ const UserImageUpload = ({ field }: UserImageUploadProps) => {
         reader.readAsDataURL(file.blobFile as File);
       } else {
         clearImagePreview();
-        toast.error("File size exceeds 1MB.");
+        toast.error("File size exceeds 512kb.");
       }
     } else {
       clearImagePreview();

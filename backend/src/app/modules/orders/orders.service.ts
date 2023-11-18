@@ -288,8 +288,8 @@ const updateOrder = async (
     if (styleNo) updatedPoData['styleNo'] = styleNo;
     // if (totalPc) updatedPoData['totalPc'] = totalPc;
     // if (totalPack) updatedPoData['totalPack'] = totalPack;
-    if (totalPc !== undefined) updatedPoData['totalPc'] = BigInt(totalPc);
-    if (totalPack !== undefined) updatedPoData['totalPack'] = BigInt(totalPack);
+    if (totalPc !== undefined) updatedPoData['totalPc'] = Number(totalPc);
+    if (totalPack !== undefined) updatedPoData['totalPack'] = Number(totalPack);
 
     if (noOfPack) updatedPoData['noOfPack'] = noOfPack;
 
@@ -644,7 +644,6 @@ const getBuyerEtdStatistics = async () => {
 getBuyerEtdStatistics()
   .then(() => {
     //
-    // console.log(results);
   })
   .finally(async () => {
     await prisma.$disconnect(); // Disconnect from the Prisma client
