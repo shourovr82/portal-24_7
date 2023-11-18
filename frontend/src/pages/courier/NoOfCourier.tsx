@@ -25,8 +25,6 @@ const NoOfCourier = () => {
     isFetching,
   } = useGetNoCouriersQuery({ ...query });
 
-  console.log("CourierCheck", NoOfCourierData);
-
   return (
     <>
       <section className="p-5">

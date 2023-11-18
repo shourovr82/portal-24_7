@@ -30,8 +30,6 @@ const PoLists = () => {
   const query: Record<string, any> = {};
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(30);
-  // const [sortBy, setSortBy] = useState<string>("");
-  // const [sortOrder, setSortOrder] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedFactory, setSelectedFactory] = useState<string | undefined>(
     undefined
@@ -51,9 +49,6 @@ const PoLists = () => {
   //
   query["limit"] = size;
   query["page"] = page;
-  // query["sortBy"] = sortBy;
-  // query["sortOrder"] = sortOrder;
-  // query["searchTerm"] = searchTerm;
   query["factoryId"] = selectedFactory;
   query["portId"] = selectedPort;
   query["startDate"] = selectedDate.startDate;
@@ -297,7 +292,6 @@ const PoLists = () => {
           {/* main section for table */}
           <div className="">
             {/* <PoTable /> */}
-            {/* <PoTableV2 /> */}
             <>
               <div className="px-5">
                 <div className="mt-1 flex flex-col">
@@ -442,7 +436,7 @@ const PoLists = () => {
                           </table>
                         )}
 
-                        {!isLoading && !isError && !allOrders?.data?.length && (
+                        {!isLoading && !allOrders?.data?.length && (
                           <div className="flex justify-center">
                             <Lottie
                               className="w-[40%] "

@@ -2,8 +2,6 @@
 import moment from "moment";
 
 const PoTableForStyle = ({ orders }: any) => {
-  // console.log(orders);
-
   return (
     <>
       <div className="">

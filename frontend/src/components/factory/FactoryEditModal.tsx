@@ -84,7 +84,7 @@ const FactoryEditModal = ({ open, factoryEditData, handleClose }: any) => {
         <Modal.Header>
           <Modal.Title>
             <h3 className="text-lg font-semibold flex items-center gap-1">
-              Edit Factory : {factoryEditData?.factoryName}
+              Edit Factory
             </h3>
           </Modal.Title>
         </Modal.Header>

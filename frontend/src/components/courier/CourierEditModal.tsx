@@ -44,8 +44,6 @@ const CourierEditModal = ({ open, courierEditData, handleClose }: any) => {
       courierDate: data.courierDate,
     };
 
-    console.log(updatedData);
-
     await editCourierInfo({
       id: courierEditData?.courierId,
       data: updatedData,
@@ -93,214 +91,199 @@ const CourierEditModal = ({ open, courierEditData, handleClose }: any) => {
   };
 
   return (
-    <>
-      <Modal
-        size="full"
-        backdrop="static"
-        open={open}
-        onClose={handleCloseModal}
-      >
-        <Modal.Header>
-          <Modal.Title className="font-semibold">
-            Edit Courier Details : {courierEditData?.courierName}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="p-4">
-            {/* form */}
-            <section className=" bg-white border rounded-lg p-5">
-              <form onSubmit={handleSubmit(onSubmit)}>
-                {/* 1st section */}
-                <div className="flex justify-between  gap-[24px] mb-5">
-                  <div className="flex flex-col gap-3 w-full ">
-                    <div className="flex justify-between items-center">
-                      <label
-                        htmlFor="courierName"
-                        className="text-sm font-medium"
-                      >
-                        Courier Name
-                      </label>
-                      {errors?.courierName && (
-                        <span className="text-[10px]  text-white px-1.5 py-0.5 rounded font-medium bg-red-800">
-                          {errors?.courierName?.message}
-                        </span>
-                      )}
-                    </div>
+    <Modal size="lg" backdrop="static" open={open} onClose={handleCloseModal}>
+      <Modal.Header>
+        <Modal.Title className="font-semibold">
+          Edit Courier Details
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="p-4">
+          {/* form */}
+          <section className=" bg-white border rounded-lg p-5">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              {/* 1st section */}
+              <div className="flex justify-between  gap-[24px] mb-5">
+                <div className="flex flex-col gap-3 w-full ">
+                  <div className="flex justify-between items-center">
+                    <label
+                      htmlFor="courierName"
+                      className="text-sm font-medium"
+                    >
+                      Courier Name
+                    </label>
+                    {errors?.courierName && (
+                      <span className="text-[10px]  text-white px-1.5 py-0.5 rounded font-medium bg-red-800">
+                        {errors?.courierName?.message}
+                      </span>
+                    )}
+                  </div>
 
-                    <SelectPicker
-                      id="courierName"
-                      searchable={false}
-                      cleanable={false}
-                      size="lg"
-                      defaultValue={courierEditData?.courierName || undefined}
-                      data={dataForSelectPicker.courierNamesData ?? []}
-                      onChange={(value: string | null): void => {
-                        setValue("courierName", value as string);
-                      }}
-                    />
-                  </div>
-                  {/* Style No */}
-                  <div className="flex flex-col gap-3 w-full ">
-                    <div className="flex justify-between items-center">
-                      <label htmlFor="styleNo" className="text-sm font-medium">
-                        Style No
-                      </label>
-                      {errors?.styleNo && (
-                        <span className="text-[10px]  text-white px-1.5 py-0.5 rounded font-medium bg-red-800">
-                          {errors?.styleNo?.message}
-                        </span>
-                      )}
-                    </div>
-                    <SelectPicker
-                      onChange={(value: string | null): void =>
-                        setValue("styleNo", value)
-                      }
-                      cleanable={false}
-                      size="lg"
-                      defaultValue={courierEditData?.styleNo || undefined}
-                      data={
-                        styles?.data?.map((style: any) => ({
-                          label: style?.styleNo,
-                          value: style?.styleNo,
-                        })) || []
-                      }
-                    />
-                  </div>
+                  <SelectPicker
+                    id="courierName"
+                    searchable={false}
+                    cleanable={false}
+                    size="lg"
+                    defaultValue={courierEditData?.courierName || undefined}
+                    data={dataForSelectPicker.courierNamesData ?? []}
+                    onChange={(value: string | null): void => {
+                      setValue("courierName", value as string);
+                    }}
+                  />
                 </div>
-                {/* 2nd section */}
-
-                <div className="flex justify-between gap-[24px] mb-5">
-                  <div className="flex flex-col gap-3 w-full">
-                    <div className="flex justify-between items-center">
-                      <label
-                        htmlFor="totalPack"
-                        className="text-sm font-medium"
-                      >
-                        AWB no
-                      </label>
-                      {errors?.awbNo && (
-                        <span className="text-[10px]  text-white px-1.5 py-0.5 rounded font-medium bg-red-800">
-                          {errors?.awbNo?.message}
-                        </span>
-                      )}
-                    </div>
-
-                    <Input
-                      size="lg"
-                      id="awbNo"
-                      defaultValue={courierEditData?.awbNo || undefined}
-                      onChange={(e) => setValue("awbNo", e)}
-                      style={{ width: "100%" }}
-                      placeholder="Enter AWB..."
-                      type="text"
-                    />
+                {/* Style No */}
+                <div className="flex flex-col gap-3 w-full ">
+                  <div className="flex justify-between items-center">
+                    <label htmlFor="styleNo" className="text-sm font-medium">
+                      Style No
+                    </label>
+                    {errors?.styleNo && (
+                      <span className="text-[10px]  text-white px-1.5 py-0.5 rounded font-medium bg-red-800">
+                        {errors?.styleNo?.message}
+                      </span>
+                    )}
                   </div>
-                  <div className="flex flex-col gap-3 w-full">
-                    <div className="flex justify-between items-center">
-                      <label
-                        htmlFor="courierWeight"
-                        className="text-sm font-medium"
-                      >
-                        Courier Weight
-                      </label>
-                    </div>
-
-                    <Input
-                      size="lg"
-                      id="courierWeight"
-                      defaultValue={courierEditData?.courierWeight || undefined}
-                      onChange={(e) => setValue("courierWeight", e)}
-                      style={{ width: "100%" }}
-                      placeholder="Enter Courier Weight..."
-                      type="text"
-                    />
-                  </div>
+                  <SelectPicker
+                    onChange={(value: string | null): void =>
+                      setValue("styleNo", value)
+                    }
+                    cleanable={false}
+                    size="lg"
+                    defaultValue={courierEditData?.styleNo || undefined}
+                    data={
+                      styles?.data?.map((style: any) => ({
+                        label: style?.styleNo,
+                        value: style?.styleNo,
+                      })) || []
+                    }
+                  />
                 </div>
+              </div>
+              {/* 2nd section */}
 
-                {/* 3rd section */}
-                <div className="flex justify-between gap-[24px] mb-5">
-                  {/* Total Pack */}
-
-                  <div className="flex flex-col gap-3 w-full">
-                    <div className="flex justify-between items-center">
-                      <label
-                        htmlFor="totalPack"
-                        className="text-sm font-medium"
-                      >
-                        Courier Details
-                      </label>
-                      {errors?.courierDetails && (
-                        <span className="text-[10px]  text-white px-1.5 py-0.5 rounded font-medium bg-red-800">
-                          {errors?.courierDetails?.message}
-                        </span>
-                      )}
-                    </div>
-
-                    <Input
-                      size="lg"
-                      id="courierDetails"
-                      defaultValue={
-                        courierEditData?.courierDetails || undefined
-                      }
-                      onChange={(e) => setValue("courierDetails", e)}
-                      style={{ width: "100%" }}
-                      placeholder="Enter Courier Details..."
-                      type="text"
-                    />
+              <div className="flex justify-between gap-[24px] mb-5">
+                <div className="flex flex-col gap-3 w-full">
+                  <div className="flex justify-between items-center">
+                    <label htmlFor="totalPack" className="text-sm font-medium">
+                      AWB no
+                    </label>
+                    {errors?.awbNo && (
+                      <span className="text-[10px]  text-white px-1.5 py-0.5 rounded font-medium bg-red-800">
+                        {errors?.awbNo?.message}
+                      </span>
+                    )}
                   </div>
 
-                  <div className="flex flex-col gap-3 w-[50%]">
-                    <div className="flex justify-between items-center">
-                      <label
-                        htmlFor="courierDate"
-                        className="text-sm font-medium"
-                      >
-                        Courier Date
-                      </label>
-                    </div>
-                    <DatePicker
-                      id="courierDate"
-                      defaultValue={
-                        courierEditData?.courierDate
-                          ? moment(courierEditData.courierDate).toDate()
-                          : undefined
-                      }
-                      cleanable={false}
-                      onChange={(value: Date | null): void => {
-                        const isoString = value?.toISOString();
-                        setValue("courierDate", isoString);
-                      }}
-                      size="lg"
-                      editable={false}
-                      placeholder="Courier Date "
-                      placement="topStart"
-                    />
+                  <Input
+                    size="lg"
+                    id="awbNo"
+                    defaultValue={courierEditData?.awbNo || undefined}
+                    onChange={(e) => setValue("awbNo", e)}
+                    style={{ width: "100%" }}
+                    placeholder="Enter AWB..."
+                    type="text"
+                  />
+                </div>
+                <div className="flex flex-col gap-3 w-full">
+                  <div className="flex justify-between items-center">
+                    <label
+                      htmlFor="courierWeight"
+                      className="text-sm font-medium"
+                    >
+                      Courier Weight
+                    </label>
                   </div>
+
+                  <Input
+                    size="lg"
+                    id="courierWeight"
+                    defaultValue={courierEditData?.courierWeight || undefined}
+                    onChange={(e) => setValue("courierWeight", e)}
+                    style={{ width: "100%" }}
+                    placeholder="Enter Courier Weight..."
+                    type="text"
+                  />
+                </div>
+              </div>
+
+              {/* 3rd section */}
+              <div className="flex justify-between gap-[24px] mb-5">
+                {/* Total Pack */}
+
+                <div className="flex flex-col gap-3 w-full">
+                  <div className="flex justify-between items-center">
+                    <label htmlFor="totalPack" className="text-sm font-medium">
+                      Courier Details
+                    </label>
+                    {errors?.courierDetails && (
+                      <span className="text-[10px]  text-white px-1.5 py-0.5 rounded font-medium bg-red-800">
+                        {errors?.courierDetails?.message}
+                      </span>
+                    )}
+                  </div>
+
+                  <Input
+                    size="lg"
+                    id="courierDetails"
+                    defaultValue={courierEditData?.courierDetails || undefined}
+                    onChange={(e) => setValue("courierDetails", e)}
+                    style={{ width: "100%" }}
+                    placeholder="Enter Courier Details..."
+                    type="text"
+                  />
                 </div>
 
-                <div className="flex justify-end gap-3">
-                  <Button
-                    type="submit"
-                    loading={isLoading}
-                    appearance="default"
-                    className="bg-[#0284c7] text-white hover:text-white/80 hover:bg-[#0284c7] focus:bg-[#0284c7] focus:text-white/50"
-                  >
-                    Submit Changes
-                  </Button>
-                  <Button
-                    onClick={handleCloseModal}
-                    appearance="ghost"
-                    className="hover:border-transparent"
-                  >
-                    Cancel
-                  </Button>
+                <div className="flex flex-col gap-3 w-[50%]">
+                  <div className="flex justify-between items-center">
+                    <label
+                      htmlFor="courierDate"
+                      className="text-sm font-medium"
+                    >
+                      Courier Date
+                    </label>
+                  </div>
+                  <DatePicker
+                    id="courierDate"
+                    defaultValue={
+                      courierEditData?.courierDate
+                        ? moment(courierEditData.courierDate).toDate()
+                        : undefined
+                    }
+                    cleanable={false}
+                    onChange={(value: Date | null): void => {
+                      const isoString = value?.toISOString();
+                      setValue("courierDate", isoString);
+                    }}
+                    size="lg"
+                    editable={false}
+                    placeholder="Courier Date "
+                    placement="topStart"
+                  />
                 </div>
-              </form>
-            </section>
-          </div>
-        </Modal.Body>
-      </Modal>
-    </>
+              </div>
+
+              <div className="flex justify-end gap-3">
+                <Button
+                  type="submit"
+                  loading={isLoading}
+                  appearance="default"
+                  className="bg-[#0284c7] text-white hover:text-white/80 hover:bg-[#0284c7] focus:bg-[#0284c7] focus:text-white/50"
+                >
+                  Submit Changes
+                </Button>
+                <Button
+                  onClick={handleCloseModal}
+                  appearance="ghost"
+                  className="hover:border-transparent"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </section>
+        </div>
+      </Modal.Body>
+    </Modal>
   );
 };
 

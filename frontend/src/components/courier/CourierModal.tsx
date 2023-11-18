@@ -5,7 +5,7 @@ import CourierTableV2 from "./CourierTableV2";
 const CourierModal = ({ courier, open, handleClose }: any) => {
   return (
     <>
-      <Modal size="full" open={open} backdrop="static" onClose={handleClose}>
+      <Modal size="lg" open={open} backdrop="static" onClose={handleClose}>
         <Modal.Header>
           <Modal.Title className="font-bold text-lg pl-7">Courier</Modal.Title>
         </Modal.Header>

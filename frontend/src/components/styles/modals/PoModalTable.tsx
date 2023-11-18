@@ -7,7 +7,7 @@ const PoModalTable = ({ orders, open, handleClose }: any) => {
   return (
     <>
       <Modal
-        size={orders?.length > 0 ? "full" : "sm"}
+        size={orders?.length > 0 ? "lg" : "sm"}
         open={open}
         onClose={handleClose}
         backdrop="static"

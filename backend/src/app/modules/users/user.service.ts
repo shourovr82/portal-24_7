@@ -176,7 +176,6 @@ const updateUserInfo = async (
     throw new ApiError(httpStatus.BAD_REQUEST, `User ID cannot be changed`);
   }
 
-  console.log('🚀 ~ file: user.service.ts:172 ~ payload:', payload);
   // Check if the user exists
   const existingUser = await prisma.user.findUnique({
     where: {

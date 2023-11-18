@@ -116,15 +116,13 @@ const EditPoDetails = ({
   return (
     <>
       <Modal
-        size="full"
+        size="lg"
         open={activePoEditModal}
         onClose={onCloseModal}
         backdrop="static"
       >
         <Modal.Header>
-          <Modal.Title className="font-semibold">
-            Edit Po Details : {poEditData?.orderNo}
-          </Modal.Title>
+          <Modal.Title className="font-semibold">Edit Po Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="p-4">
