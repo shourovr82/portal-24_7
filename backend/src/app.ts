@@ -29,7 +29,7 @@ if (!fs.existsSync('./uploads/styles')) {
 
 app.use(
   cors({
-    origin: 'http://localhost:3100',
+    origin: 'http://85.31.225.190:3100',
     credentials: true,
     // methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   })
