@@ -67,6 +67,7 @@ const PortEditModal = ({ open, portEditData, handleClose }: any) => {
     resetRequestUpdate,
     updateData,
     handleClose,
+    formReset,
   ]);
 
   const handleCloseModal = () => {

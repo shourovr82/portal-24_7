@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { Uploader } from "rsuite";
 import { FileType } from "rsuite/esm/Uploader";

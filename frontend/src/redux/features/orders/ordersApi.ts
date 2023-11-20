@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 
 import { baseApi } from "../../api/baseApi";
 import { tagTypes } from "../../tag-types/tag-types";

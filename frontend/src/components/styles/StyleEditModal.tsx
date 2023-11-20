@@ -97,7 +97,16 @@ const StyleEditModal = ({ styleEditData, open, handleClose }: any) => {
       handleClose();
       formReset();
     }
-  }, [createError, createLoading, handleClose, isError, isSuccess, reset]);
+  }, [
+    createError,
+    createLoading,
+    formReset,
+    handleClose,
+    isError,
+    isSuccess,
+    reset,
+    updateData,
+  ]);
 
   const handleCloseModal = () => {
     formReset();

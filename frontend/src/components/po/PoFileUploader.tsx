@@ -11,14 +11,13 @@ interface TackPackUploadProps {
     value: FileType | undefined;
   };
 }
-const TackPackUploadPdf = ({ field }: TackPackUploadProps) => {
+const OrderFileUploader = ({ field }: TackPackUploadProps) => {
   const [fileValue, setFileValue] = useState<FileType[]>([]);
-  const [_, setImagePreview] = useState<string | undefined>(undefined);
 
-  const handleChangeImages = (files: FileType[]) => {
+  const handleChangeFile = (files: FileType[]) => {
     if (files.length > 0) {
       const latestFile = files[files.length - 1];
-      const fileSizeLimit = 512 * 2 * 1024; // 512 kb
+      const fileSizeLimit = 5 * 1024 * 1024; // 5 MB
 
       if (
         latestFile.blobFile?.size &&
@@ -31,23 +30,17 @@ const TackPackUploadPdf = ({ field }: TackPackUploadProps) => {
         const file = latestFile;
         const reader = new FileReader();
 
-        reader.onload = (e) => {
-          const imagePreviewUrl = e.target?.result as string;
-          setImagePreview(imagePreviewUrl);
-        };
-
         reader.readAsDataURL(file.blobFile as File);
       } else {
-        clearImagePreview();
-        toast.error("File size exceeds 1 MB.");
+        clearFilePreview();
+        toast.error("File size exceeds 5 MB.");
       }
     } else {
-      clearImagePreview();
+      clearFilePreview();
     }
   };
 
-  const clearImagePreview = () => {
-    setImagePreview(undefined);
+  const clearFilePreview = () => {
     field.onChange(undefined);
     setFileValue([]);
   };
@@ -56,11 +49,11 @@ const TackPackUploadPdf = ({ field }: TackPackUploadProps) => {
     <div className="relative group">
       <Uploader
         fileList={fileValue}
-        onChange={handleChangeImages}
+        onChange={handleChangeFile}
         draggable
         autoUpload={false}
         action={""}
-        onRemove={clearImagePreview}
+        onRemove={clearFilePreview}
         className="w-full"
         accept=".pdf"
       >
@@ -79,4 +72,4 @@ const TackPackUploadPdf = ({ field }: TackPackUploadProps) => {
   );
 };
 
-export default TackPackUploadPdf;
+export default OrderFileUploader;

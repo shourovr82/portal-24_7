@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { AiOutlineUnorderedList } from "react-icons/ai";
 import { GiClothes } from "react-icons/gi";
 import { MdOutlineFactory } from "react-icons/md";

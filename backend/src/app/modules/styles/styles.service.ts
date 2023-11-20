@@ -139,9 +139,13 @@ const getAllStyles = async (
 
   const result = await prisma.styles.findMany({
     include: {
-      profile: true,
-      orders: true,
+      orders: {
+        include: {
+          Port: true,
+        },
+      },
       factory: true,
+
       BulkProductionStatus: {
         orderBy: {
           createdAt: 'desc',

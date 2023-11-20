@@ -1,6 +1,5 @@
 /* eslint-disable no-extra-boolean-cast */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
 import {
@@ -399,7 +398,9 @@ const PoLists = () => {
                                       {po?.totalPc}
                                     </td>{" "}
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
-                                      {moment(po?.buyerEtd).format("L")}
+                                      {moment(po?.buyerEtd).format(
+                                        "DD-MM-YYYY"
+                                      )}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
                                       {moment(po?.factoryEtd).format("L")}

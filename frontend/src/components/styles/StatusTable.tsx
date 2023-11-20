@@ -75,7 +75,7 @@ export default function StatusTable({ rowData }: any) {
                         scope="col"
                         className="px-3 py-3.5 text-center text-sm font-semibold text-[#637581] border-r"
                       >
-                        PP Strike Off Status
+                        PP Status
                       </th>
                       <th
                         scope="col"

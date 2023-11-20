@@ -65,7 +65,16 @@ const UserEditModal = ({ editUser, openEdit, setOpenEdit }: any) => {
       reset();
       formReset();
     }
-  }, [isError, isLoading, isSuccess, reset, setOpenEdit]);
+  }, [
+    data,
+    error,
+    formReset,
+    isError,
+    isLoading,
+    isSuccess,
+    reset,
+    setOpenEdit,
+  ]);
 
   return (
     <Modal size="md" open={openEdit} onClose={() => setOpenEdit(false)}>
