@@ -50,7 +50,8 @@
     "postinstall": "prisma generate",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate": "npx prisma migrate dev",
-    "startmigrate": "yarn migrate && node dist/server.js"
+    "migrate-prod": "npx prisma migrate deploy",
+    "startmigrate": "yarn migrate-prod && node dist/server.js"
   },
   "version": "1.0.0"
 }

@@ -18,8 +18,7 @@ COPY tsconfig.json ./
 # Install dependencies
 RUN yarn install
 
-# Generate prisma client
-RUN npx prisma generate
+
 
 # Copy everything 
 COPY . .
@@ -30,3 +29,4 @@ EXPOSE 7000
 RUN yarn build
 # run the project
 CMD yarn startmigrate
+
