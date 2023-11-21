@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { TackPack } from '@prisma/client';
 import { Request } from 'express';
 import httpStatus from 'http-status';
@@ -7,7 +8,7 @@ import prisma from '../../../shared/prisma';
 import { ICreateTackPack, IUpdateTackPack } from './tackPack.interface';
 
 // !----------------------------------Create TackPack---------------------------------------->>>
-const createTackPack = async (profileId: string, req: Request): Promise<TackPack> => {
+const createTackPack = async (profileId: string, req: Request): Promise<any> => {
   const file = req.file as IUploadFile;
 
   const filePath = file?.path?.substring(8);
@@ -16,30 +17,45 @@ const createTackPack = async (profileId: string, req: Request): Promise<TackPack
     throw new ApiError(httpStatus.BAD_REQUEST, 'Tack Pack pdf is required');
   }
 
-  const data = req.body as ICreateTackPack;
-
-  const isExistStyleNo = await prisma.styles.findUnique({
+  const { styleNo, tackPackComment } = req.body as ICreateTackPack;
+  // check is exist style
+  const isExistStyleNo = await prisma.styles.findFirst({
     where: {
-      styleNo: data.styleNo,
+      styleNo,
     },
     select: {
       styleNo: true,
+      tackPack: true,
     },
   });
   if (!isExistStyleNo) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Style No not Found !!');
   }
+  // !--------
+  let result;
 
-  const tackPackData = {
-    profileId,
-    tackFile: filePath,
-    styleNo: data.styleNo,
-    tackPackComment: data.tackPackComment,
-  };
+  if (isExistStyleNo?.tackPack !== null) {
+    // updated data
+    const updatedTackPackData: Partial<TackPack> = {};
+    if (tackPackComment !== undefined) updatedTackPackData['tackPackComment'] = tackPackComment;
+    if (filePath !== undefined) updatedTackPackData['tackFile'] = filePath;
 
-  const result = await prisma.tackPack.create({
-    data: tackPackData,
-  });
+    result = await prisma.tackPack.update({
+      where: {
+        styleNo,
+      },
+      data: { ...updatedTackPackData, profileId },
+    });
+  } else if (isExistStyleNo?.tackPack === null) {
+    result = await prisma.tackPack.create({
+      data: {
+        profileId,
+        tackFile: filePath,
+        tackPackComment,
+        styleNo,
+      },
+    });
+  }
 
   return result;
 };
