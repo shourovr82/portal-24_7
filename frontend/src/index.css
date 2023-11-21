@@ -8,31 +8,6 @@
 @tailwind utilities;
 
 
-@import 'rsuite/styles/index.less';
-
-:root {
-
-  --rs-primary-100: #FFC0CB;
-  --rs-primary-200: #FFC0CB;
-  --rs-primary-300: #FFC0CB;
-  --rs-primary-400: #FFC0CB;
-  --rs-primary-500: #782c00;
-  --rs-primary-600: #FFC0CB;
-  --rs-primary-700: #FFC0CB;
-  --rs-primary-800: #FFC0CB;
-  --rs-primary-900: #FFC0CB;
-
-
-  --rs-background-primary: var(--rs-primary-500);
-
-
-
-  --rs-text-primary: var(--rs-gray-900);
-}
-
-
-
-
 
 
 
