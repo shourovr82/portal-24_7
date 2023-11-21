@@ -12,9 +12,9 @@ model User {
   email      String     @unique
   password   String
   userStatus UserStatus @default(Active)
-  profileId  String?    @unique
   createdAt  DateTime   @default(now()) @db.Timestamptz(0)
   updatedAt  DateTime   @updatedAt @db.Timestamptz(0)
+  profileId  String?    @unique
   profile    Profile?   @relation(fields: [profileId], references: [profileId])
 
   @@map("users")
@@ -120,15 +120,16 @@ model Orders {
 }
 
 model TackPack {
-  tackPackId      String   @id @default(uuid())
+  tackPackId      String  @id @default(uuid())
   tackPackComment String
   tackFile        String
-  styleNo         String   @unique
-  style           Styles   @relation(fields: [styleNo], references: [styleNo])
   profileId       String
-  profile         Profile  @relation(fields: [profileId], references: [profileId])
-  createdAt       DateTime @default(now()) @db.Timestamptz(0)
-  updatedAt       DateTime @updatedAt @db.Timestamptz(0)
+  profile         Profile @relation(fields: [profileId], references: [profileId])
+  styleNo         String  @unique
+  style           Styles  @relation(fields: [styleNo], references: [styleNo])
+
+  createdAt DateTime @default(now()) @db.Timestamptz(0)
+  updatedAt DateTime @updatedAt @db.Timestamptz(0)
 
   @@map("tackpack")
 }
