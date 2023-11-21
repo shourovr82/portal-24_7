@@ -17,9 +17,6 @@ export type IOrderCreateRequest = {
   totalPack: number;
   portId: string;
   buyerEtd: Date;
-  factoryEtd: Date;
-  friDate: Date;
-  factoryName: string;
 };
 export type IOrderUpdateRequest = {
   styleNo?: string;
@@ -27,8 +24,7 @@ export type IOrderUpdateRequest = {
   totalPack?: number;
   portId?: string;
   buyerEtd?: Date;
-  factoryEtd?: Date;
-  friDate?: Date;
+  isActiveOrder?: boolean;
 };
 
 export type IStyleWiseOrders = {

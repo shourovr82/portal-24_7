@@ -3,6 +3,7 @@
 import {
   Button,
   DatePicker,
+  Form,
   Input,
   Modal,
   SelectPicker,
@@ -11,12 +12,15 @@ import {
 } from "rsuite";
 import { useGetStyleNoQuery } from "../../redux/features/styles/styleApi";
 import { useGetAllPortsQuery } from "../../redux/features/ports/portsApi";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useEditOrderInfoMutation } from "../../redux/features/orders/ordersApi";
 import { useEffect } from "react";
 import moment from "moment";
 import InfoOutlineIcon from "@rsuite/icons/InfoOutline";
+import OrderFileUploader from "../../components/po/PoFileUploader";
+import { FileType } from "rsuite/esm/Uploader";
+
 interface IFormInput {
   orderNo: string;
   totalPack: number;
@@ -24,8 +28,7 @@ interface IFormInput {
   noOfPack: number | null;
   portId: string | null;
   buyerEtd: string | undefined;
-  factoryEtd: string | undefined;
-  friDate: string | undefined;
+  orderFile: FileType | undefined;
 }
 
 const EditPoDetails = ({
@@ -42,6 +45,7 @@ const EditPoDetails = ({
 
   const {
     handleSubmit,
+    control,
     setValue,
     formState: { errors },
     reset: formReset,
@@ -57,8 +61,6 @@ const EditPoDetails = ({
       noOfPack: data.noOfPack,
       portId: data.portId,
       buyerEtd: data.buyerEtd,
-      factoryEtd: data.factoryEtd,
-      friDate: data.friDate,
     };
     await editOrderInfo({ id: poEditData?.orderNo, data: orderData });
   };
@@ -125,7 +127,7 @@ const EditPoDetails = ({
           <Modal.Title className="font-semibold">Edit Po Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="p-4">
+          <div>
             {/* form */}
             <section className=" bg-white border rounded-lg p-5">
               <form onSubmit={handleSubmit(onSubmit)}>
@@ -246,6 +248,41 @@ const EditPoDetails = ({
                       searchable={false}
                     />
                   </div>
+                </div>
+
+                {/* 3rd section */}
+                <div className="grid grid-cols-2 justify-between gap-[24px] mb-5">
+                  {/* Buyer ETD  */}
+                  <div className="flex flex-col gap-3 w-full">
+                    <div className="flex justify-between items-center">
+                      <label htmlFor="buyerEtd" className="text-sm font-medium">
+                        Buyer ETD
+                      </label>
+                      {errors?.buyerEtd && (
+                        <span className="text-[10px]  text-white px-1.5 py-0.5 rounded font-medium bg-red-800">
+                          {errors?.buyerEtd?.message}
+                        </span>
+                      )}
+                    </div>
+                    <DatePicker
+                      id="buyerEtd"
+                      defaultValue={
+                        poEditData?.buyerEtd
+                          ? moment(poEditData.buyerEtd).toDate()
+                          : undefined
+                      }
+                      onChange={(value: Date | null): void => {
+                        const isoString = value?.toISOString();
+                        setValue("buyerEtd", isoString);
+                      }}
+                      size="lg"
+                      editable={false}
+                      cleanable={false}
+                      placeholder="Buyer ETD"
+                      placement="topStart"
+                    />
+                  </div>
+
                   {/* Port  */}
                   <div className="flex flex-col gap-3 w-full">
                     <div className="flex justify-between items-center">
@@ -277,102 +314,38 @@ const EditPoDetails = ({
                   </div>
                 </div>
 
-                {/* 3rd section */}
-                <div className="flex justify-between gap-[24px] mb-5">
-                  {/* Buyer ETD  */}
-                  <div className="flex flex-col gap-3 w-[50%]">
-                    <div className="flex justify-between items-center">
-                      <label htmlFor="buyerEtd" className="text-sm font-medium">
-                        Buyer ETD
-                      </label>
-                      {errors?.buyerEtd && (
-                        <span className="text-[10px]  text-white px-1.5 py-0.5 rounded font-medium bg-red-800">
-                          {errors?.buyerEtd?.message}
-                        </span>
-                      )}
-                    </div>
-                    <DatePicker
-                      id="buyerEtd"
-                      defaultValue={
-                        poEditData?.buyerEtd
-                          ? moment(poEditData.buyerEtd).toDate()
-                          : undefined
+                {/* po file */}
+                <div className=" w-full ">
+                  <div className="my-3">
+                    <Whisper
+                      speaker={
+                        <Tooltip>PO file must be less than 5 MB</Tooltip>
                       }
-                      onChange={(value: Date | null): void => {
-                        const isoString = value?.toISOString();
-                        setValue("buyerEtd", isoString);
-                      }}
-                      size="lg"
-                      editable={false}
-                      cleanable={false}
-                      placeholder="Buyer ETD"
-                      placement="topStart"
-                    />
-                  </div>
-
-                  {/* Factory ETD  */}
-                  <div className="flex flex-col gap-3 w-[50%]">
-                    <div className="flex justify-between items-center">
-                      <label
-                        htmlFor="factoryEtd"
-                        className="text-sm font-medium"
-                      >
-                        Factory ETD
+                    >
+                      <label htmlFor="file" className="text-sm font-medium">
+                        PO File <InfoOutlineIcon />
                       </label>
-                      {errors?.factoryEtd && (
-                        <span className="text-[10px]  text-white px-1.5 py-0.5 rounded font-medium bg-red-800">
-                          {errors?.factoryEtd?.message}
-                        </span>
-                      )}
-                    </div>
-                    <DatePicker
-                      id="factoryEtd"
-                      defaultValue={
-                        poEditData?.buyerEtd
-                          ? moment(poEditData?.factoryEtd).toDate()
-                          : undefined
-                      }
-                      onChange={(value: Date | null): void => {
-                        const isoString = value?.toISOString();
-                        setValue("factoryEtd", isoString);
-                      }}
-                      editable={false}
-                      size="lg"
-                      cleanable={false}
-                      placeholder="Factory ETD"
-                      placement="topStart"
-                    />
+                    </Whisper>
                   </div>
-
-                  <div className="flex flex-col gap-3 w-[50%]">
-                    <div className="flex justify-between items-center">
-                      <label htmlFor="friDate" className="text-sm font-medium">
-                        FRI Date
-                      </label>
-                      {errors?.friDate && (
-                        <span className="text-[10px]  text-white px-1.5 py-0.5 rounded font-medium bg-red-800">
-                          {errors?.friDate?.message}
-                        </span>
-                      )}
-                    </div>
-                    <DatePicker
-                      id="friDate"
-                      defaultValue={
-                        poEditData?.friDate
-                          ? moment(poEditData?.friDate).toDate()
-                          : undefined
-                      }
-                      cleanable={false}
-                      onChange={(value: Date | null): void => {
-                        const isoString = value?.toISOString();
-                        setValue("friDate", isoString);
-                      }}
-                      editable={false}
-                      size="lg"
-                      placeholder="friDate"
-                      placement="topStart"
-                    />
-                  </div>
+                  <Controller
+                    name="orderFile"
+                    control={control}
+                    render={({ field }: any) => (
+                      <div className="rs-form-control-wrapper ">
+                        <OrderFileUploader field={field} />
+                        <Form.ErrorMessage
+                          show={
+                            (!!errors?.orderFile &&
+                              !!errors?.orderFile?.message) ||
+                            false
+                          }
+                          placement="topEnd"
+                        >
+                          {errors?.orderFile?.message}
+                        </Form.ErrorMessage>
+                      </div>
+                    )}
+                  />
                 </div>
 
                 <div className="flex justify-end gap-3">

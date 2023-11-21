@@ -2,7 +2,16 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
-import { SelectPicker, DateRangePicker, Pagination } from "rsuite";
+import {
+  SelectPicker,
+  DateRangePicker,
+  Pagination,
+  Dropdown,
+  ButtonToolbar,
+  Whisper,
+  Popover,
+  Button,
+} from "rsuite";
 import { useState } from "react";
 import { useGetAllFactoryNamesQuery } from "../../redux/features/factories/factoryApi";
 import { useGetAllItemNamesQuery } from "../../redux/features/items/itemApi";
@@ -12,6 +21,8 @@ import { BiSearchAlt } from "react-icons/bi";
 import StyleListsTable from "../../components/styles/StyleListsTable";
 import { predefinedRanges } from "../../constants";
 import { useDebounced } from "../../redux/hook";
+
+import DocPassIcon from "@rsuite/icons/DocPass";
 
 const StyleLists = () => {
   const query: Record<string, any> = {};
@@ -61,10 +72,6 @@ const StyleLists = () => {
   const { data: allItemResponse, isLoading: isLoadingItemNames } =
     useGetAllItemNamesQuery(null);
 
-  const allFactoryNames = allFactoryResponse?.data?.map((style: any) => ({
-    label: style?.factoryName,
-    value: style?.factoryId,
-  }));
   const allItemName = allItemResponse?.data?.map((style: any) => ({
     label: style?.itemName,
     value: style?.itemId,
@@ -99,6 +106,19 @@ const StyleLists = () => {
       }
     }
   };
+  const renderMenu = ({ onClose, left, top, className }: any, ref: any) => {
+    const handleSelect = (eventKey: any) => {
+      onClose();
+      console.log(eventKey);
+    };
+    return (
+      <Popover ref={ref} className={className} style={{ left, top }} full>
+        <Dropdown.Menu onSelect={handleSelect}>
+          <Dropdown.Item eventKey={4}>Export to Excel</Dropdown.Item>
+        </Dropdown.Menu>
+      </Popover>
+    );
+  };
 
   return (
     <div className="px-5 py-4  ">
@@ -109,30 +129,51 @@ const StyleLists = () => {
           </h2>
         </div>
         <div className="flex gap-4">
-          <Link to="/styles/addstyle">
-            <button
-              className="flex items-center gap-2 px-4 py-2 rounded-[4px] text-white  bg-[#0284c7]"
-              type="button"
-            >
-              <span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2.5}
-                  stroke="#fff"
-                  className="w-5 h-5"
+          <div>
+            <ButtonToolbar>
+              <Whisper
+                placement="bottomEnd"
+                speaker={renderMenu}
+                trigger={["click"]}
+              >
+                <Button
+                  appearance="default"
+                  className="!bg-[#0284c7] text-white hover:text-white/80 focus-within:text-white focus-within:bg-[#0284c7] font-semibold
+                    "
+                  color="blue"
+                  startIcon={<DocPassIcon className="text-xl" />}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 4.5v15m7.5-7.5h-15"
-                  />
-                </svg>
-              </span>
-              <span className="text-sm font-semibold">Add New Style</span>
-            </button>
-          </Link>
+                  Generate Report
+                </Button>
+              </Whisper>
+            </ButtonToolbar>
+          </div>
+          <div>
+            <Link to="/styles/addstyle">
+              <button
+                className="flex items-center gap-2 px-4 py-2 rounded-[4px] text-white  bg-[#0284c7]"
+                type="button"
+              >
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2.5}
+                    stroke="#fff"
+                    className="w-5 h-5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15"
+                    />
+                  </svg>
+                </span>
+                <span className="text-sm font-semibold">Add New Style</span>
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -160,7 +201,12 @@ const StyleLists = () => {
             </div>
             <SelectPicker
               size="lg"
-              data={allFactoryNames}
+              data={
+                allFactoryResponse?.data?.map((style: any) => ({
+                  label: style?.factoryName,
+                  value: style?.factoryId,
+                })) || []
+              }
               onChange={(value: string | null): void =>
                 setSelectedFactory(value as string)
               }

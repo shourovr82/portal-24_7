@@ -4,3 +4,7 @@ export type ICreateTackPack = {
   tackPackComment: string;
   tackFile: string;
 };
+export type IUpdateTackPack = {
+  tackPackComment: string;
+  tackFile?: string;
+};

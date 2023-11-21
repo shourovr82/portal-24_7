@@ -31,6 +31,7 @@ const ExpandCell = ({
     View
     <IconButton
       appearance="subtle"
+      circle
       onClick={() => {
         onChange(rowData);
       }}

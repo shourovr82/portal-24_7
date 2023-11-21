@@ -7,6 +7,36 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@import 'rsuite/styles/index.less';
+
+:root {
+
+  --rs-primary-100: #FFC0CB;
+  --rs-primary-200: #FFC0CB;
+  --rs-primary-300: #FFC0CB;
+  --rs-primary-400: #FFC0CB;
+  --rs-primary-500: #782c00;
+  --rs-primary-600: #FFC0CB;
+  --rs-primary-700: #FFC0CB;
+  --rs-primary-800: #FFC0CB;
+  --rs-primary-900: #FFC0CB;
+
+
+  --rs-background-primary: var(--rs-primary-500);
+
+
+
+  --rs-text-primary: var(--rs-gray-900);
+}
+
+
+
+
+
+
+
+
 *,
 *::before,
 *::after {
@@ -101,12 +131,10 @@ body::-webkit-scrollbar-track {
   top: 0;
   height: 100%;
   width: 150px;
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    #e8e8e8 50%,
-    transparent 100%
-  );
+  background: linear-gradient(to right,
+      transparent 0%,
+      #e8e8e8 50%,
+      transparent 100%);
   animation: load 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 

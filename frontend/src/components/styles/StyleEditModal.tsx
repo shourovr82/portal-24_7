@@ -250,7 +250,7 @@ const StyleEditModal = ({ styleEditData, open, handleClose }: any) => {
                 <div className="mb-3">
                   <Whisper
                     speaker={
-                      <Tooltip>Style Image must be less than 512 kb</Tooltip>
+                      <Tooltip>Style Image must be less than 1 MB</Tooltip>
                     }
                   >
                     <label htmlFor="file" className="text-sm font-medium">

@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Modal } from "rsuite";
+import { IconButton, Modal } from "rsuite";
 import moment from "moment";
+import { FaFileDownload } from "react-icons/fa";
 
 const PoModalTable = ({ orders, open, handleClose }: any) => {
   return (
@@ -76,7 +77,7 @@ const PoModalTable = ({ orders, open, handleClose }: any) => {
                               </th>
                               <th
                                 scope="col"
-                                className="px-3 py-3.5 text-left text-sm font-semibold text-[#637581] border-r"
+                                className="px-3  py-3.5 text-center text-sm font-semibold text-[#637581] border-r"
                               >
                                 File
                               </th>
@@ -111,8 +112,18 @@ const PoModalTable = ({ orders, open, handleClose }: any) => {
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
                                   {order?.Port?.portName ?? "--"}
                                 </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium">
-                                  View
+                                <td className="whitespace-nowrap px-3 py-4 text-sm text-black flex justify-center font-medium">
+                                  <IconButton
+                                    icon={
+                                      <FaFileDownload
+                                        className="font-bold"
+                                        size={20}
+                                      />
+                                    }
+                                    color="blue"
+                                    appearance="default"
+                                    circle
+                                  />
                                 </td>
                               </tr>
                             ))}

@@ -24,10 +24,7 @@ import {
 } from './styles.interface';
 
 // ! create Style
-const createNewStyle = async (
-  profileId: string,
-  req: Request
-): Promise<Styles> => {
+const createNewStyle = async (profileId: string, req: Request): Promise<Styles> => {
   const file = req.file as IUploadFile;
 
   const filePath = file?.path?.substring(8);
@@ -207,9 +204,6 @@ const getAllStyles = async (
             },
           },
         },
-        orderBy: {
-          createdAt: 'desc',
-        },
       },
       couriers: true,
       item: true,
@@ -358,16 +352,12 @@ const getSingleStyle = async (styleNo: string): Promise<Styles | null> => {
 };
 
 // ! update style ----------------------
-const updateStyleInformation = async (
-  styleNo: string,
-  req: Request
-): Promise<Styles | null> => {
+const updateStyleInformation = async (styleNo: string, req: Request): Promise<Styles | null> => {
   const file = req?.file as IUploadFile;
 
   const filePath = file?.path?.substring(8);
 
-  const { fabric, factoryId, isActiveStyle, itemId } =
-    req.body as IStyleUpdateRequest;
+  const { fabric, factoryId, isActiveStyle, itemId } = req.body as IStyleUpdateRequest;
 
   const resultClient = await prisma.$transaction(async transactionClient => {
     const isExistStyle = await transactionClient.styles.findUnique({
