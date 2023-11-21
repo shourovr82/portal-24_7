@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { Uploader } from "rsuite";
 import { FileType } from "rsuite/esm/Uploader";
@@ -20,7 +18,7 @@ const StyleImageUpload = ({ field }: StyleImageUploadProps) => {
   const handleChangeImages = (files: FileType[]) => {
     if (files.length > 0) {
       const latestFile = files[files.length - 1];
-      const fileSizeLimit = 512 * 1024; // 512 kb
+      const fileSizeLimit = 512 * 2 * 1024; // 1 MB
 
       if (
         latestFile.blobFile?.size &&
@@ -41,7 +39,7 @@ const StyleImageUpload = ({ field }: StyleImageUploadProps) => {
         reader.readAsDataURL(file.blobFile as File);
       } else {
         clearImagePreview();
-        toast.error("File size exceeds 512 Kb.");
+        toast.error("File size exceeds 1MB.");
       }
     } else {
       clearImagePreview();

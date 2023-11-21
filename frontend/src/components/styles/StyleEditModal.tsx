@@ -97,7 +97,16 @@ const StyleEditModal = ({ styleEditData, open, handleClose }: any) => {
       handleClose();
       formReset();
     }
-  }, [createError, createLoading, handleClose, isError, isSuccess, reset]);
+  }, [
+    createError,
+    createLoading,
+    formReset,
+    handleClose,
+    isError,
+    isSuccess,
+    reset,
+    updateData,
+  ]);
 
   const handleCloseModal = () => {
     formReset();
@@ -241,7 +250,7 @@ const StyleEditModal = ({ styleEditData, open, handleClose }: any) => {
                 <div className="mb-3">
                   <Whisper
                     speaker={
-                      <Tooltip>Style Image must be less than 512 kb</Tooltip>
+                      <Tooltip>Style Image must be less than 1 MB</Tooltip>
                     }
                   >
                     <label htmlFor="file" className="text-sm font-medium">

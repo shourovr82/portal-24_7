@@ -69,7 +69,7 @@ model Styles {
   factory              Factory?               @relation(fields: [factoryId], references: [factoryId])
   item                 Item                   @relation(fields: [itemId], references: [itemId])
   profile              Profile                @relation(fields: [profileId], references: [profileId])
-  tackPack             TackPack[]
+  tackPack             TackPack?
 
   @@map("styles")
 }
@@ -106,6 +106,7 @@ model Orders {
   buyerEtd      DateTime
   factoryEtd    DateTime
   friDate       DateTime
+  orderFile     String?
   styleNo       String
   createdAt     DateTime @default(now()) @db.Timestamptz(0)
   updatedAt     DateTime @updatedAt @db.Timestamptz(0)
@@ -119,10 +120,10 @@ model Orders {
 }
 
 model TackPack {
-  tackpackId      String   @id @default(uuid())
+  tackPackId      String   @id @default(uuid())
   tackPackComment String
   tackFile        String
-  styleNo         String
+  styleNo         String   @unique
   style           Styles   @relation(fields: [styleNo], references: [styleNo])
   profileId       String
   profile         Profile  @relation(fields: [profileId], references: [profileId])

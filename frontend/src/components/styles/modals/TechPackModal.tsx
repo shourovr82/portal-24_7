@@ -2,7 +2,7 @@
 import moment from "moment";
 import { FaRegFilePdf } from "react-icons/fa6";
 import { Button, Modal, Tooltip, Whisper } from "rsuite";
-import { imageUrlKey } from "../../../config/envConfig";
+import { fileUrlKey } from "../../../config/envConfig";
 
 const TechPackModal = ({ tackPacks, open, handleClose }: any) => {
   return (
@@ -46,7 +46,7 @@ const TechPackModal = ({ tackPacks, open, handleClose }: any) => {
                     <div>
                       <Button
                         onClick={() =>
-                          window.open(`${imageUrlKey()}/${tackPack?.tackFile}`)
+                          window.open(`${fileUrlKey()}/${tackPack?.tackFile}`)
                         }
                         className="flex border hover:text-[#0284c7] border-transparent hover:border-gray-200 hover:border px-2 py-2 rounded-lg gap-2 items-center text-[#0284c7] font-bold text-sm"
                       >

@@ -4,13 +4,10 @@ import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
 import { IUploadFile } from '../../../interfaces/file';
 import prisma from '../../../shared/prisma';
-import { ICreateTackPack } from './tackPack.interface';
+import { ICreateTackPack, IUpdateTackPack } from './tackPack.interface';
 
 // !----------------------------------Create TackPack---------------------------------------->>>
-const createTackPack = async (
-  profileId: string,
-  req: Request
-): Promise<TackPack> => {
+const createTackPack = async (profileId: string, req: Request): Promise<TackPack> => {
   const file = req.file as IUploadFile;
 
   const filePath = file?.path?.substring(8);
@@ -46,7 +43,42 @@ const createTackPack = async (
 
   return result;
 };
+// !----------------------------------Create TackPack---------------------------------------->>>
+const getSingleTackPack = async (tackPackId: string): Promise<TackPack> => {
+  const result = await prisma.tackPack.findUnique({
+    where: {
+      tackPackId,
+    },
+  });
+
+  if (!result) throw new ApiError(httpStatus.NOT_FOUND, 'Tack Pack Not Found !');
+
+  return result;
+};
+// !----------------------------------Create TackPack---------------------------------------->>>
+const updateTackPack = async (profileId: string, tackPackId: string, req: Request): Promise<TackPack> => {
+  const file = req.file as IUploadFile;
+  const filePath = file?.path?.substring(8);
+
+  const { tackPackComment } = req.body as IUpdateTackPack;
+
+  // updated data
+  const updatedTackPackData: Partial<TackPack> = {};
+  if (tackPackComment !== undefined) updatedTackPackData['tackPackComment'] = tackPackComment;
+  if (filePath !== undefined) updatedTackPackData['tackFile'] = filePath;
+
+  const result = await prisma.tackPack.update({
+    where: {
+      tackPackId,
+    },
+    data: { ...updatedTackPackData, profileId },
+  });
+
+  return result;
+};
 
 export const TackPackService = {
   createTackPack,
+  getSingleTackPack,
+  updateTackPack,
 };

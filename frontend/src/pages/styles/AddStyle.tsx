@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable no-extra-boolean-cast */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Button, Form, Input, SelectPicker, Tooltip, Whisper } from "rsuite";
@@ -95,7 +94,15 @@ const AddStyle = () => {
         toastMessageSuccess
       );
     }
-  }, [createError, createLoading, isError, isSuccess, navigate, reset]);
+  }, [
+    createData,
+    createError,
+    createLoading,
+    isError,
+    isSuccess,
+    navigate,
+    reset,
+  ]);
 
   return (
     <>
@@ -268,7 +275,7 @@ const AddStyle = () => {
               <div className="mb-3">
                 <Whisper
                   speaker={
-                    <Tooltip>Style Image must be less than 512 kb</Tooltip>
+                    <Tooltip>Style Image must be less than 1 MB</Tooltip>
                   }
                 >
                   <label htmlFor="file" className="text-sm font-medium">

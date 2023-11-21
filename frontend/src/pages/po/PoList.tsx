@@ -1,14 +1,17 @@
 /* eslint-disable no-extra-boolean-cast */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
 import {
   Button,
+  ButtonToolbar,
   DateRangePicker,
+  Dropdown,
   IconButton,
   Loader,
   Pagination,
+  Popover,
+  Whisper,
 } from "rsuite";
 import { SelectPicker } from "rsuite";
 import { useGetAllFactoryNamesQuery } from "../../redux/features/factories/factoryApi";
@@ -25,6 +28,9 @@ import { getUserInfo } from "../../hooks/services/auth.service";
 import { RiEdit2Line } from "react-icons/ri";
 import EditPoDetails from "./EditPo";
 import { useDebounced } from "../../redux/hook";
+import DocPassIcon from "@rsuite/icons/DocPass";
+import { FaFileDownload } from "react-icons/fa";
+import { fileUrlKey } from "../../config/envConfig";
 
 const PoLists = () => {
   const query: Record<string, any> = {};
@@ -150,7 +156,19 @@ const PoLists = () => {
     setActivePoEditModal(false);
     setPoEditData(null);
   };
-
+  const renderMenu = ({ onClose, left, top, className }: any, ref: any) => {
+    const handleSelect = (eventKey: any) => {
+      onClose();
+      console.log(eventKey);
+    };
+    return (
+      <Popover ref={ref} className={className} style={{ left, top }} full>
+        <Dropdown.Menu onSelect={handleSelect}>
+          <Dropdown.Item eventKey={4}>Export to Excel</Dropdown.Item>
+        </Dropdown.Menu>
+      </Popover>
+    );
+  };
   return (
     <>
       <div className="p-5 bg-white">
@@ -159,6 +177,24 @@ const PoLists = () => {
             <h2 className="text-[24px] font-semibold text-[#212B36]">PO</h2>
           </div>
           <div className="flex gap-4">
+            <ButtonToolbar>
+              <Whisper
+                placement="bottomEnd"
+                speaker={renderMenu}
+                trigger={["click"]}
+              >
+                <Button
+                  appearance="default"
+                  className="!bg-[#0284c7] text-white hover:text-white/80 focus-within:text-white focus-within:bg-[#0284c7] font-semibold
+                    "
+                  color="blue"
+                  startIcon={<DocPassIcon className="text-xl" />}
+                >
+                  Generate Report
+                </Button>
+              </Whisper>
+            </ButtonToolbar>
+
             <Link to="/po/addpo">
               <Button
                 className="flex items-center gap-2 hover:bg-[#0284c7] hover:text-white/80 px-4 py-2 rounded-[4px] text-white  bg-[#0284c7]"
@@ -304,7 +340,7 @@ const PoLists = () => {
                               <tr>
                                 <th
                                   scope="col"
-                                  className="py-3.5 pl-2 pr-3 text-left text-sm font-semibold text-[#637581] sm:pl-3 border-r"
+                                  className="py-3.5 pl-2 pr-3 text-center text-sm font-semibold text-[#637581] sm:pl-3 border-r"
                                 >
                                   Style No
                                 </th>
@@ -353,7 +389,7 @@ const PoLists = () => {
 
                                 <th
                                   scope="col"
-                                  className="px-3 py-3.5 text-left text-sm font-semibold text-[#637581] border-r"
+                                  className="px-3 py-3.5 text-center text-sm font-semibold text-[#637581] border-r"
                                 >
                                   Factory Name
                                 </th>
@@ -363,10 +399,16 @@ const PoLists = () => {
                                 >
                                   Port Name
                                 </th>
+                                <th
+                                  scope="col"
+                                  className="px-3 py-3.5 text-center text-sm font-semibold text-[#637581] border-r"
+                                >
+                                  PO File
+                                </th>
                                 {role !== "USER" && (
                                   <th
                                     scope="col"
-                                    className="px-3 py-3.5 text-left text-sm font-semibold text-[#637581]"
+                                    className="px-3 py-3.5 text-center text-sm font-semibold text-[#637581]"
                                   >
                                     Action
                                   </th>
@@ -399,7 +441,9 @@ const PoLists = () => {
                                       {po?.totalPc}
                                     </td>{" "}
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
-                                      {moment(po?.buyerEtd).format("L")}
+                                      {moment(po?.buyerEtd).format(
+                                        "DD-MM-YYYY"
+                                      )}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
                                       {moment(po?.factoryEtd).format("L")}
@@ -410,16 +454,38 @@ const PoLists = () => {
                                     {index === 0 && (
                                       <td
                                         rowSpan={order.orders.length}
-                                        className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r"
+                                        className="whitespace-nowrap text-center px-3 py-4 text-sm text-black font-medium border-r"
                                       >
-                                        {order?.factory?.factoryName ?? "--"}
+                                        {order?.factory?.factoryName ?? "-"}
                                       </td>
                                     )}
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
                                       {po?.Port?.portName}
                                     </td>
+                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r text-center">
+                                      {po?.orderFile ? (
+                                        <IconButton
+                                          onClick={() =>
+                                            window.open(
+                                              `${fileUrlKey()}/${po?.orderFile}`
+                                            )
+                                          }
+                                          icon={
+                                            <FaFileDownload
+                                              className="font-bold text-[#5a5a5ab6]"
+                                              size={20}
+                                            />
+                                          }
+                                          color="blue"
+                                          appearance="default"
+                                          circle
+                                        />
+                                      ) : (
+                                        "-"
+                                      )}
+                                    </td>
                                     {(role === "ADMIN" || "SUPERADMIN") && (
-                                      <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium">
+                                      <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-black font-medium">
                                         <IconButton
                                           onClick={() =>
                                             handlePoEditModalOpen(po)

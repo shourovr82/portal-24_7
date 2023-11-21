@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Modal, Table } from "rsuite";
 import { useGetAllNotificationQuery } from "../../redux/features/notifications/notificationApi";
 import { cellCss, headerCss } from "../styles/CommonCss";
-import { imageUrlKey } from "../../config/envConfig";
+import { fileUrlKey } from "../../config/envConfig";
 const { Column, HeaderCell, Cell } = Table;
 
 const NotificationModal = () => {
@@ -39,9 +39,9 @@ const NotificationModal = () => {
 
   const renderImageView = (rowData: any) => (
     <img
-      src={`${imageUrlKey()}/${rowData.Styles?.image}`}
+      src={`${fileUrlKey()}/${rowData.Styles?.image}`}
       alt="Style Image"
-      style={{ maxWidth: "30%" }}
+      style={{ maxWidth: "50%" }}
     />
   );
 
@@ -54,10 +54,10 @@ const NotificationModal = () => {
   );
 
   return (
-    <Modal open={open} onClose={handleClose} size="lg">
+    <Modal open={open} onClose={handleClose} backdrop="static" size="lg">
       <Modal.Header>
         <Modal.Title>
-          PP Submission List{" "}
+          PP Submission List
           <span className="text-red-600">(Within 2 Days)</span>{" "}
         </Modal.Title>
       </Modal.Header>
@@ -67,20 +67,22 @@ const NotificationModal = () => {
             <Table
               height={420}
               data={modalData}
-              rowHeight={100}
+              className="w-full min-w-full"
+              rowHeight={80}
+              loadAnimation={true}
               autoHeight={true}
             >
-              <Column flexGrow={1} verticalAlign="middle">
+              <Column flexGrow={1} verticalAlign="middle" align="left">
                 <HeaderCell style={headerCss}>Image</HeaderCell>
                 <Cell style={cellCss}>{renderImageView}</Cell>
               </Column>
 
-              <Column flexGrow={2} align="center" verticalAlign="middle">
+              <Column flexGrow={2} verticalAlign="middle" align="left">
                 <HeaderCell style={headerCss}>Style Name</HeaderCell>
                 <Cell style={cellCss} dataKey="styleNo" />
               </Column>
 
-              <Column flexGrow={2} align="center" verticalAlign="middle">
+              <Column flexGrow={2} verticalAlign="middle" align="left">
                 <HeaderCell style={headerCss}>Factory Name</HeaderCell>
                 <Cell style={cellCss} dataKey="Styles.factory">
                   {(rowData) => renderFactoryName(rowData)}
@@ -89,7 +91,11 @@ const NotificationModal = () => {
 
               <Column flexGrow={2} verticalAlign="middle">
                 <HeaderCell style={headerCss}>Submission Date</HeaderCell>
-                <Cell style={cellCss} dataKey="factorySubmissionDate">
+                <Cell
+                  align="left"
+                  style={cellCss}
+                  dataKey="factorySubmissionDate"
+                >
                   {(rowData) => (
                     <span>
                       {rowData.factorySubmissionDate

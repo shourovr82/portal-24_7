@@ -66,6 +66,7 @@ const FactoryEditModal = ({ open, factoryEditData, handleClose }: any) => {
     resetRequestUpdate,
     updateData,
     handleClose,
+    formReset,
   ]);
 
   const handleModalClose = () => {

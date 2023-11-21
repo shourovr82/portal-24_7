@@ -71,19 +71,8 @@ const updateStyle = z
       })
       .optional(),
   })
-  .refine(data => {
-    if (data?.fabric === '' || data?.factoryId === '' || data?.itemId === '') {
-      throw new ApiError(
-        httpStatus.BAD_REQUEST,
-        'At least one data must be provided'
-      );
-    }
-    const keys = Object.keys(data);
-    if (keys.length === 0) {
-      throw new Error('At least one must be provided');
-    }
-    return true;
-  });
+  .optional();
+
 const factoryStyleAssign = z.object({
   body: z.object({
     factoryId: z.string({

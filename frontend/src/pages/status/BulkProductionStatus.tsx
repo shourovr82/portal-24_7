@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import BulkStatusEditor from "../../components/addStatusEditor/BulkStatusEditor";
 import { useGetStyleNoQuery } from "../../redux/features/styles/styleApi";
 

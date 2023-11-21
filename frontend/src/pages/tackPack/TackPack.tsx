@@ -60,11 +60,8 @@ const TackPack = () => {
     const formData = new FormData();
     formData.append("file", data.tackPackFile?.blobFile as Blob);
     formData.append("data", tackPackData);
-    try {
-      await CreateTackPack(formData);
-    } catch (err: any) {
-      console.error(err.message);
-    }
+    //
+    await CreateTackPack(formData);
   };
 
   useEffect(() => {
