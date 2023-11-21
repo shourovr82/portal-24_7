@@ -45,9 +45,10 @@ const ordersApi = baseApi.injectEndpoints({
     }),
     createNewOrder: builder.mutation({
       query: (data) => ({
-        url: `/orders`,
+        url: `/orders/create-order`,
         method: "POST",
         data: data,
+        contentType: "multipart/form-data",
       }),
       invalidatesTags: [tagTypes.orders, tagTypes.style, tagTypes.factory],
     }),

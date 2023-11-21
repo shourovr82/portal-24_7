@@ -31,7 +31,7 @@ interface IPOAddRequest {
   noOfPack: number | null;
   portId: string | null;
   buyerEtd: string | undefined;
-  orderFile: FileType | undefined;
+  orderFile?: FileType | undefined;
 }
 
 const AddPo = () => {
@@ -55,7 +55,7 @@ const AddPo = () => {
   const handleCreateNewOrder: SubmitHandler<IPOAddRequest> = async (
     data: IPOAddRequest
   ) => {
-    const orderData = {
+    const orderDataObj = {
       totalPack: Number(data.totalPack),
       orderNo: data.orderNo,
       styleNo: data.styleNo,
@@ -63,18 +63,24 @@ const AddPo = () => {
       portId: data.portId,
       buyerEtd: data.buyerEtd,
     };
-    await createNewOrder(orderData);
+    //
+    const orderData = JSON.stringify(orderDataObj);
+    const formData = new FormData();
+    formData.append("file", data.orderFile?.blobFile as Blob);
+    formData.append("data", orderData);
+    //
+    await createNewOrder(formData);
   };
 
   useEffect(() => {
-    if (!isError && !isLoading && isSuccess) {
+    if (!isError && !isLoading && isSuccess && !error && data) {
       toast.success(
         data?.message || "Successfully Created New Order.",
         toastMessageSuccess
       );
       navigate("/po/poLists");
     }
-    if (isError && !isLoading) {
+    if (isError && !isLoading && !isSuccess && error) {
       // @ts-ignore
       toast.error(error?.message || "Failed to create new Order.", {
         style: {
@@ -276,6 +282,8 @@ const AddPo = () => {
                   <div className="rs-form-control-wrapper ">
                     <InputNumber
                       {...field}
+                      inputMode="numeric"
+                      min={1}
                       size="lg"
                       id="totalPack"
                       type="number"
@@ -390,7 +398,6 @@ const AddPo = () => {
             <Controller
               name="orderFile"
               control={control}
-              rules={{ required: "PO File is required" }}
               render={({ field }: any) => (
                 <div className="rs-form-control-wrapper ">
                   <OrderFileUploader field={field} />

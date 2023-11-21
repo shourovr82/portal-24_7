@@ -106,7 +106,7 @@ model Orders {
   buyerEtd      DateTime
   factoryEtd    DateTime
   friDate       DateTime
-  poFile        String
+  orderFile     String?
   styleNo       String
   createdAt     DateTime @default(now()) @db.Timestamptz(0)
   updatedAt     DateTime @updatedAt @db.Timestamptz(0)

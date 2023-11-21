@@ -19,11 +19,7 @@ router.post(
   }
 );
 // ! Get all Orders----------------------------------->>>
-router.get(
-  '/',
-  auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
-  OrdersController.getAllOrders
-);
+router.get('/', auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN), OrdersController.getAllOrders);
 router.get(
   '/style-wise-orders',
   auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
@@ -48,11 +44,7 @@ router.patch(
 );
 
 // ! Get all Orders Length----------------------------------->>>
-router.get(
-  '/count',
-  auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
-  OrdersController.getAllOrdersLength
-);
+router.get('/count', auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN), OrdersController.getAllOrdersLength);
 
 // ! Get all Orders Length----------------------------------->>>
 router.get(
@@ -62,10 +54,6 @@ router.get(
 );
 
 // ! Get all Orders Length----------------------------------->>>
-router.get(
-  '/pc',
-  auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
-  OrdersController.getAllOrdersPC
-);
+router.get('/pc', auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN), OrdersController.getAllOrdersPC);
 
 export const OrderRoutes = router;

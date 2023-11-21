@@ -9,7 +9,7 @@ import { RiEdit2Line } from "react-icons/ri";
 import { BiSearchAlt } from "react-icons/bi";
 import UserDetailsModal from "../../components/users/UserDetailsModal";
 import UserEditModal from "./UserEditModal";
-import { imageUrlKey } from "../../config/envConfig";
+import { fileUrlKey } from "../../config/envConfig";
 
 const UserLists = () => {
   const query: Record<string, any> = {};
@@ -173,7 +173,7 @@ const UserLists = () => {
                                 <div className="flex  gap-2">
                                   <div>
                                     <img
-                                      src={`${imageUrlKey()}/${
+                                      src={`${fileUrlKey()}/${
                                         singleUser?.profile?.profileImage
                                       }`}
                                       className="w-12 h-12 object-cover  rounded-xl"

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Modal, Table } from "rsuite";
 import { useGetAllNotificationQuery } from "../../redux/features/notifications/notificationApi";
 import { cellCss, headerCss } from "../styles/CommonCss";
-import { imageUrlKey } from "../../config/envConfig";
+import { fileUrlKey } from "../../config/envConfig";
 const { Column, HeaderCell, Cell } = Table;
 
 const NotificationModal = () => {
@@ -39,7 +39,7 @@ const NotificationModal = () => {
 
   const renderImageView = (rowData: any) => (
     <img
-      src={`${imageUrlKey()}/${rowData.Styles?.image}`}
+      src={`${fileUrlKey()}/${rowData.Styles?.image}`}
       alt="Style Image"
       style={{ maxWidth: "50%" }}
     />

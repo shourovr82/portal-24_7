@@ -4,7 +4,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { GoBell } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { getUserInfo, removeUserInfo } from "../../hooks/services/auth.service";
-import { getAuthKey, imageUrlKey } from "../../config/envConfig";
+import { getAuthKey, fileUrlKey } from "../../config/envConfig";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -50,7 +50,7 @@ const Navbar = () => {
               <span className="sr-only">Open user menu</span>
               <img
                 className="h-10 w-10 object-cover  rounded-full "
-                src={`${imageUrlKey()}/${user?.profileImage}`}
+                src={`${fileUrlKey()}/${user?.profileImage}`}
                 alt=""
               />
             </Menu.Button>

@@ -30,6 +30,7 @@ import EditPoDetails from "./EditPo";
 import { useDebounced } from "../../redux/hook";
 import DocPassIcon from "@rsuite/icons/DocPass";
 import { FaFileDownload } from "react-icons/fa";
+import { fileUrlKey } from "../../config/envConfig";
 
 const PoLists = () => {
   const query: Record<string, any> = {};
@@ -339,7 +340,7 @@ const PoLists = () => {
                               <tr>
                                 <th
                                   scope="col"
-                                  className="py-3.5 pl-2 pr-3 text-left text-sm font-semibold text-[#637581] sm:pl-3 border-r"
+                                  className="py-3.5 pl-2 pr-3 text-center text-sm font-semibold text-[#637581] sm:pl-3 border-r"
                                 >
                                   Style No
                                 </th>
@@ -388,7 +389,7 @@ const PoLists = () => {
 
                                 <th
                                   scope="col"
-                                  className="px-3 py-3.5 text-left text-sm font-semibold text-[#637581] border-r"
+                                  className="px-3 py-3.5 text-center text-sm font-semibold text-[#637581] border-r"
                                 >
                                   Factory Name
                                 </th>
@@ -400,14 +401,14 @@ const PoLists = () => {
                                 </th>
                                 <th
                                   scope="col"
-                                  className="px-3 py-3.5 text-left text-sm font-semibold text-[#637581] border-r"
+                                  className="px-3 py-3.5 text-center text-sm font-semibold text-[#637581] border-r"
                                 >
                                   PO File
                                 </th>
                                 {role !== "USER" && (
                                   <th
                                     scope="col"
-                                    className="px-3 py-3.5 text-left text-sm font-semibold text-[#637581]"
+                                    className="px-3 py-3.5 text-center text-sm font-semibold text-[#637581]"
                                   >
                                     Action
                                   </th>
@@ -453,29 +454,38 @@ const PoLists = () => {
                                     {index === 0 && (
                                       <td
                                         rowSpan={order.orders.length}
-                                        className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r"
+                                        className="whitespace-nowrap text-center px-3 py-4 text-sm text-black font-medium border-r"
                                       >
-                                        {order?.factory?.factoryName ?? "--"}
+                                        {order?.factory?.factoryName ?? "-"}
                                       </td>
                                     )}
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
                                       {po?.Port?.portName}
                                     </td>
-                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r flex justify-center">
-                                      <IconButton
-                                        icon={
-                                          <FaFileDownload
-                                            className="font-bold"
-                                            size={20}
-                                          />
-                                        }
-                                        color="blue"
-                                        appearance="default"
-                                        circle
-                                      />
+                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r text-center">
+                                      {po?.orderFile ? (
+                                        <IconButton
+                                          onClick={() =>
+                                            window.open(
+                                              `${fileUrlKey()}/${po?.orderFile}`
+                                            )
+                                          }
+                                          icon={
+                                            <FaFileDownload
+                                              className="font-bold text-[#5a5a5ab6]"
+                                              size={20}
+                                            />
+                                          }
+                                          color="blue"
+                                          appearance="default"
+                                          circle
+                                        />
+                                      ) : (
+                                        "-"
+                                      )}
                                     </td>
                                     {(role === "ADMIN" || "SUPERADMIN") && (
-                                      <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium">
+                                      <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-black font-medium">
                                         <IconButton
                                           onClick={() =>
                                             handlePoEditModalOpen(po)

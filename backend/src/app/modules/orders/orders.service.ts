@@ -9,11 +9,7 @@ import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
 
-import {
-  ordersRelationalFields,
-  ordersRelationalFieldsMapper,
-  ordersSearchableFields,
-} from './orders.constants';
+import { ordersRelationalFields, ordersRelationalFieldsMapper, ordersSearchableFields } from './orders.constants';
 import {
   ICreateOrderResponse,
   IOrderCreateRequest,
@@ -31,8 +27,7 @@ const createNewOrder = async (profileId: string, req: Request): Promise<ICreateO
 
   const filePath = file?.path?.substring(8);
 
-  const { styleNo, orderNo, buyerEtd, noOfPack, portId, totalPack } =
-    req.body as IOrderCreateRequest;
+  const { styleNo, orderNo, buyerEtd, noOfPack, portId, totalPack } = req.body as IOrderCreateRequest;
 
   const result = await prisma.$transaction(async transactionClient => {
     // check existing order
@@ -76,16 +71,15 @@ const createNewOrder = async (profileId: string, req: Request): Promise<ICreateO
     }
     // Calculate total pieces (totalPc)
     const totalPc = noOfPack * totalPack;
-
+    // calculate factory etd and fri date by using buyer etd
     const factoryEtd = decreaseDateByDays(buyerEtd, 21);
     const friDate = decreaseDateByDays(buyerEtd, 7);
 
     // order data
-    const newOrderData = {
+    const newOrderData: any = {
       orderNo,
       styleNo,
       portId,
-      poFile: filePath,
       profileId,
       buyerEtd,
       noOfPack,
@@ -94,8 +88,9 @@ const createNewOrder = async (profileId: string, req: Request): Promise<ICreateO
       factoryEtd,
       friDate,
     };
+    if (filePath !== undefined) newOrderData['orderFile'] = filePath;
 
-    //! Create the new order
+    // Create the new order
     const createOrder = await transactionClient.orders.create({
       data: newOrderData,
       select: {
@@ -177,8 +172,7 @@ const getAllOrders = async (
   }
 
   // Create a whereConditions object with AND conditions
-  const whereConditions: Prisma.OrdersWhereInput =
-    andConditions.length > 0 ? { AND: andConditions } : {};
+  const whereConditions: Prisma.OrdersWhereInput = andConditions.length > 0 ? { AND: andConditions } : {};
 
   // Retrieve orders with filtering and pagination
   const result = await prisma.orders.findMany({
@@ -198,10 +192,7 @@ const getAllOrders = async (
     where: whereConditions,
     skip,
     take: limit,
-    orderBy:
-      options.sortBy && options.sortOrder
-        ? { [options.sortBy]: options.sortOrder }
-        : { createdAt: 'desc' },
+    orderBy: options.sortBy && options.sortOrder ? { [options.sortBy]: options.sortOrder } : { createdAt: 'desc' },
   });
 
   // Count total matching orders for pagination
@@ -254,8 +245,7 @@ const updateOrder = async (orderNo: string, req: Request): Promise<Orders> => {
   const file = req.file as IUploadFile;
   const filePath = file?.path?.substring(8);
 
-  const { buyerEtd, noOfPack, portId, styleNo, totalPack, isActiveOrder } =
-    req.body as IOrderUpdateRequest;
+  const { buyerEtd, noOfPack, portId, styleNo, totalPack, isActiveOrder } = req.body as IOrderUpdateRequest;
 
   const result = await prisma.$transaction(async transactionClient => {
     // checking order exist or not
@@ -315,7 +305,7 @@ const updateOrder = async (orderNo: string, req: Request): Promise<Orders> => {
     if (styleNo !== undefined) updatedPoData['styleNo'] = styleNo;
     if (totalPc !== undefined) updatedPoData['totalPc'] = Number(totalPc);
     if (totalPack !== undefined) updatedPoData['totalPack'] = Number(totalPack);
-    if (filePath !== undefined) updatedPoData['poFile'] = filePath;
+    if (filePath !== undefined) updatedPoData['orderFile'] = filePath;
     if (noOfPack !== undefined) updatedPoData['noOfPack'] = noOfPack;
     if (buyerEtd !== undefined) updatedPoData['buyerEtd'] = buyerEtd;
     if (buyerEtd !== undefined) updatedPoData['factoryEtd'] = factoryEtd;
@@ -348,8 +338,7 @@ const styleWiseOrderLists = async (
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
 
   // Destructure filter properties
-  const { searchTerm, startDate, endDate, friStartDate, friEndDate, factoryId, ...filterData } =
-    filters;
+  const { searchTerm, startDate, endDate, friStartDate, friEndDate, factoryId, ...filterData } = filters;
 
   // Define an array to hold filter conditions
   const andConditions: Prisma.OrdersWhereInput[] = [];
@@ -416,8 +405,7 @@ const styleWiseOrderLists = async (
   }
 
   // Create a whereConditions object with AND conditions
-  const whereConditions: Prisma.OrdersWhereInput =
-    andConditions.length > 0 ? { AND: andConditions } : {};
+  const whereConditions: Prisma.OrdersWhereInput = andConditions.length > 0 ? { AND: andConditions } : {};
 
   // Retrieve orders with filtering and pagination
   const result = await prisma.orders.findMany({
@@ -432,10 +420,7 @@ const styleWiseOrderLists = async (
     },
     skip,
     take: limit,
-    orderBy:
-      options.sortBy && options.sortOrder
-        ? { [options.sortBy]: options.sortOrder }
-        : { createdAt: 'desc' },
+    orderBy: options.sortBy && options.sortOrder ? { [options.sortBy]: options.sortOrder } : { createdAt: 'desc' },
   });
 
   const ordersByStyleNo: {

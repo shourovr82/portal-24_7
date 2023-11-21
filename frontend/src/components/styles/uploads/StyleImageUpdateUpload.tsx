@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Uploader } from "rsuite";
 import { FileType } from "rsuite/esm/Uploader";
 import toast from "react-hot-toast";
-import { imageUrlKey } from "../../../config/envConfig";
+import { fileUrlKey } from "../../../config/envConfig";
 
 interface StyleImageUploadProps {
   field: {
@@ -19,7 +19,7 @@ const StyleImageUpdateUpload = ({
   const [fileValue, setFileValue] = useState<FileType[]>([]);
 
   const [imagePreview, setImagePreview] = useState<string | undefined>(
-    (!fileValue?.length && `${imageUrlKey()}/${defaultImage}`) || undefined
+    (!fileValue?.length && `${fileUrlKey()}/${defaultImage}`) || undefined
   );
 
   const handleChangeImages = (files: FileType[]) => {
@@ -54,7 +54,7 @@ const StyleImageUpdateUpload = ({
   };
 
   const clearImagePreview = () => {
-    setImagePreview(`${imageUrlKey()}/${defaultImage}`);
+    setImagePreview(`${fileUrlKey()}/${defaultImage}`);
     field.onChange(undefined);
     setFileValue([]);
   };
