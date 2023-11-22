@@ -11,7 +11,7 @@ services:
       POSTGRES_DB: portal_247db
     volumes:
       - type: bind
-        source: /root/volume/portal247/data
+        source: /root/volume/portal247/db
         target: /var/lib/postgresql/data
     restart: unless-stopped
 
