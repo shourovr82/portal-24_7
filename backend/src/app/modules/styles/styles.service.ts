@@ -9,11 +9,7 @@ import { IGenericResponse } from '../../../interfaces/common';
 import { IUploadFile } from '../../../interfaces/file';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
-import {
-  stylesRelationalFields,
-  stylesRelationalFieldsMapper,
-  stylesSearchableFields,
-} from './styles.constants';
+import { stylesRelationalFields, stylesRelationalFieldsMapper, stylesSearchableFields } from './styles.constants';
 import {
   IAssignedStyleResponse,
   IFactoryAssignToStyleResponse,
@@ -24,10 +20,7 @@ import {
 } from './styles.interface';
 
 // ! create Style
-const createNewStyle = async (
-  profileId: string,
-  req: Request
-): Promise<Styles> => {
+const createNewStyle = async (profileId: string, req: Request): Promise<Styles> => {
   const file = req.file as IUploadFile;
 
   const filePath = file?.path?.substring(8);
@@ -134,14 +127,17 @@ const getAllStyles = async (
   }
 
   // @ts-ignore
-  const whereConditions: Prisma.StylesWhereInput =
-    andConditions.length > 0 ? { AND: andConditions } : {};
+  const whereConditions: Prisma.StylesWhereInput = andConditions.length > 0 ? { AND: andConditions } : {};
 
   const result = await prisma.styles.findMany({
     include: {
-      profile: true,
-      orders: true,
+      orders: {
+        include: {
+          Port: true,
+        },
+      },
       factory: true,
+
       BulkProductionStatus: {
         orderBy: {
           createdAt: 'desc',
@@ -202,9 +198,6 @@ const getAllStyles = async (
               role: true,
             },
           },
-        },
-        orderBy: {
-          createdAt: 'desc',
         },
       },
       couriers: true,
@@ -286,8 +279,7 @@ const getAllStyleNumbers = async (
     });
   }
 
-  const whereConditions: Prisma.StylesWhereInput =
-    andConditions.length > 0 ? { AND: andConditions } : {};
+  const whereConditions: Prisma.StylesWhereInput = andConditions.length > 0 ? { AND: andConditions } : {};
 
   const result = await prisma.styles.findMany({
     select: {
@@ -354,16 +346,12 @@ const getSingleStyle = async (styleNo: string): Promise<Styles | null> => {
 };
 
 // ! update style ----------------------
-const updateStyleInformation = async (
-  styleNo: string,
-  req: Request
-): Promise<Styles | null> => {
+const updateStyleInformation = async (styleNo: string, req: Request): Promise<Styles | null> => {
   const file = req?.file as IUploadFile;
 
   const filePath = file?.path?.substring(8);
 
-  const { fabric, factoryId, isActiveStyle, itemId } =
-    req.body as IStyleUpdateRequest;
+  const { fabric, factoryId, isActiveStyle, itemId } = req.body as IStyleUpdateRequest;
 
   const resultClient = await prisma.$transaction(async transactionClient => {
     const isExistStyle = await transactionClient.styles.findUnique({
@@ -423,9 +411,7 @@ const updateStyleInformation = async (
 };
 
 // ! factory style assign
-const factoryStyleAssign = async (
-  data: IFactoryAssignToStyleResponse
-): Promise<IAssignedStyleResponse> => {
+const factoryStyleAssign = async (data: IFactoryAssignToStyleResponse): Promise<IAssignedStyleResponse> => {
   let assignedResult = null;
   await prisma.$transaction(async transactionClient => {
     const isExistStyleNo = await prisma.styles.findUnique({
@@ -551,27 +537,15 @@ const getAllStylesRecentComments = async (): Promise<any> => {
 
   // Sort the Styles based on the most recent status across all categories
   styles.sort((a, b) => {
-    const aStatus = [
-      a?.BulkProductionStatus[0],
-      a?.ldCpAopStatus[0],
-      a?.PPStrikeOffStatus[0],
-    ]?.filter(Boolean);
+    const aStatus = [a?.BulkProductionStatus[0], a?.ldCpAopStatus[0], a?.PPStrikeOffStatus[0]]?.filter(Boolean);
 
-    const bStatus = [
-      b?.BulkProductionStatus[0],
-      b?.ldCpAopStatus[0],
-      b?.PPStrikeOffStatus[0],
-    ].filter(Boolean);
+    const bStatus = [b?.BulkProductionStatus[0], b?.ldCpAopStatus[0], b?.PPStrikeOffStatus[0]].filter(Boolean);
 
     if (aStatus?.length === 0) return 1;
     if (bStatus?.length === 0) return -1;
 
-    const mostRecentA = aStatus?.reduce((prev, current) =>
-      prev?.createdAt > current.createdAt ? prev : current
-    );
-    const mostRecentB = bStatus?.reduce((prev, current) =>
-      prev?.createdAt > current?.createdAt ? prev : current
-    );
+    const mostRecentA = aStatus?.reduce((prev, current) => (prev?.createdAt > current.createdAt ? prev : current));
+    const mostRecentB = bStatus?.reduce((prev, current) => (prev?.createdAt > current?.createdAt ? prev : current));
 
     return mostRecentB?.createdAt.getTime() - mostRecentA?.createdAt?.getTime();
   });

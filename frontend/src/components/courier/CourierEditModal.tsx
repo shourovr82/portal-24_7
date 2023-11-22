@@ -82,7 +82,16 @@ const CourierEditModal = ({ open, courierEditData, handleClose }: any) => {
       });
       reset();
     }
-  }, [data, error, handleClose, isError, isLoading, isSuccess, reset]);
+  }, [
+    data,
+    error,
+    formReset,
+    handleClose,
+    isError,
+    isLoading,
+    isSuccess,
+    reset,
+  ]);
 
   const handleCloseModal = () => {
     reset();

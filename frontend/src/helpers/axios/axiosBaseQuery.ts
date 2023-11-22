@@ -1,4 +1,3 @@
-/* eslint-disable prefer-const */
 import type { AxiosRequestConfig, AxiosError } from "axios";
 import { axiosInstance } from "./axiosInstance";
 import { BaseQueryFn } from "@reduxjs/toolkit/query";

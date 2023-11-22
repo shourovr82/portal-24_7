@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { useState } from "react";
 import { Uploader } from "rsuite";
 import { FileType } from "rsuite/esm/Uploader";
@@ -13,15 +13,12 @@ interface TackPackUploadProps {
 }
 const TackPackUploadPdf = ({ field }: TackPackUploadProps) => {
   const [fileValue, setFileValue] = useState<FileType[]>([]);
-  const [_,setImagePreview] = useState<string | undefined>(
-    undefined
-  );
-
+  const [_, setImagePreview] = useState<string | undefined>(undefined);
 
   const handleChangeImages = (files: FileType[]) => {
     if (files.length > 0) {
       const latestFile = files[files.length - 1];
-      const fileSizeLimit = 512 * 2 * 1024; // 512 kb
+      const fileSizeLimit = 5 * 1024 * 1024; // 5 MB
 
       if (
         latestFile.blobFile?.size &&
@@ -42,7 +39,7 @@ const TackPackUploadPdf = ({ field }: TackPackUploadProps) => {
         reader.readAsDataURL(file.blobFile as File);
       } else {
         clearImagePreview();
-        toast.error("File size exceeds 1 MB.");
+        toast.error("File size exceeds 5 MB.");
       }
     } else {
       clearImagePreview();
