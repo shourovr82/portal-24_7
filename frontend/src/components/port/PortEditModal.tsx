@@ -88,10 +88,7 @@ const PortEditModal = ({ open, portEditData, handleClose }: any) => {
             <h3 className="text-lg font-semibold ">Edit Port</h3>
           </Modal.Title>
         </Modal.Header>
-
         <Modal.Body>
-          {/*  */}
-
           <div className="rounded-lg border bg-white  ">
             {/* Port */}
             <form

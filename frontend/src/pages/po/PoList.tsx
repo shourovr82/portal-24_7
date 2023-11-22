@@ -446,10 +446,12 @@ const PoLists = () => {
                                       )}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
-                                      {moment(po?.factoryEtd).format("L")}
+                                      {moment(po?.factoryEtd).format(
+                                        "DD-MM-YYYY"
+                                      )}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-black  font-medium border-r">
-                                      {moment(po?.friDate).format("L")}
+                                      {moment(po?.friDate).format("DD-MM-YYYY")}
                                     </td>
                                     {index === 0 && (
                                       <td
