@@ -7,8 +7,6 @@ services:
     ports:
       - 5432:5432
     environment:
-      PGUSER: alfresco
-      POSTGRES_USER: alfresco
       POSTGRES_PASSWORD: masportal
       POSTGRES_DB: portal_247db
     volumes:
