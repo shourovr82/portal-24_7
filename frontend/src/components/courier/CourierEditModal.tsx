@@ -13,7 +13,6 @@ interface IFormInput {
   courierName: string;
   awbNo: string;
   styleNo: string | null;
-  courierWeight: string;
   courierDetails: string | undefined;
   courierDate: string | undefined;
 }
@@ -39,7 +38,6 @@ const CourierEditModal = ({ open, courierEditData, handleClose }: any) => {
       courierName: data.courierName,
       styleNo: data.styleNo,
       awbNo: data.awbNo,
-      courierWeight: data.courierWeight,
       courierDetails: data.courierDetails,
       courierDate: data.courierDate,
     };
@@ -190,26 +188,6 @@ const CourierEditModal = ({ open, courierEditData, handleClose }: any) => {
                     onChange={(e) => setValue("awbNo", e)}
                     style={{ width: "100%" }}
                     placeholder="Enter AWB..."
-                    type="text"
-                  />
-                </div>
-                <div className="flex flex-col gap-3 w-full">
-                  <div className="flex justify-between items-center">
-                    <label
-                      htmlFor="courierWeight"
-                      className="text-sm font-medium"
-                    >
-                      Courier Weight
-                    </label>
-                  </div>
-
-                  <Input
-                    size="lg"
-                    id="courierWeight"
-                    defaultValue={courierEditData?.courierWeight || undefined}
-                    onChange={(e) => setValue("courierWeight", e)}
-                    style={{ width: "100%" }}
-                    placeholder="Enter Courier Weight..."
                     type="text"
                   />
                 </div>

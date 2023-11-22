@@ -21,7 +21,6 @@ import { BiSearchAlt } from "react-icons/bi";
 import StyleListsTable from "../../components/styles/StyleListsTable";
 import { predefinedRanges } from "../../constants";
 import { useDebounced } from "../../redux/hook";
-
 import DocPassIcon from "@rsuite/icons/DocPass";
 
 const StyleLists = () => {
@@ -109,7 +108,6 @@ const StyleLists = () => {
   const renderMenu = ({ onClose, left, top, className }: any, ref: any) => {
     const handleSelect = (eventKey: any) => {
       onClose();
-      console.log(eventKey);
     };
     return (
       <Popover ref={ref} className={className} style={{ left, top }} full>
