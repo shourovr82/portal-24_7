@@ -10,7 +10,6 @@ export type ICourierCreateRequest = {
   awbNo: string;
   courierDate: Date;
   courierDetails: string;
-  courierWeight: string;
   styleNo: string;
 };
 
@@ -20,7 +19,6 @@ export type ICourierUpdateRequest = {
   awbNo?: string;
   courierDate?: Date;
   courierDetails?: string;
-  courierWeight?: string;
 };
 
 export type IStyleWiseCourier = {

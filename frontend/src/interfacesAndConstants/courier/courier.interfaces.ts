@@ -3,6 +3,5 @@ export interface ICourierCreateFormInput {
   awbNo: string;
   courierDate: string | undefined;
   courierDetails: string;
-  courierWeight: string;
   styleNo: string | null;
 }

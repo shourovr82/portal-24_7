@@ -30,12 +30,12 @@ const TechPackModal = ({ tackPacks, open, handleClose }: any) => {
                       trigger="hover"
                       speaker={
                         <Tooltip>
-                          {moment(tackPacks?.createdAt).format("LLL")}
+                          {moment(tackPacks?.updatedAt).format("LLL")}
                         </Tooltip>
                       }
                     >
                       <p className="text-[12px] cursor-help">
-                        {moment(tackPacks?.createdAt).fromNow()}
+                        {moment(tackPacks?.updatedAt).fromNow()}
                       </p>
                     </Whisper>
                   </div>

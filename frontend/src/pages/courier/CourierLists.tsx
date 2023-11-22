@@ -53,11 +53,6 @@ const CourierLists = () => {
   const { data: allStylesNameResponse, isLoading: isLoadingAllStyleNames } =
     useGetStyleNoQuery(null);
 
-  const allStylesNo = allStylesNameResponse?.data?.map((style: any) => ({
-    label: style?.styleNo,
-    value: style?.styleNo,
-  }));
-
   const {
     data: couriersData,
     isLoading: isLoadingCouriersData,
@@ -197,7 +192,12 @@ const CourierLists = () => {
                   }
                   onClean={() => setSelectedStyleNo(null)}
                   size="lg"
-                  data={allStylesNo ? allStylesNo : []}
+                  data={
+                    allStylesNameResponse?.data?.map((style: any) => ({
+                      label: style?.styleNo,
+                      value: style?.styleNo,
+                    })) || []
+                  }
                   style={{ width: "25%" }}
                   // searchable={false}
                   placeholder="Filter By Style No"
@@ -277,16 +277,6 @@ const CourierLists = () => {
                   <HeaderCell style={headerCss}>Air Way Bill No</HeaderCell>
                   <Cell
                     dataKey="awbNo"
-                    verticalAlign="middle"
-                    style={{ padding: 10, fontSize: 14, fontWeight: 500 }}
-                  ></Cell>
-                </Column>
-
-                {/* Weight*/}
-                <Column flexGrow={1}>
-                  <HeaderCell style={headerCss}>Courier Weight</HeaderCell>
-                  <Cell
-                    dataKey="courierWeight"
                     verticalAlign="middle"
                     style={{ padding: 10, fontSize: 14, fontWeight: 500 }}
                   ></Cell>

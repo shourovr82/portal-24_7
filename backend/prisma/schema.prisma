@@ -190,7 +190,6 @@ model Courier {
   awbNo          String
   courierDate    DateTime @default(now()) @db.Timestamptz(0)
   courierDetails String
-  courierWeight  String
   styleNo        String
   createdAt      DateTime @default(now()) @db.Timestamptz(0)
   updatedAt      DateTime @updatedAt @db.Timestamptz(0)
