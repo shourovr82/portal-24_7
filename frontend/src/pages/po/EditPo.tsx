@@ -3,8 +3,7 @@
 import {
   Button,
   DatePicker,
-  Form,
-  Input,
+  InputNumber,
   Modal,
   SelectPicker,
   Tooltip,
@@ -18,8 +17,8 @@ import { useEditOrderInfoMutation } from "../../redux/features/orders/ordersApi"
 import { useEffect } from "react";
 import moment from "moment";
 import InfoOutlineIcon from "@rsuite/icons/InfoOutline";
-import OrderFileUploader from "../../components/po/PoFileUploader";
 import { FileType } from "rsuite/esm/Uploader";
+import PoUpdateFileUploader from "../../components/po/PoUpdateFileUploader";
 
 interface IFormInput {
   orderNo: string;
@@ -55,14 +54,20 @@ const EditPoDetails = ({
   });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
-    const orderData = {
-      totalPack: data.totalPack,
-      styleNo: data.styleNo,
-      noOfPack: data.noOfPack,
-      portId: data.portId,
-      buyerEtd: data.buyerEtd,
+    const orderDataObj = {
+      totalPack: data?.totalPack ? Number(data?.totalPack) : undefined,
+      styleNo: data?.styleNo,
+      noOfPack: data?.noOfPack ? Number(data?.noOfPack) : undefined,
+      portId: data?.portId,
+      buyerEtd: data?.buyerEtd,
     };
-    await editOrderInfo({ id: poEditData?.orderNo, data: orderData });
+
+    const updatedOrderData = JSON.stringify(orderDataObj);
+    const formData = new FormData();
+    formData.append("file", data.orderFile?.blobFile as Blob);
+    formData.append("data", updatedOrderData);
+
+    await editOrderInfo({ id: poEditData?.orderNo, data: formData });
   };
 
   useEffect(() => {
@@ -210,7 +215,7 @@ const EditPoDetails = ({
                     </div>
 
                     <div>
-                      <Input
+                      <InputNumber
                         size="lg"
                         onChange={(e) => setValue("totalPack", Number(e))}
                         id="totalPack"
@@ -331,24 +336,15 @@ const EditPoDetails = ({
                     name="orderFile"
                     control={control}
                     render={({ field }: any) => (
-                      <div className="rs-form-control-wrapper ">
-                        <OrderFileUploader field={field} />
-                        <Form.ErrorMessage
-                          show={
-                            (!!errors?.orderFile &&
-                              !!errors?.orderFile?.message) ||
-                            false
-                          }
-                          placement="topEnd"
-                        >
-                          {errors?.orderFile?.message}
-                        </Form.ErrorMessage>
-                      </div>
+                      <PoUpdateFileUploader
+                        field={field}
+                        defaultFile={poEditData?.orderFile}
+                      />
                     )}
                   />
                 </div>
 
-                <div className="flex justify-end gap-3">
+                <div className="flex justify-end gap-3 mt-5">
                   <Button
                     type="submit"
                     loading={isLoading}

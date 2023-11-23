@@ -2,13 +2,6 @@ import { z } from 'zod';
 import ApiError from '../../../errors/ApiError';
 import httpStatus from 'http-status';
 
-//     courierName: data.courierName,
-//     awbNo: data.awbNo,
-//     courierDate: data.courierDate,
-//     courierDetails: data.courierDetails,
-//     courierWeight: data.courierWeight,
-//     styleNo
-
 const createCourier = z.object({
   body: z
     .object({
@@ -30,10 +23,6 @@ const createCourier = z.object({
         required_error: 'Courier Details is required',
         invalid_type_error: 'Courier Details must be in String',
       }),
-      courierWeight: z.string({
-        required_error: 'Courier Weight is required',
-        invalid_type_error: 'Courier Weight must be in String',
-      }),
       styleNo: z.string({
         required_error: 'Style Number is required',
         invalid_type_error: 'Style Number must be in String',
@@ -42,9 +31,7 @@ const createCourier = z.object({
     .refine(data => {
       const keys = Object.keys(data);
       if (keys.length === 0) {
-        throw new Error(
-          'All Required Data must be provided in the request body'
-        );
+        throw new Error('All Required Data must be provided in the request body');
       }
       return true;
     }),
@@ -65,10 +52,7 @@ const updateCourier = z.object({
         .refine(value => {
           if (typeof value === 'string') {
             if (value.trim() === '') {
-              throw new ApiError(
-                httpStatus.BAD_REQUEST,
-                'Courier Name must not be empty or contain only whitespace'
-              );
+              throw new ApiError(httpStatus.BAD_REQUEST, 'Courier Name must not be empty or contain only whitespace');
             }
           }
           return true;
@@ -81,10 +65,7 @@ const updateCourier = z.object({
         .refine(value => {
           if (typeof value === 'string') {
             if (value.trim() === '') {
-              throw new ApiError(
-                httpStatus.BAD_REQUEST,
-                'AWB no. must not be empty or contain only whitespace'
-              );
+              throw new ApiError(httpStatus.BAD_REQUEST, 'AWB no. must not be empty or contain only whitespace');
             }
           }
           return true;
@@ -102,26 +83,7 @@ const updateCourier = z.object({
         .refine(value => {
           if (typeof value === 'string') {
             if (value.trim() === '') {
-              throw new ApiError(
-                httpStatus.BAD_REQUEST,
-                'Courier Details must not be empty or contain only whitespace'
-              );
-            }
-          }
-          return true;
-        })
-        .optional(),
-      courierWeight: z
-        .string({
-          invalid_type_error: 'Courier Weight must be in String',
-        })
-        .refine(value => {
-          if (typeof value === 'string') {
-            if (value.trim() === '') {
-              throw new ApiError(
-                httpStatus.BAD_REQUEST,
-                'Courier Weight must not be empty or contain only whitespace'
-              );
+              throw new ApiError(httpStatus.BAD_REQUEST, 'Courier Details must not be empty or contain only whitespace');
             }
           }
           return true;

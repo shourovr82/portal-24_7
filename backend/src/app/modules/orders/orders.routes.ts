@@ -20,25 +20,19 @@ router.post(
 );
 // ! Get all Orders----------------------------------->>>
 router.get('/', auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN), OrdersController.getAllOrders);
-router.get(
-  '/style-wise-orders',
-  auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
-  OrdersController.styleWiseOrderLists
-);
+router.get('/style-wise-orders', auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN), OrdersController.styleWiseOrderLists);
 // ! Get Single Order----------------------------------->>>
-router.get(
-  '/order-info/:orderNo',
-  auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
-  OrdersController.getSingleOrder
-);
+router.get('/order-info/:orderNo', auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN), OrdersController.getSingleOrder);
 
 // ! Update Order----------------------------------->>>
 router.patch(
-  '/updates/:orderNo',
+  '/update/:orderNo',
   auth(UserRoles.ADMIN, UserRoles.SUPERADMIN),
   FileUploadHelper.uploadOrderPdf.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
-    req.body = JSON.parse(req.body.data);
+    req.body = OrdersValidation.updateOrder.parse(JSON.parse(req.body.data));
+
+    // JSON.parse(req.body.data);
     return OrdersController.updateOrder(req, res, next);
   }
 );
@@ -47,11 +41,7 @@ router.patch(
 router.get('/count', auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN), OrdersController.getAllOrdersLength);
 
 // ! Get all Orders Length----------------------------------->>>
-router.get(
-  '/month',
-  auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
-  OrdersController.getBuyerEtdStatistics
-);
+router.get('/month', auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN), OrdersController.getBuyerEtdStatistics);
 
 // ! Get all Orders Length----------------------------------->>>
 router.get('/pc', auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN), OrdersController.getAllOrdersPC);

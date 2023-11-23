@@ -227,11 +227,11 @@ const TackPack = () => {
                 )}
               />
             </div>
-            <div className="flex justify-end">
+            <div className="flex justify-end mt-5">
               <button
                 type="submit"
                 disabled={createLoading}
-                className={`bg-[#0284c7] text-white rounded-md items-center   flex px-2.5 py-1`}
+                className={`bg-[#0284c7] text-white rounded-md items-center   flex px-5 py-1`}
               >
                 {createLoading && (
                   <>

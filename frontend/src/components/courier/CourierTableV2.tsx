@@ -35,12 +35,7 @@ export default function CourierTableV2({ courier }: any) {
                     >
                       Air Way Bill No
                     </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-[#637581] border-r"
-                    >
-                      Courier Weight
-                    </th>
+
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-[#637581]"
@@ -65,9 +60,7 @@ export default function CourierTableV2({ courier }: any) {
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
                           {singleCourier.awbNo}
                         </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
-                          {singleCourier.courierWeight}
-                        </td>
+
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium">
                           {singleCourier.courierDetails}
                         </td>

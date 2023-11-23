@@ -57,6 +57,7 @@ const ordersApi = baseApi.injectEndpoints({
         url: `/orders/update/${id}`,
         method: "PATCH",
         data: data,
+        contentType: "multipart/form-data",
       }),
       invalidatesTags: [tagTypes.orders, tagTypes.style, tagTypes.factory],
     }),
