@@ -215,7 +215,7 @@ const StyleAssign = () => {
                 size="lg"
                 type="submit"
                 disabled={styleValue && singleStyle?.factory?.factoryName}
-                className={`bg-[#0284c7] text-white rounded-md items-center   flex px-2.5 py-1`}
+                className={`bg-[#0284c7] text-white rounded-md items-center flex px-3 py-1.5`}
               >
                 <span>
                   {styleValue && singleStyle?.factory?.factoryName
