@@ -18,6 +18,7 @@ import { useGetAllItemNamesQuery } from "../../redux/features/items/itemApi";
 import { renderLoading } from "../../components/renderLoading/RenderLoading";
 import { useGetStylesQuery } from "../../redux/features/styles/styleApi";
 import { BiSearchAlt } from "react-icons/bi";
+import { FiPlus } from "react-icons/fi";
 import StyleListsTable from "../../components/styles/StyleListsTable";
 import { predefinedRanges } from "../../constants";
 import { useDebounced } from "../../redux/hook";
@@ -232,22 +233,7 @@ const StyleLists = () => {
                 className="flex items-center gap-2 px-4 py-2 rounded-[4px] text-white  bg-[#0284c7]"
                 type="button"
               >
-                <span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2.5}
-                    stroke="#fff"
-                    className="w-5 h-5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 4.5v15m7.5-7.5h-15"
-                    />
-                  </svg>
-                </span>
+                <FiPlus size={18}/>
                 <span className="text-sm font-semibold">Add New Style</span>
               </button>
             </Link>
