@@ -25,7 +25,6 @@ import DocPassIcon from "@rsuite/icons/DocPass";
 import ArrowDownLineIcon from "@rsuite/icons/ArrowDownLine";
 import Excel from "exceljs";
 import { saveAs } from "file-saver";
-import { fileUrlKey } from "../../config/envConfig";
 
 // !
 const StyleLists = () => {
@@ -147,34 +146,20 @@ const StyleLists = () => {
         column.alignment = { horizontal: "center" };
       });
 
-      allStylesList?.data?.forEach((singleData: any) => {
+      allStylesList?.data?.forEach(async (singleData: any) => {
         const customRows = {
           styleNo: singleData.styleNo,
-          image: `${fileUrlKey()}/${singleData?.image}`,
-          noOfPack: singleData.noOfPack,
+          image: 0,
           itemName: singleData?.item?.itemName,
           fabric: singleData?.fabric,
           factoryName: singleData?.factory?.factoryName ?? "-",
         };
-        // Add a row to the worksheet
-        const row = worksheet.addRow(customRows);
 
-        // Add an image to the worksheet
-        const image = workbook.addImage({
-          filename: customRows.image,
-          extension: "png", // Change the extension based on your image format
-        });
-
-        // Set the image position (you may need to adjust these values based on your layout)
-        worksheet.addImage(image, {
-          tl: { col: 1, row: row.number - 1 },
-          ext: { width: 100, height: 100 },
-        });
-
-        // Save the workbook
+        worksheet.addRow(customRows);
+        //
       });
 
-      // Add style
+      //! Add style-----------------------------------------------------
       const headerRow = worksheet.getRow(1);
       headerRow.font = { bold: true }; // Font styling
       headerRow.height = 30;
