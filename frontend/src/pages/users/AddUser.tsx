@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Form, Input, SelectPicker, Tooltip, Whisper } from "rsuite";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Inputs } from "./addUser.interface";

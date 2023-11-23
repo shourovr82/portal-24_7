@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { Uploader } from "rsuite";
 import { FileType } from "rsuite/esm/Uploader";
 import toast from "react-hot-toast";
-import { imageUrlKey } from "../../../config/envConfig";
+import { fileUrlKey } from "../../../config/envConfig";
 
 interface StyleImageUploadProps {
   field: {
@@ -21,13 +19,13 @@ const StyleImageUpdateUpload = ({
   const [fileValue, setFileValue] = useState<FileType[]>([]);
 
   const [imagePreview, setImagePreview] = useState<string | undefined>(
-    (!fileValue?.length && `${imageUrlKey()}/${defaultImage}`) || undefined
+    (!fileValue?.length && `${fileUrlKey()}/${defaultImage}`) || undefined
   );
 
   const handleChangeImages = (files: FileType[]) => {
     if (files.length > 0) {
       const latestFile = files[files.length - 1];
-      const fileSizeLimit = 512 * 1024; // 512 kb
+      const fileSizeLimit = 5 * 1024 * 1024; // 1 MB
 
       if (
         latestFile.blobFile?.size &&
@@ -48,7 +46,7 @@ const StyleImageUpdateUpload = ({
         reader.readAsDataURL(file.blobFile as File);
       } else {
         clearImagePreview();
-        toast.error("File size exceeds 512 Kb.");
+        toast.error("File size exceeds 1 MB.");
       }
     } else {
       clearImagePreview();
@@ -56,7 +54,7 @@ const StyleImageUpdateUpload = ({
   };
 
   const clearImagePreview = () => {
-    setImagePreview(`http://localhost:7000/${defaultImage}`);
+    setImagePreview(`${fileUrlKey()}/${defaultImage}`);
     field.onChange(undefined);
     setFileValue([]);
   };

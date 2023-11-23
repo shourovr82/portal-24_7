@@ -1,14 +1,17 @@
 /* eslint-disable no-extra-boolean-cast */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
 import {
   Button,
+  ButtonToolbar,
   DateRangePicker,
+  Dropdown,
   IconButton,
   Loader,
   Pagination,
+  Popover,
+  Whisper,
 } from "rsuite";
 import { SelectPicker } from "rsuite";
 import { useGetAllFactoryNamesQuery } from "../../redux/features/factories/factoryApi";
@@ -25,6 +28,11 @@ import { getUserInfo } from "../../hooks/services/auth.service";
 import { RiEdit2Line } from "react-icons/ri";
 import EditPoDetails from "./EditPo";
 import { useDebounced } from "../../redux/hook";
+import DocPassIcon from "@rsuite/icons/DocPass";
+import { FaFileDownload } from "react-icons/fa";
+import { fileUrlKey } from "../../config/envConfig";
+import Excel from "exceljs";
+import { saveAs } from "file-saver";
 
 const PoLists = () => {
   const query: Record<string, any> = {};
@@ -150,6 +158,143 @@ const PoLists = () => {
     setActivePoEditModal(false);
     setPoEditData(null);
   };
+  const renderMenu = ({ onClose, left, top, className }: any, ref: any) => {
+    const handleSelect = () => {
+      onClose();
+    };
+    return (
+      <Popover ref={ref} className={className} style={{ left, top }} full>
+        <Dropdown.Menu onSelect={handleSelect}>
+          <Dropdown.Item
+            disabled={!isLoading && !allOrders?.data?.length}
+            onClick={saveExcel}
+            eventKey={4}
+          >
+            Export to Excel
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Popover>
+    );
+  };
+
+  // ! export to excel
+
+  const columns = [
+    { header: "Style No", key: "styleNo" },
+    { header: "PO NO", key: "orderNo" },
+    { header: "No of Pack", key: "noOfPack" },
+    { header: "Total Pack", key: "totalPack" },
+    { header: "Total PC", key: "totalPc" },
+    { header: "FRI Date", key: "friDate" },
+    { header: "Buyer ETD", key: "buyerEtd" },
+    { header: "Factory ETD", key: "factoryEtd" },
+    { header: "Factory Name", key: "factoryName" },
+    { header: "Port Name", key: "portName" },
+  ];
+
+  const workbook = new Excel.Workbook();
+
+  const saveExcel = async () => {
+    try {
+      const fileName = "PO Report";
+
+      // creating one worksheet in workbook
+      const worksheet = workbook.addWorksheet("workSheetName");
+
+      // each columns contains header and its mapping key from data
+      worksheet.columns = columns;
+
+      // loop through all of the columns and set the alignment with width.
+      worksheet.columns?.forEach((column: any) => {
+        column.width = column?.header?.length + 5;
+        column.alignment = { horizontal: "center" };
+      });
+
+      const rowIndexStart = 2;
+      let rowIndex = rowIndexStart;
+
+      allOrders?.data?.forEach((singleData: any) => {
+        const customRows = singleData?.orders?.map((order: any) => ({
+          styleNo: singleData.styleNo,
+          orderNo: order.orderNo,
+          noOfPack: order.noOfPack,
+          totalPack: order.totalPack,
+          totalPc: order.totalPc,
+          friDate: moment(order?.friDate).format("DD-MM-YYYY"),
+          buyerEtd: moment(order?.buyerEtd).format("DD-MM-YYYY"),
+          factoryEtd: moment(order?.factoryEtd).format("DD-MM-YYYY"),
+          factoryName: singleData?.factory?.factoryName ?? "-",
+          portName: order.Port.portName,
+        }));
+
+        customRows?.forEach((customRow: any, index: number) => {
+          const currentRow = worksheet.getRow(rowIndex);
+          currentRow.getCell("A").value =
+            index === 0 ? customRow.styleNo : undefined;
+          currentRow.getCell("B").value = customRow.orderNo;
+          currentRow.getCell("C").value = customRow.noOfPack;
+          currentRow.getCell("D").value = customRow.totalPack;
+          currentRow.getCell("E").value = customRow.totalPc;
+          currentRow.getCell("F").value = customRow.friDate;
+          currentRow.getCell("G").value = customRow.buyerEtd;
+          currentRow.getCell("H").value = customRow.factoryEtd;
+          currentRow.getCell("I").value = customRow?.factoryName;
+          currentRow.getCell("J").value = customRow.portName;
+          // increase the row
+          rowIndex++;
+        });
+
+        // Merge cells in the first column for the set of orders
+        if (customRows.length > 1) {
+          const mergeStart = `A${rowIndex - customRows.length}`; // Adjusted to +1
+          const mergeEnd = `A${rowIndex - 1}`; // Keep as is
+
+          worksheet.mergeCells(mergeStart, mergeEnd);
+          worksheet.getCell(mergeStart).alignment = {
+            vertical: "middle",
+            horizontal: "center",
+          };
+        }
+      });
+
+      // Add style
+      const headerRow = worksheet.getRow(1);
+      headerRow.font = { bold: true }; // Font styling
+      headerRow.height = 30;
+      headerRow.alignment = { vertical: "middle", horizontal: "center" };
+      // loop through all of the rows and set the outline style.
+      worksheet.eachRow({ includeEmpty: false }, (row) => {
+        // store each cell to currentCell
+        // @ts-ignore
+        const currentCell = row?._cells;
+
+        // loop through currentCell to apply border only for the non-empty cell of excel
+        currentCell.forEach((singleCell: any) => {
+          // store the cell address i.e. A1, A2, A3, B1, B2, B3, ...
+          const cellAddress = singleCell._address;
+
+          // apply border
+          worksheet.getCell(cellAddress).border = {
+            top: { style: "thin" },
+            left: { style: "thin" },
+            bottom: { style: "thin" },
+            right: { style: "thin" },
+          };
+        });
+      });
+
+      // write the content using writeBuffer
+      const buf = await workbook.xlsx.writeBuffer();
+
+      // download the processed file
+      saveAs(new Blob([buf]), `${fileName}.xlsx`);
+    } catch (error) {
+      console.error("<<<ERROR>>>", error);
+    } finally {
+      // removing worksheet's instance to create new one
+      workbook.removeWorksheet("workSheetName");
+    }
+  };
 
   return (
     <>
@@ -159,6 +304,24 @@ const PoLists = () => {
             <h2 className="text-[24px] font-semibold text-[#212B36]">PO</h2>
           </div>
           <div className="flex gap-4">
+            <ButtonToolbar>
+              <Whisper
+                placement="bottomEnd"
+                speaker={renderMenu}
+                trigger={["click"]}
+              >
+                <Button
+                  appearance="default"
+                  className="!bg-[#0284c7] text-white hover:text-white/80 focus-within:text-white focus-within:bg-[#0284c7] font-semibold
+                    "
+                  color="blue"
+                  startIcon={<DocPassIcon className="text-xl" />}
+                >
+                  Generate Report
+                </Button>
+              </Whisper>
+            </ButtonToolbar>
+
             <Link to="/po/addpo">
               <Button
                 className="flex items-center gap-2 hover:bg-[#0284c7] hover:text-white/80 px-4 py-2 rounded-[4px] text-white  bg-[#0284c7]"
@@ -304,7 +467,7 @@ const PoLists = () => {
                               <tr>
                                 <th
                                   scope="col"
-                                  className="py-3.5 pl-2 pr-3 text-left text-sm font-semibold text-[#637581] sm:pl-3 border-r"
+                                  className="py-3.5 pl-2 pr-3 text-center text-sm font-semibold text-[#637581] sm:pl-3 border-r"
                                 >
                                   Style No
                                 </th>
@@ -336,6 +499,12 @@ const PoLists = () => {
                                   scope="col"
                                   className="px-3 py-3.5 text-left text-sm font-semibold text-[#637581] border-r"
                                 >
+                                  FRI Date
+                                </th>
+                                <th
+                                  scope="col"
+                                  className="px-3 py-3.5 text-left text-sm font-semibold text-[#637581] border-r"
+                                >
                                   Buyer ETD
                                 </th>
                                 <th
@@ -344,16 +513,10 @@ const PoLists = () => {
                                 >
                                   Factory ETD
                                 </th>
-                                <th
-                                  scope="col"
-                                  className="px-3 py-3.5 text-left text-sm font-semibold text-[#637581] border-r"
-                                >
-                                  FRI Date
-                                </th>
 
                                 <th
                                   scope="col"
-                                  className="px-3 py-3.5 text-left text-sm font-semibold text-[#637581] border-r"
+                                  className="px-3 py-3.5 text-center text-sm font-semibold text-[#637581] border-r"
                                 >
                                   Factory Name
                                 </th>
@@ -363,10 +526,16 @@ const PoLists = () => {
                                 >
                                   Port Name
                                 </th>
+                                <th
+                                  scope="col"
+                                  className="px-3 py-3.5 text-center text-sm font-semibold text-[#637581] border-r"
+                                >
+                                  PO File
+                                </th>
                                 {role !== "USER" && (
                                   <th
                                     scope="col"
-                                    className="px-3 py-3.5 text-left text-sm font-semibold text-[#637581]"
+                                    className="px-3 py-3.5 text-center text-sm font-semibold text-[#637581]"
                                   >
                                     Action
                                   </th>
@@ -398,28 +567,54 @@ const PoLists = () => {
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
                                       {po?.totalPc}
                                     </td>{" "}
-                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
-                                      {moment(po?.buyerEtd).format("L")}
-                                    </td>
-                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
-                                      {moment(po?.factoryEtd).format("L")}
-                                    </td>
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-black  font-medium border-r">
-                                      {moment(po?.friDate).format("L")}
+                                      {moment(po?.friDate).format("DD-MM-YYYY")}
+                                    </td>
+                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
+                                      {moment(po?.buyerEtd).format(
+                                        "DD-MM-YYYY"
+                                      )}
+                                    </td>
+                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
+                                      {moment(po?.factoryEtd).format(
+                                        "DD-MM-YYYY"
+                                      )}
                                     </td>
                                     {index === 0 && (
                                       <td
                                         rowSpan={order.orders.length}
-                                        className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r"
+                                        className="whitespace-nowrap text-center px-3 py-4 text-sm text-black font-medium border-r"
                                       >
-                                        {order?.factory?.factoryName ?? "--"}
+                                        {order?.factory?.factoryName ?? "-"}
                                       </td>
                                     )}
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
                                       {po?.Port?.portName}
                                     </td>
+                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r text-center">
+                                      {po?.orderFile ? (
+                                        <IconButton
+                                          onClick={() =>
+                                            window.open(
+                                              `${fileUrlKey()}/${po?.orderFile}`
+                                            )
+                                          }
+                                          icon={
+                                            <FaFileDownload
+                                              className="font-bold text-[#5a5a5ab6]"
+                                              size={20}
+                                            />
+                                          }
+                                          color="blue"
+                                          appearance="default"
+                                          circle
+                                        />
+                                      ) : (
+                                        "-"
+                                      )}
+                                    </td>
                                     {(role === "ADMIN" || "SUPERADMIN") && (
-                                      <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium">
+                                      <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-black font-medium">
                                         <IconButton
                                           onClick={() =>
                                             handlePoEditModalOpen(po)

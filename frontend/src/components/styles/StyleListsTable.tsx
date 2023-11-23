@@ -15,7 +15,7 @@ import StyleEditModal from "./StyleEditModal";
 import PoModalTable from "./modals/PoModalTable";
 import PpSubmissionModal from "./modals/PpSubmissionModal";
 import TechPackModal from "./modals/TechPackModal";
-import { imageUrlKey } from "../../config/envConfig";
+import { fileUrlKey } from "../../config/envConfig";
 const { Column, HeaderCell, Cell } = Table;
 
 const rowKey = "styleNo";
@@ -31,6 +31,7 @@ const ExpandCell = ({
     View
     <IconButton
       appearance="subtle"
+      circle
       onClick={() => {
         onChange(rowData);
       }}
@@ -201,7 +202,7 @@ const StyleListsTable = ({
                   <Popover>
                     <div>
                       <img
-                        src={`${imageUrlKey()}/${rowData.image}`}
+                        src={`${fileUrlKey()}/${rowData.image}`}
                         alt={rowData.image}
                         className="h-52 w-52  object-cover"
                       />
@@ -211,7 +212,7 @@ const StyleListsTable = ({
               >
                 <div>
                   <img
-                    src={`${imageUrlKey()}/${rowData.image}`}
+                    src={`${fileUrlKey()}/${rowData.image}`}
                     className="h-10 w-10 object-cover rounded-full"
                   />
                 </div>
@@ -225,16 +226,17 @@ const StyleListsTable = ({
           <Cell style={cellCss} verticalAlign="middle" dataKey="styleNo" />
         </Column>
 
-        {/* Tech Pack */}
+        {/* Tack Pack */}
+
         <Column flexGrow={1}>
-          <HeaderCell style={headerCss}>Tach Pack</HeaderCell>
+          <HeaderCell style={headerCss}>Tack Pack</HeaderCell>
           <Cell
             style={cellCss}
             verticalAlign="middle"
             className="text-blue-500"
           >
             {(rowData) => (
-              <div className="flex items-center gap-1 justify-center">
+              <div className="">
                 <button onClick={() => allTackPckList(rowData.tackPack)}>
                   View
                 </button>

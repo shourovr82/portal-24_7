@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import AddPpStatusTextEditor from "../../components/addStatusEditor/AddPpStatusTextEditor";
 import { useGetStyleNoQuery } from "../../redux/features/styles/styleApi";
 

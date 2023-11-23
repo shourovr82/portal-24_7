@@ -18,7 +18,36 @@ const createTackPack = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+// !----------------------------------get Single  TackPack Details---------------------------------------->>>
+const getSingleTackPack = catchAsync(async (req: Request, res: Response) => {
+  const tackPackId = req?.params?.tackPackId;
+
+  const result = await TackPackService.getSingleTackPack(tackPackId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'TackPack Retrieved Successfully',
+    data: result,
+  });
+});
+// !---------------------------------- Update  TackPack ---------------------------------------->>>
+const updateTackPack = catchAsync(async (req: Request, res: Response) => {
+  const tackPackId = req?.params?.tackPackId;
+  const profileId = (req.user as IRequestUser).profileId;
+
+  const result = await TackPackService.updateTackPack(profileId, tackPackId, req);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'TackPack Updated Successfully',
+    data: result,
+  });
+});
 
 export const TackPackController = {
   createTackPack,
+  getSingleTackPack,
+  updateTackPack,
 };

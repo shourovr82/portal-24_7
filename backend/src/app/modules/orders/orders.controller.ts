@@ -8,10 +8,22 @@ import { ordersFilterableFields } from './orders.constants';
 import { OrderService } from './orders.service';
 
 // !----------------------------------Create New Order---------------------------------------->>>
+// const createNewOrder = catchAsync(async (req: Request, res: Response) => {
+//   const profileId = (req.user as IRequestUser).profileId;
+//   const payload = req.body;
+//   const result = await OrderService.createNewOrder(profileId, payload);
+
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: 'Order created successfully',
+//     data: result,
+//   });
+// });
 const createNewOrder = catchAsync(async (req: Request, res: Response) => {
   const profileId = (req.user as IRequestUser).profileId;
-  const payload = req.body;
-  const result = await OrderService.createNewOrder(profileId, payload);
+
+  const result = await OrderService.createNewOrder(profileId, req);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -51,13 +63,13 @@ const getSingleOrder = catchAsync(async (req: Request, res: Response) => {
 // !----------------------------------Update Order---------------------------------------->>>
 const updateOrder = catchAsync(async (req: Request, res: Response) => {
   const { orderNo } = req.params;
-  const payload = req.body;
-  const result = await OrderService.updateOrder(orderNo, payload);
+
+  const result = await OrderService.updateOrder(orderNo, req);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'PO Updated successfully!!!!',
+    message: 'PO Updated Successfully',
     data: result,
   });
 });
@@ -92,18 +104,16 @@ const getAllOrdersLength = catchAsync(async (req: Request, res: Response) => {
 });
 
 // !----------------------------------get all orders statistics---------------------------------------->>>
-const getBuyerEtdStatistics = catchAsync(
-  async (req: Request, res: Response) => {
-    const result = await OrderService.getBuyerEtdStatistics();
+const getBuyerEtdStatistics = catchAsync(async (req: Request, res: Response) => {
+  const result = await OrderService.getBuyerEtdStatistics();
 
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'Monthly Orders Count fetched successfully',
-      data: result,
-    });
-  }
-);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Monthly Orders Count fetched successfully',
+    data: result,
+  });
+});
 
 // !----------------------------------get all orders statistics---------------------------------------->>>
 const getAllOrdersPC = catchAsync(async (req: Request, res: Response) => {

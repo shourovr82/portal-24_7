@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { baseApi } from "../../api/baseApi";
 import { tagTypes } from "../../tag-types/tag-types";
 const TACK_PACK_ROUTES = "tack-pack";

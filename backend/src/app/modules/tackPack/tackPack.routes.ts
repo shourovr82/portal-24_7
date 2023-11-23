@@ -14,11 +14,25 @@ router.post(
   auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
   FileUploadHelper.uploadTackPackPdf.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
-    req.body = TackPackValidation.createTackPack.parse(
-      JSON.parse(req.body.data)
-    );
+    req.body = TackPackValidation.createTackPack.parse(JSON.parse(req.body.data));
     return TackPackController.createTackPack(req, res, next);
   }
 );
+// ! get details
+router.get(
+  '/get-tack-pack/:tackPackId',
+  auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
+  TackPackController.getSingleTackPack
+);
 
+// ! update tack pack
+router.patch(
+  '/update/:tackPackId',
+  auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
+  FileUploadHelper.updateUploadTackPackPdf.single('file'),
+  (req: Request, res: Response, next: NextFunction) => {
+    req.body = TackPackValidation.updateTackPack.parse(JSON.parse(req.body.data));
+    return TackPackController.updateTackPack(req, res, next);
+  }
+);
 export const TackPackRoutes = router;

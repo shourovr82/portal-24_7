@@ -30,11 +30,6 @@ const AddCourier = () => {
   const { data: styles, isLoading: isLoadingStyleNo } =
     useGetStyleNoQuery(null);
 
-  const allStyle = styles?.data?.map((style: any) => ({
-    label: style?.styleNo,
-    value: style?.styleNo,
-  }));
-
   const [
     createNewCourier,
     {
@@ -60,7 +55,6 @@ const AddCourier = () => {
       awbNo: data?.awbNo,
       courierDate: data?.courierDate,
       courierDetails: data?.courierDetails,
-      courierWeight: data?.courierWeight,
       styleNo: data?.styleNo,
     };
 
@@ -137,7 +131,12 @@ const AddCourier = () => {
                     <div className="rs-form-control-wrapper">
                       <SelectPicker
                         size="lg"
-                        data={allStyle || []}
+                        data={
+                          styles?.data?.map((style: any) => ({
+                            label: style?.styleNo,
+                            value: style?.styleNo,
+                          })) || []
+                        }
                         value={field.value}
                         onChange={(value: string | null) =>
                           field.onChange(value)
@@ -299,49 +298,6 @@ const AddCourier = () => {
                         placement="topEnd"
                       >
                         {errors?.awbNo?.message}
-                      </Form.ErrorMessage>
-                    </div>
-                  )}
-                />
-              </div>
-
-              {/* Courier Weight */}
-
-              <div className="flex flex-col gap-3 w-full ">
-                <div>
-                  <Whisper speaker={<Tooltip>Courier Weight</Tooltip>}>
-                    <label
-                      htmlFor="courierWeight"
-                      className="text-sm font-medium"
-                    >
-                      Courier Weight <InfoOutlineIcon />
-                    </label>
-                  </Whisper>
-                </div>
-
-                <Controller
-                  name="courierWeight"
-                  control={control}
-                  rules={{ required: "Courier Weight is Required" }}
-                  render={({ field }: any) => (
-                    <div className="rs-form-control-wrapper ">
-                      <Input
-                        size="lg"
-                        {...field}
-                        id="courierWeight"
-                        style={{ width: "100%" }}
-                        placeholder="Enter courier weight..."
-                        type="text"
-                      />
-                      <Form.ErrorMessage
-                        show={
-                          (!!errors?.courierWeight &&
-                            !!errors?.courierWeight?.message) ||
-                          false
-                        }
-                        placement="topEnd"
-                      >
-                        {errors?.courierWeight?.message}
                       </Form.ErrorMessage>
                     </div>
                   )}

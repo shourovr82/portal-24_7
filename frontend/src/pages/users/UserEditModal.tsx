@@ -23,7 +23,7 @@ import InfoOutlineIcon from "@rsuite/icons/InfoOutline";
 
 import EyeIcon from "@rsuite/icons/legacy/Eye";
 import EyeSlashIcon from "@rsuite/icons/legacy/EyeSlash";
-import { imageUrlKey } from "../../config/envConfig";
+import { fileUrlKey } from "../../config/envConfig";
 
 const UserEditModal = ({ editUser, openEdit, setOpenEdit }: any) => {
   const [visible, setVisible] = useState(false);
@@ -65,7 +65,16 @@ const UserEditModal = ({ editUser, openEdit, setOpenEdit }: any) => {
       reset();
       formReset();
     }
-  }, [isError, isLoading, isSuccess, reset, setOpenEdit]);
+  }, [
+    data,
+    error,
+    formReset,
+    isError,
+    isLoading,
+    isSuccess,
+    reset,
+    setOpenEdit,
+  ]);
 
   return (
     <Modal size="md" open={openEdit} onClose={() => setOpenEdit(false)}>
@@ -228,7 +237,7 @@ const UserEditModal = ({ editUser, openEdit, setOpenEdit }: any) => {
               </div>
 
               <img
-                src={`${imageUrlKey()}/${editUser?.profile?.profileImage}`}
+                src={`${fileUrlKey()}/${editUser?.profile?.profileImage}`}
                 alt="Image Preview"
                 className=" w-[150px] rounded-full h-full object-cover object-center cursor-pointer"
                 style={{

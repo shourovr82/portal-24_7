@@ -5,7 +5,7 @@ import { useState } from "react";
 import PoModalTable from "./modals/PoModalTable";
 import { useGetRecentCommentsOnStylesQuery } from "../../redux/features/styles/styleApi";
 import moment from "moment";
-import { imageUrlKey } from "../../config/envConfig";
+import { fileUrlKey } from "../../config/envConfig";
 const { Column, HeaderCell, Cell } = Table;
 
 const ImageCell = ({ rowData, dataKey, ...props }: any) => {
@@ -13,7 +13,7 @@ const ImageCell = ({ rowData, dataKey, ...props }: any) => {
     <Popover>
       <div>
         <img
-          src={`${imageUrlKey()}/${rowData?.image}`}
+          src={`${fileUrlKey()}/${rowData?.image}`}
           alt=""
           className="h-48 w-48 object-cover"
         />
@@ -25,7 +25,7 @@ const ImageCell = ({ rowData, dataKey, ...props }: any) => {
       <Whisper placement="top" speaker={speaker}>
         <div>
           <img
-            src={`${imageUrlKey()}/${rowData?.image}`}
+            src={`${fileUrlKey()}/${rowData?.image}`}
             className="h-10 w-10 object-cover rounded-full"
           />
         </div>

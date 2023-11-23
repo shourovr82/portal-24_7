@@ -14,25 +14,17 @@ import {
   courierRelationalFields,
   courierRelationalFieldsMapper,
 } from './courier.constants';
-import {
-  ICourierCreateRequest,
-  ICourierFilterRequest,
-  ICourierUpdateRequest,
-  IStyleWiseCourier,
-} from './courier.interface';
+import { ICourierCreateRequest, ICourierFilterRequest, ICourierUpdateRequest, IStyleWiseCourier } from './courier.interface';
 
 // modules
 
 // !----------------------------------Create New Courier---------------------------------------->>>
-const createNewCourier = async (
-  data: ICourierCreateRequest
-): Promise<Courier> => {
+const createNewCourier = async (data: ICourierCreateRequest): Promise<Courier> => {
   const portDetails = {
     courierName: data.courierName,
     awbNo: data.awbNo,
     courierDate: data.courierDate,
     courierDetails: data.courierDetails,
-    courierWeight: data.courierWeight,
     styleNo: data?.styleNo,
   };
 
@@ -51,10 +43,7 @@ const createNewCourier = async (
   return result;
 };
 // !----------------------------------get all Courier---------------------------------------->>>
-const getAllCouriers = async (
-  filters: ICourierFilterRequest,
-  options: IPaginationOptions
-): Promise<IGenericResponse<Courier[]>> => {
+const getAllCouriers = async (filters: ICourierFilterRequest, options: IPaginationOptions): Promise<IGenericResponse<Courier[]>> => {
   // Calculate pagination options
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
 
@@ -109,8 +98,7 @@ const getAllCouriers = async (
   }
 
   // Create a whereConditions object with AND conditions
-  const whereConditions: Prisma.CourierWhereInput =
-    andConditions.length > 0 ? { AND: andConditions } : {};
+  const whereConditions: Prisma.CourierWhereInput = andConditions.length > 0 ? { AND: andConditions } : {};
 
   // Retrieve Courier with filtering and pagination
   const result = await prisma.courier.findMany({
@@ -120,10 +108,7 @@ const getAllCouriers = async (
     where: whereConditions,
     skip,
     take: limit,
-    orderBy:
-      options.sortBy && options.sortOrder
-        ? { [options.sortBy]: options.sortOrder }
-        : { createdAt: 'desc' },
+    orderBy: options.sortBy && options.sortOrder ? { [options.sortBy]: options.sortOrder } : { createdAt: 'desc' },
   });
 
   // Count total matching orders for pagination
@@ -163,10 +148,7 @@ const getSingleCourier = async (courierId: string): Promise<Courier | null> => {
   return result;
 };
 // !----------------------------------Update Courier---------------------------------------->>>
-const updateCourierInformation = async (
-  courierId: string,
-  payload: ICourierUpdateRequest
-): Promise<Courier> => {
+const updateCourierInformation = async (courierId: string, payload: ICourierUpdateRequest): Promise<Courier> => {
   const result = await prisma.$transaction(async transactionClient => {
     const existingCourier = await transactionClient.courier.findUnique({
       where: {
@@ -183,7 +165,6 @@ const updateCourierInformation = async (
       awbNo: payload?.awbNo,
       courierDate: payload?.courierDate,
       courierDetails: payload?.courierDetails,
-      courierWeight: payload?.courierWeight,
       styleNo: payload?.styleNo,
     };
 
@@ -242,8 +223,7 @@ const getStyleWiseNoOfCourier = async (
   }
 
   // Create a whereConditions object with AND conditions
-  const whereConditions: Prisma.StylesWhereInput =
-    andConditions.length > 0 ? { AND: andConditions } : {};
+  const whereConditions: Prisma.StylesWhereInput = andConditions.length > 0 ? { AND: andConditions } : {};
 
   // Retrieve Courier with filtering and pagination
   const result = await prisma.styles.findMany({
@@ -258,10 +238,7 @@ const getStyleWiseNoOfCourier = async (
     where: whereConditions,
     skip,
     take: limit,
-    orderBy:
-      options.sortBy && options.sortOrder
-        ? { [options.sortBy]: options.sortOrder }
-        : { createdAt: 'desc' },
+    orderBy: options.sortBy && options.sortOrder ? { [options.sortBy]: options.sortOrder } : { createdAt: 'desc' },
   });
 
   // Count total matching orders for pagination

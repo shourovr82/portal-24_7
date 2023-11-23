@@ -60,11 +60,8 @@ const TackPack = () => {
     const formData = new FormData();
     formData.append("file", data.tackPackFile?.blobFile as Blob);
     formData.append("data", tackPackData);
-    try {
-      await CreateTackPack(formData);
-    } catch (err: any) {
-      console.error(err.message);
-    }
+    //
+    await CreateTackPack(formData);
   };
 
   useEffect(() => {
@@ -230,11 +227,11 @@ const TackPack = () => {
                 )}
               />
             </div>
-            <div className="flex justify-end">
+            <div className="flex justify-end mt-5">
               <button
                 type="submit"
                 disabled={createLoading}
-                className={`bg-[#0284c7] text-white rounded-md items-center   flex px-2.5 py-1`}
+                className={`bg-[#0284c7] text-white rounded-md items-center   flex px-5 py-1`}
               >
                 {createLoading && (
                   <>

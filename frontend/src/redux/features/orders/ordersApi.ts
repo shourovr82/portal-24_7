@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 
 import { baseApi } from "../../api/baseApi";
 import { tagTypes } from "../../tag-types/tag-types";
@@ -46,9 +45,10 @@ const ordersApi = baseApi.injectEndpoints({
     }),
     createNewOrder: builder.mutation({
       query: (data) => ({
-        url: `/orders`,
+        url: `/orders/create-order`,
         method: "POST",
         data: data,
+        contentType: "multipart/form-data",
       }),
       invalidatesTags: [tagTypes.orders, tagTypes.style, tagTypes.factory],
     }),
@@ -57,6 +57,7 @@ const ordersApi = baseApi.injectEndpoints({
         url: `/orders/update/${id}`,
         method: "PATCH",
         data: data,
+        contentType: "multipart/form-data",
       }),
       invalidatesTags: [tagTypes.orders, tagTypes.style, tagTypes.factory],
     }),
