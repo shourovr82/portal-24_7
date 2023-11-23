@@ -9,6 +9,7 @@ const PoModalTable = ({ orders, open, handleClose }: any) => {
   return (
     <>
       <Modal
+        className="font-Inter"
         size={orders?.length > 0 ? "lg" : "sm"}
         open={open}
         onClose={handleClose}

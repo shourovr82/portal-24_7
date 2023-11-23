@@ -156,8 +156,9 @@ const AddStyle = () => {
                           size="lg"
                           {...field}
                           id="styleNo"
+                          className="text-slate-900"
                           style={{ width: "100%" }}
-                          placeholder="Enter Style NO..."
+                          placeholder="Enter Style No..."
                           type="text"
                         />
                         <Form.ErrorMessage
@@ -252,6 +253,7 @@ const AddStyle = () => {
                         size="lg"
                         {...field}
                         id="fabric"
+                        className="text-slate-900"
                         style={{ width: "100%" }}
                         placeholder="Enter Fabric..."
                         type="text"
@@ -308,7 +310,7 @@ const AddStyle = () => {
                 type="submit"
                 size="lg"
                 loading={createLoading}
-                className={`bg-[#0284c7] hover:bg-[#0284c7] focus:bg-[#0284c7] focus:text-white hover:text-white/80 text-white rounded-md items-center   flex px-5 py-2`}
+                className={`bg-[#0284c7] hover:bg-sky-700 focus:bg-[#0284c7] focus:text-white hover:text-white text-white rounded-md items-center   flex px-5 py-2`}
               >
                 Create Style
               </Button>
