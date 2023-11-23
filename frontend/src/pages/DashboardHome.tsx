@@ -38,14 +38,14 @@ const DashboardHome = () => {
             <div className="w-10 h-10 p-[10px] rounded-3xl bg-gray-50">
               <GiClothes size={20} className="text-blue-600" />
             </div>
-            <p className="font-medium text-[#101828] text-xl">Total Style</p>
+            <p className="font-medium text-gray-600 text-xl">Total Style</p>
           </div>
           <div className="mt-1">
-            <p className="text-5xl font-semibold text-[#101828]">
+            <p className="text-4xl font-semibold text-[#262626] ml-[56px]">
               {allStyles?.data ? allStyles?.data?.currentYear : 0}
             </p>
           </div>
-          <div className="flex">
+          <div className="text-right mt-2.5">
             <p className="font-medium text-sm text-[#667085]">
               <span className="text-[#B42318] text-sm font-medium">
                 {" "}
@@ -70,14 +70,14 @@ const DashboardHome = () => {
             <div className="w-10 h-10 p-[10px] rounded-3xl bg-gray-50">
               <AiOutlineUnorderedList size={20} className="text-blue-600" />
             </div>
-            <p className="font-medium text-[#101828] text-xl">Total PO</p>
+            <p className="font-medium text-gray-600 text-xl">Total PO</p>
           </div>
           <div className="mt-1">
-            <p className="text-5xl font-semibold text-[#101828]">
+            <p className="text-4xl font-semibold text-[#262626] ml-[56px]">
               {allOrders?.data ? allOrders?.data?.currentYear : 0}
             </p>
           </div>
-          <div className="flex">
+          <div className="text-right mt-2.5">
             <p className="font-medium text-sm text-[#667085]">
               <span className="text-[#B42318] text-sm font-medium">
                 {" "}
@@ -102,32 +102,30 @@ const DashboardHome = () => {
             <div className="w-10 h-10 p-[10px] rounded-3xl bg-gray-50">
               <MdOutlineFactory size={20} className="text-blue-600" />
             </div>
-            <p className="font-medium text-[#101828] text-xl">Total Factory</p>
+            <p className="font-medium text-gray-600 text-xl">Total Factory</p>
           </div>
           <div className="mt-1">
-            <p className="text-5xl font-semibold text-[#101828]">
+            <p className="text-4xl font-semibold text-[#262626] ml-[56px]">
               {allFactories?.data ? allFactories?.data?.currentYear : 0}
             </p>
           </div>
-          <div className="flex items-center justify-between">
-            <div className="flex">
-              <p className="font-medium text-sm text-[#667085]">
-                <span className="text-[#B42318] text-sm font-medium">
-                  {" "}
-                  {allFactories?.data?.currentYear != null &&
-                  allFactories?.data?.lastYear != null &&
-                  allFactories?.data?.lastYear !== 0
-                    ? `${(
-                        (allFactories?.data?.currentYear /
-                          allFactories?.data?.lastYear) *
-                        100
-                      ).toFixed(2)}`
-                    : "0"}
-                  %
-                </span>{" "}
-                vs last year
-              </p>
-            </div>
+          <div className="text-right mt-2.5">
+            <p className="font-medium text-sm text-[#667085]">
+              <span className="text-[#B42318] text-sm font-medium">
+                {" "}
+                {allFactories?.data?.currentYear != null &&
+                allFactories?.data?.lastYear != null &&
+                allFactories?.data?.lastYear !== 0
+                  ? `${(
+                      (allFactories?.data?.currentYear /
+                        allFactories?.data?.lastYear) *
+                      100
+                    ).toFixed(2)}`
+                  : "0"}
+                %
+              </span>{" "}
+              vs last year
+            </p>
           </div>
         </li>
       </ul>
