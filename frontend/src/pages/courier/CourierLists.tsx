@@ -134,7 +134,7 @@ const CourierLists = () => {
       <Popover ref={ref} className={className} style={{ left, top }} full>
         <Dropdown.Menu onSelect={handleSelect}>
           <Dropdown.Item
-            disabled={!isLoading && !allOrders?.data?.length}
+            disabled={!isLoadingCouriersData && !couriersData?.data?.length}
             onClick={saveExcel}
             eventKey={4}
           >
@@ -173,8 +173,9 @@ const CourierLists = () => {
         column.alignment = { horizontal: "center" };
       });
 
-      const rowIndexStart = 2;
-      let rowIndex = rowIndexStart;
+      // const rowIndexStart = 2;
+
+      // let rowIndex = rowIndexStart;
 
       couriersData?.data?.forEach((singleData: any) => {
         const customRows = {
@@ -182,7 +183,7 @@ const CourierLists = () => {
           awbNo: singleData.awbNo,
           courierDetails: singleData.courierDetails,
           courierName: singleData.courierName,
-          courierDate: singleData?.fabric,
+          courierDate: moment(singleData?.courierDate).format("DD-MM-YYYY"),
         };
         worksheet.addRow(customRows);
       });
