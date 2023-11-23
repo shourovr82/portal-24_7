@@ -10,12 +10,7 @@ import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
 
 import { ordersRelationalFields, ordersRelationalFieldsMapper, ordersSearchableFields } from './orders.constants';
-import {
-  ICreateOrderResponse,
-  IOrderCreateRequest,
-  IOrderFilterRequest,
-  IOrderUpdateRequest,
-} from './orders.interface';
+import { ICreateOrderResponse, IOrderCreateRequest, IOrderFilterRequest, IOrderUpdateRequest } from './orders.interface';
 import { Request } from 'express';
 import { IUploadFile } from '../../../interfaces/file';
 import { decreaseDateByDays } from './order.utils';
@@ -110,10 +105,7 @@ const createNewOrder = async (profileId: string, req: Request): Promise<ICreateO
   return result;
 };
 // !----------------------------------get all orders---------------------------------------->>>
-const getAllOrders = async (
-  filters: IOrderFilterRequest,
-  options: IPaginationOptions
-): Promise<IGenericResponse<Orders[]>> => {
+const getAllOrders = async (filters: IOrderFilterRequest, options: IPaginationOptions): Promise<IGenericResponse<Orders[]>> => {
   // Calculate pagination options
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
 
@@ -301,7 +293,7 @@ const updateOrder = async (orderNo: string, req: Request): Promise<Orders> => {
 
     // updated data
     const updatedPoData: Partial<Orders> = {};
-    if (portId !== undefined) updatedPoData['portId'] = portId;
+    // if (portId !== undefined) updatedPoData['portId'] = portId;
     if (styleNo !== undefined) updatedPoData['styleNo'] = styleNo;
     if (totalPc !== undefined) updatedPoData['totalPc'] = Number(totalPc);
     if (totalPack !== undefined) updatedPoData['totalPack'] = Number(totalPack);
@@ -331,10 +323,7 @@ const updateOrder = async (orderNo: string, req: Request): Promise<Orders> => {
 
 // ! style  wise order list
 
-const styleWiseOrderLists = async (
-  filters: IOrderFilterRequest,
-  options: IPaginationOptions
-): Promise<IGenericResponse<any[]>> => {
+const styleWiseOrderLists = async (filters: IOrderFilterRequest, options: IPaginationOptions): Promise<IGenericResponse<any[]>> => {
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
 
   // Destructure filter properties
@@ -591,9 +580,7 @@ const getBuyerEtdStatistics = async () => {
     };
   };
 
-  const yearCounts = await Promise.all(
-    years.map(year => Promise.all(months.map(month => countOrdersForMonth(year, month))))
-  );
+  const yearCounts = await Promise.all(years.map(year => Promise.all(months.map(month => countOrdersForMonth(year, month)))));
 
   const yearData = years.map((year, index) => ({
     year: year,

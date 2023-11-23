@@ -39,14 +39,16 @@ const UserLists = () => {
   }
 
   const {
-    data: allUsers,
-    // isLoading,
-    // isError,
+    data: allUsersRes,
+    isLoading,
+    isError,
   } = useGetAllUsersQuery({ ...query });
   const [userDetails, setUserDetails] = useState(null);
   const [openDetails, setOpenDetails] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [editUser, setEditUser] = useState(null);
+
+  const { data: allUsers } = allUsersRes || {};
 
   return (
     <>
@@ -166,46 +168,46 @@ const UserLists = () => {
                       </tr>
                     </thead>
                     <tbody className=" bg-white">
-                      {allUsers?.data?.data
-                        ? allUsers?.data?.data?.map((singleUser: any) => (
-                            <tr key={Math.random()}>
-                              <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-black font-medium sm:pl-6 ">
-                                <div className="flex  gap-2">
-                                  <div>
-                                    <img
-                                      src={`${fileUrlKey()}/${
-                                        singleUser?.profile?.profileImage
-                                      }`}
-                                      className="w-12 h-12 object-cover  rounded-xl"
-                                    />
-                                  </div>
-                                  <div className="flex flex-col  ">
-                                    <h2 className="text-lg">
-                                      {singleUser?.profile?.firstName}
-                                      {singleUser?.profile?.lastName}
-                                    </h2>
-                                    <p className="text-[#bbbbc1] text-sm">
-                                      {singleUser?.email}
-                                    </p>
-                                  </div>
+                      {allUsers?.data?.length &&
+                        allUsers?.data?.map((singleUser: any) => (
+                          <tr key={Math.random()}>
+                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-black font-medium sm:pl-6 ">
+                              <div className="flex  gap-2">
+                                <div>
+                                  <img
+                                    src={`${fileUrlKey()}/${
+                                      singleUser?.profile?.profileImage
+                                    }`}
+                                    className="w-12 h-12 object-cover  rounded-xl"
+                                  />
                                 </div>
-                              </td>
-
-                              <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium ">
-                                <div className="flex flex-col ">
-                                  <span>{singleUser?.profile?.role}</span>
-
-                                  <span className="text-[#afafb7]">
-                                    Management
-                                  </span>
+                                <div className="flex flex-col  ">
+                                  <h2 className="text-lg">
+                                    {singleUser?.profile?.firstName}{" "}
+                                    {singleUser?.profile?.lastName}
+                                  </h2>
+                                  <p className="text-[#bbbbc1] text-sm">
+                                    {singleUser?.email}
+                                  </p>
                                 </div>
-                              </td>
-                              <td className="whitespace-nowrap py-4  pr-3 text-sm text-black font-medium sm:pl-2 ">
-                                <span
-                                  className={`${
-                                    singleUser?.userStatus === "Active" &&
-                                    "bg-[#198f51] text-white"
-                                  }  
+                              </div>
+                            </td>
+
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium ">
+                              <div className="flex flex-col ">
+                                <span>{singleUser?.profile?.role}</span>
+
+                                <span className="text-[#afafb7]">
+                                  Management
+                                </span>
+                              </div>
+                            </td>
+                            <td className="whitespace-nowrap py-4  pr-3 text-sm text-black font-medium sm:pl-2 ">
+                              <span
+                                className={`${
+                                  singleUser?.userStatus === "Active" &&
+                                  "bg-[#198f51] text-white"
+                                }  
                                 ${
                                   singleUser?.userStatus === "Paused" &&
                                   "bg-[#ffec43] text-yellow-800"
@@ -216,60 +218,66 @@ const UserLists = () => {
                                 }
                                 px-3 py-1.5 rounded-full
                                 `}
-                                >
-                                  {singleUser?.userStatus}
-                                </span>
-                              </td>
+                              >
+                                {singleUser?.userStatus}
+                              </span>
+                            </td>
 
-                              <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium ">
-                                <div>
-                                  <Whisper
-                                    placement="topEnd"
-                                    speaker={
-                                      <Popover
-                                        className="border bg-[#237de1] text-white rounded-full py-1.5  px-5"
-                                        arrow={false}
-                                      >
-                                        Details
-                                      </Popover>
-                                    }
-                                  >
-                                    <IconButton
-                                      onClick={() => {
-                                        setOpenDetails(true);
-                                        setUserDetails(singleUser);
-                                      }}
-                                      circle
-                                      icon={<HiOutlineEye size={20} />}
-                                    />
-                                  </Whisper>
-                                  <Whisper
-                                    placement="topEnd"
-                                    speaker={
-                                      <Popover
-                                        className="border bg-[#2baa56] text-white rounded-full py-1.5 px-5"
-                                        arrow={false}
-                                      >
-                                        Edit
-                                      </Popover>
-                                    }
-                                  >
-                                    <IconButton
-                                      onClick={() => {
-                                        setEditUser(singleUser);
-                                        setOpenEdit(true);
-                                      }}
-                                      circle
-                                      icon={<RiEdit2Line size={20} />}
-                                    />
-                                  </Whisper>
-                                </div>
-                              </td>
-                            </tr>
-                          ))
-                        : "No Users Added"}
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium ">
+                              <div>
+                                <Whisper
+                                  placement="topEnd"
+                                  speaker={
+                                    <Popover
+                                      className="border bg-[#237de1] text-white rounded-full py-1.5  px-5"
+                                      arrow={false}
+                                    >
+                                      Details
+                                    </Popover>
+                                  }
+                                >
+                                  <IconButton
+                                    onClick={() => {
+                                      setOpenDetails(true);
+                                      setUserDetails(singleUser);
+                                    }}
+                                    circle
+                                    icon={<HiOutlineEye size={20} />}
+                                  />
+                                </Whisper>
+                                <Whisper
+                                  placement="topEnd"
+                                  speaker={
+                                    <Popover
+                                      className="border bg-[#2baa56] text-white rounded-full py-1.5 px-5"
+                                      arrow={false}
+                                    >
+                                      Edit
+                                    </Popover>
+                                  }
+                                >
+                                  <IconButton
+                                    onClick={() => {
+                                      setEditUser(singleUser);
+                                      setOpenEdit(true);
+                                    }}
+                                    circle
+                                    icon={<RiEdit2Line size={20} />}
+                                  />
+                                </Whisper>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
                     </tbody>
                   </table>
+                  {!isLoading && !isError && !allUsers?.data?.length && (
+                    <div className="mt-5 flex py-10 justify-center ">
+                      <p className="font-medium text-slate-500">
+                        No Users Found !!
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

@@ -3,6 +3,7 @@
 import { IconButton, Modal } from "rsuite";
 import moment from "moment";
 import { FaFileDownload } from "react-icons/fa";
+import { fileUrlKey } from "../../../config/envConfig";
 
 const PoModalTable = ({ orders, open, handleClose }: any) => {
   return (
@@ -22,7 +23,7 @@ const PoModalTable = ({ orders, open, handleClose }: any) => {
             <div className="">
               <div className="mt-1 flex flex-col">
                 <div className="-my-2  overflow-x-auto ">
-                  <div className="inline-block min-w-full py-2 align-middle px-1">
+                  <div className="inline-block min-w-full py-2 align-middle md:px-0.5 ">
                     <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                       {orders?.length && (
                         <table className="min-w-full divide-y divide-gray-300">
@@ -62,6 +63,12 @@ const PoModalTable = ({ orders, open, handleClose }: any) => {
                                 scope="col"
                                 className="px-3 py-3.5 text-left text-sm font-semibold text-[#637581] border-r"
                               >
+                                FRI Date
+                              </th>
+                              <th
+                                scope="col"
+                                className="px-3 py-3.5 text-left text-sm font-semibold text-[#637581] border-r"
+                              >
                                 Buyer ETD
                               </th>
                               <th
@@ -70,6 +77,7 @@ const PoModalTable = ({ orders, open, handleClose }: any) => {
                               >
                                 Factory ETD
                               </th>
+
                               <th
                                 scope="col"
                                 className="px-3 py-3.5 text-left text-sm font-semibold text-[#637581] border-r"
@@ -104,27 +112,41 @@ const PoModalTable = ({ orders, open, handleClose }: any) => {
                                   {order.totalPc}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
-                                  {moment(order.buyerEtd).format("DD-MM-YYYY")}
+                                  {moment(order?.friDate).format("DD-MM-YYYY")}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
-                                  {moment(order.factoryEtd).format("L")}
+                                  {moment(order?.buyerEtd).format("DD-MM-YYYY")}
+                                </td>
+                                <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
+                                  {moment(order?.factoryEtd).format(
+                                    "DD-MM-YYYY"
+                                  )}
                                 </td>
 
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
                                   {order?.Port?.portName ?? "--"}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-black flex justify-center font-medium">
-                                  <IconButton
-                                    icon={
-                                      <FaFileDownload
-                                        className="font-bold"
-                                        size={20}
-                                      />
-                                    }
-                                    color="blue"
-                                    appearance="default"
-                                    circle
-                                  />
+                                  {order?.orderFile ? (
+                                    <IconButton
+                                      onClick={() =>
+                                        window.open(
+                                          `${fileUrlKey()}/${order?.orderFile}`
+                                        )
+                                      }
+                                      icon={
+                                        <FaFileDownload
+                                          className="font-bold text-[#5a5a5ab6]"
+                                          size={20}
+                                        />
+                                      }
+                                      color="blue"
+                                      appearance="default"
+                                      circle
+                                    />
+                                  ) : (
+                                    "-"
+                                  )}
                                 </td>
                               </tr>
                             ))}

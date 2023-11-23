@@ -226,16 +226,17 @@ const StyleListsTable = ({
           <Cell style={cellCss} verticalAlign="middle" dataKey="styleNo" />
         </Column>
 
-        {/* Tech Pack */}
+        {/* Tack Pack */}
+
         <Column flexGrow={1}>
-          <HeaderCell style={headerCss}>Tach Pack</HeaderCell>
+          <HeaderCell style={headerCss}>Tack Pack</HeaderCell>
           <Cell
             style={cellCss}
             verticalAlign="middle"
             className="text-blue-500"
           >
             {(rowData) => (
-              <div className="flex items-center gap-1 justify-center">
+              <div className="">
                 <button onClick={() => allTackPckList(rowData.tackPack)}>
                   View
                 </button>
