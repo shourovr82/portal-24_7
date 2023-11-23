@@ -2,7 +2,17 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
-import { DateRangePicker, IconButton, Pagination, SelectPicker } from "rsuite";
+import {
+  Button,
+  ButtonToolbar,
+  DateRangePicker,
+  Dropdown,
+  IconButton,
+  Pagination,
+  Popover,
+  SelectPicker,
+  Whisper,
+} from "rsuite";
 import moment from "moment";
 import { Table } from "rsuite";
 import { useGetCouriersQuery } from "../../redux/features/couriers/courierApi";
@@ -16,6 +26,9 @@ import { useDebounced } from "../../redux/hook";
 import { getUserInfo } from "../../hooks/services/auth.service";
 import { RiEdit2Line } from "react-icons/ri";
 import CourierEditModal from "../../components/courier/CourierEditModal";
+import DocPassIcon from "@rsuite/icons/DocPass";
+import Excel from "exceljs";
+import { saveAs } from "file-saver";
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -112,6 +125,108 @@ const CourierLists = () => {
     setCourierEditModalOpen(false);
     setCourierEditData(null);
   };
+
+  const renderMenu = ({ onClose, left, top, className }: any, ref: any) => {
+    const handleSelect = () => {
+      onClose();
+    };
+    return (
+      <Popover ref={ref} className={className} style={{ left, top }} full>
+        <Dropdown.Menu onSelect={handleSelect}>
+          <Dropdown.Item
+            disabled={!isLoadingCouriersData && !couriersData?.data?.length}
+            onClick={saveExcel}
+            eventKey={4}
+          >
+            Export to Excel
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Popover>
+    );
+  };
+
+  // ! export to excel
+
+  const columns = [
+    { header: "Courier Date", key: "courierDate" },
+    { header: "Style No", key: "styleNo" },
+    { header: "Courier Name", key: "courierName" },
+    { header: "Air Way Bill", key: "awbNo" },
+    { header: "Parcel Detail", key: "courierDetails" },
+  ];
+
+  const workbook = new Excel.Workbook();
+
+  const saveExcel = async () => {
+    try {
+      const fileName = "Courier Report";
+
+      // creating one worksheet in workbook
+      const worksheet = workbook.addWorksheet("workSheetName");
+
+      // each columns contains header and its mapping key from data
+      worksheet.columns = columns;
+
+      // loop through all of the columns and set the alignment with width.
+      worksheet.columns?.forEach((column: any) => {
+        column.width = column?.header?.length + 5;
+        column.alignment = { horizontal: "center" };
+      });
+
+      // const rowIndexStart = 2;
+
+      // let rowIndex = rowIndexStart;
+
+      couriersData?.data?.forEach((singleData: any) => {
+        const customRows = {
+          styleNo: singleData.styleNo,
+          awbNo: singleData.awbNo,
+          courierDetails: singleData.courierDetails,
+          courierName: singleData.courierName,
+          courierDate: moment(singleData?.courierDate).format("DD-MM-YYYY"),
+        };
+        worksheet.addRow(customRows);
+      });
+
+      // Add style
+      const headerRow = worksheet.getRow(1);
+      headerRow.font = { bold: true }; // Font styling
+      headerRow.height = 30;
+      headerRow.alignment = { vertical: "middle", horizontal: "center" };
+      // loop through all of the rows and set the outline style.
+      worksheet.eachRow({ includeEmpty: false }, (row) => {
+        // store each cell to currentCell
+        // @ts-ignore
+        const currentCell = row?._cells;
+
+        // loop through currentCell to apply border only for the non-empty cell of excel
+        currentCell.forEach((singleCell: any) => {
+          // store the cell address i.e. A1, A2, A3, B1, B2, B3, ...
+          const cellAddress = singleCell._address;
+
+          // apply border
+          worksheet.getCell(cellAddress).border = {
+            top: { style: "thin" },
+            left: { style: "thin" },
+            bottom: { style: "thin" },
+            right: { style: "thin" },
+          };
+        });
+      });
+
+      // write the content using writeBuffer
+      const buf = await workbook.xlsx.writeBuffer();
+
+      // download the processed file
+      saveAs(new Blob([buf]), `${fileName}.xlsx`);
+    } catch (error) {
+      console.error("<<<ERROR>>>", error);
+    } finally {
+      // removing worksheet's instance to create new one
+      workbook.removeWorksheet("workSheetName");
+    }
+  };
+
   return (
     <>
       <div className="p-5">
@@ -123,6 +238,24 @@ const CourierLists = () => {
           </div>
           {/* add */}
           <div className="flex gap-4 ">
+            <ButtonToolbar>
+              <Whisper
+                placement="bottomEnd"
+                speaker={renderMenu}
+                trigger={["click"]}
+              >
+                <Button
+                  appearance="default"
+                  className="!bg-[#0284c7] text-white hover:text-white/80 focus-within:text-white focus-within:bg-[#0284c7] font-semibold
+                    "
+                  color="blue"
+                  startIcon={<DocPassIcon className="text-xl" />}
+                >
+                  Generate Report
+                </Button>
+              </Whisper>
+            </ButtonToolbar>
+
             <Link to="/courier/addcourier">
               <button
                 className="flex items-center gap-2 px-4 py-2 rounded-[4px] text-white  bg-[#0284c7]"
