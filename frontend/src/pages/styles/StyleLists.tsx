@@ -23,6 +23,11 @@ import { predefinedRanges } from "../../constants";
 import { useDebounced } from "../../redux/hook";
 import DocPassIcon from "@rsuite/icons/DocPass";
 import ArrowDownLineIcon from "@rsuite/icons/ArrowDownLine";
+import Excel from "exceljs";
+import { saveAs } from "file-saver";
+import { fileUrlKey } from "../../config/envConfig";
+
+// !
 const StyleLists = () => {
   const query: Record<string, any> = {};
   const [page, setPage] = useState<number>(1);
@@ -40,19 +45,19 @@ const StyleLists = () => {
     startDate: "",
     endDate: "",
   });
-  //
+  // filter
   query["limit"] = size;
   query["page"] = page;
   query["sortBy"] = sortBy;
   query["sortOrder"] = sortOrder;
-  // query["searchTerm"] = searchTerm;
   query["factoryId"] = selectedFactory;
   query["itemId"] = selectedItem;
   query["startDate"] = selectedDate.startDate;
   query["endDate"] = selectedDate.endDate;
+  // debounce for slow search
   const debouncedTerm = useDebounced({
     searchQuery: searchTerm,
-    delay: 600,
+    delay: 300,
   });
 
   if (!!debouncedTerm) {
@@ -70,11 +75,6 @@ const StyleLists = () => {
     useGetAllFactoryNamesQuery(null);
   const { data: allItemResponse, isLoading: isLoadingItemNames } =
     useGetAllItemNamesQuery(null);
-
-  const allItemName = allItemResponse?.data?.map((style: any) => ({
-    label: style?.itemName,
-    value: style?.itemId,
-  }));
 
   const handleFilterDate = (date: Date[] | null) => {
     if (!date?.length) {
@@ -112,12 +112,106 @@ const StyleLists = () => {
     return (
       <Popover ref={ref} className={className} style={{ left, top }} full>
         <Dropdown.Menu onSelect={handleSelect}>
-          <Dropdown.Item eventKey={4}>Export to Excel</Dropdown.Item>
+          <Dropdown.Item onClick={saveExcel} eventKey={4}>
+            Export to Excel
+          </Dropdown.Item>
         </Dropdown.Menu>
       </Popover>
     );
   };
+  // ! export to excel
 
+  const columns = [
+    { header: "Image", key: "image" },
+    { header: "Style No", key: "styleNo" },
+    { header: "Item Description", key: "itemName" },
+    { header: "Fabric", key: "fabric" },
+    { header: "Factory Name", key: "factoryName" },
+  ];
+
+  const workbook = new Excel.Workbook();
+
+  const saveExcel = async () => {
+    try {
+      const fileName = "Styles Report";
+
+      // creating one worksheet in workbook
+      const worksheet = workbook.addWorksheet("workSheetName");
+
+      // each columns contains header and its mapping key from data
+      worksheet.columns = columns;
+
+      // loop through all of the columns and set the alignment with width.
+      worksheet.columns?.forEach((column: any) => {
+        column.width = column?.header?.length + 5;
+        column.alignment = { horizontal: "center" };
+      });
+
+      allStylesList?.data?.forEach((singleData: any) => {
+        const customRows = {
+          styleNo: singleData.styleNo,
+          image: `${fileUrlKey()}/${singleData?.image}`,
+          noOfPack: singleData.noOfPack,
+          itemName: singleData?.item?.itemName,
+          fabric: singleData?.fabric,
+          factoryName: singleData?.factory?.factoryName ?? "-",
+        };
+        // Add a row to the worksheet
+        const row = worksheet.addRow(customRows);
+
+        // Add an image to the worksheet
+        const image = workbook.addImage({
+          filename: customRows.image,
+          extension: "png", // Change the extension based on your image format
+        });
+
+        // Set the image position (you may need to adjust these values based on your layout)
+        worksheet.addImage(image, {
+          tl: { col: 1, row: row.number - 1 },
+          ext: { width: 100, height: 100 },
+        });
+
+        // Save the workbook
+      });
+
+      // Add style
+      const headerRow = worksheet.getRow(1);
+      headerRow.font = { bold: true }; // Font styling
+      headerRow.height = 30;
+      headerRow.alignment = { vertical: "middle", horizontal: "center" };
+      // loop through all of the rows and set the outline style.
+      worksheet.eachRow({ includeEmpty: false }, (row) => {
+        // store each cell to currentCell
+        // @ts-ignore
+        const currentCell = row?._cells;
+
+        // loop through currentCell to apply border only for the non-empty cell of excel
+        currentCell.forEach((singleCell: any) => {
+          // store the cell address i.e. A1, A2, A3, B1, B2, B3, ...
+          const cellAddress = singleCell._address;
+
+          // apply border
+          worksheet.getCell(cellAddress).border = {
+            top: { style: "thin" },
+            left: { style: "thin" },
+            bottom: { style: "thin" },
+            right: { style: "thin" },
+          };
+        });
+      });
+
+      // write the content using writeBuffer
+      const buf = await workbook.xlsx.writeBuffer();
+
+      // download the processed file
+      saveAs(new Blob([buf]), `${fileName}.xlsx`);
+    } catch (error) {
+      console.error("<<<ERROR>>>", error);
+    } finally {
+      // removing worksheet's instance to create new one
+      workbook.removeWorksheet("workSheetName");
+    }
+  };
   return (
     <div className="px-5 py-4  ">
       <div className="flex justify-between items-center">
@@ -177,8 +271,8 @@ const StyleLists = () => {
       </div>
 
       <div className="mt-4 shadow-lg mb-20 shadow-[#eff1f3] border rounded-lg">
+        {/* search and filter */}
         <div className="p-5 ">
-          {/* search and filter */}
           <div className="flex justify-between gap-4">
             <div className="w-[35%]">
               <label htmlFor="voice-search" className="sr-only">
@@ -217,7 +311,12 @@ const StyleLists = () => {
             />
             <SelectPicker
               size="lg"
-              data={allItemName}
+              data={
+                allItemResponse?.data?.map((style: any) => ({
+                  label: style?.itemName,
+                  value: style?.itemId,
+                })) || []
+              }
               onChange={(value: string | null): void =>
                 setSelectedItem(value as string)
               }
