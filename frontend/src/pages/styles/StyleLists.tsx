@@ -22,7 +22,7 @@ import StyleListsTable from "../../components/styles/StyleListsTable";
 import { predefinedRanges } from "../../constants";
 import { useDebounced } from "../../redux/hook";
 import DocPassIcon from "@rsuite/icons/DocPass";
-
+import ArrowDownLineIcon from "@rsuite/icons/ArrowDownLine";
 const StyleLists = () => {
   const query: Record<string, any> = {};
   const [page, setPage] = useState<number>(1);
@@ -106,7 +106,7 @@ const StyleLists = () => {
     }
   };
   const renderMenu = ({ onClose, left, top, className }: any, ref: any) => {
-    const handleSelect = (eventKey: any) => {
+    const handleSelect = () => {
       onClose();
     };
     return (
@@ -140,6 +140,7 @@ const StyleLists = () => {
                     "
                   color="blue"
                   startIcon={<DocPassIcon className="text-xl" />}
+                  endIcon={<ArrowDownLineIcon className="text-xl" />}
                 >
                   Generate Report
                 </Button>
