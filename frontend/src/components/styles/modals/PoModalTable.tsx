@@ -9,6 +9,7 @@ const PoModalTable = ({ orders, open, handleClose }: any) => {
   return (
     <>
       <Modal
+        className="font-Inter"
         size={orders?.length > 0 ? "lg" : "sm"}
         open={open}
         onClose={handleClose}
@@ -22,7 +23,7 @@ const PoModalTable = ({ orders, open, handleClose }: any) => {
             <div className="">
               <div className="mt-1 flex flex-col">
                 <div className="-my-2  overflow-x-auto ">
-                  <div className="inline-block min-w-full py-2 align-middle md:px-0.5 ">
+                  <div className="inline-block min-w-full py-2 align-middle px-1">
                     <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                       {orders?.length && (
                         <table className="min-w-full divide-y divide-gray-300">

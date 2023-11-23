@@ -28,7 +28,7 @@ const MainLayout = () => {
 
   return (
     <>
-      <div className="w-full flex  font-Inter">
+      <div className="w-full flex">
         <div
           className="border-r bg-[#F7F7FA]"
           style={{ transition: "width 0.2s ease" }}
