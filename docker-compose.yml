@@ -7,12 +7,11 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: masportal
       POSTGRES_DB: portal_247db
     volumes:
       - type: bind
-        source: /root/volume/portal247/data
+        source: /root/volume/portal247/db
         target: /var/lib/postgresql/data
     restart: unless-stopped
 
@@ -30,7 +29,6 @@ services:
       - type: bind
         source: /root/volume/portal247/data
         target: /app/uploads
-    restart: always
 
   frontend:
     stdin_open: true
@@ -40,4 +38,3 @@ services:
     container_name: frontend-container
     ports:
       - 3100:80
-    restart: always
