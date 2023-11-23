@@ -26,6 +26,7 @@ import DocPassIcon from "@rsuite/icons/DocPass";
 import ArrowDownLineIcon from "@rsuite/icons/ArrowDownLine";
 import Excel from "exceljs";
 import { saveAs } from "file-saver";
+import { fileUrlKey } from "../../config/envConfig";
 
 // !
 const StyleLists = () => {
@@ -150,11 +151,13 @@ const StyleLists = () => {
       allStylesList?.data?.forEach(async (singleData: any) => {
         const customRows = {
           styleNo: singleData.styleNo,
-          image: 0,
+          image: `${fileUrlKey()}/${singleData?.image}`,
           itemName: singleData?.item?.itemName,
           fabric: singleData?.fabric,
           factoryName: singleData?.factory?.factoryName ?? "-",
         };
+
+        // !
 
         worksheet.addRow(customRows);
         //
@@ -163,6 +166,7 @@ const StyleLists = () => {
       //! Add style-----------------------------------------------------
       const headerRow = worksheet.getRow(1);
       headerRow.font = { bold: true }; // Font styling
+
       headerRow.height = 30;
       headerRow.alignment = { vertical: "middle", horizontal: "center" };
       // loop through all of the rows and set the outline style.
@@ -177,6 +181,7 @@ const StyleLists = () => {
           const cellAddress = singleCell._address;
 
           // apply border
+
           worksheet.getCell(cellAddress).border = {
             top: { style: "thin" },
             left: { style: "thin" },
@@ -233,7 +238,7 @@ const StyleLists = () => {
                 className="flex items-center gap-2 px-4 py-2 rounded-[4px] text-white  bg-[#0284c7]"
                 type="button"
               >
-                <FiPlus size={18}/>
+                <FiPlus size={18} />
                 <span className="text-sm font-semibold">Add New Style</span>
               </button>
             </Link>
