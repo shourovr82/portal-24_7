@@ -35,7 +35,6 @@ const getSingleTackPack = catchAsync(async (req: Request, res: Response) => {
 const updateTackPack = catchAsync(async (req: Request, res: Response) => {
   const tackPackId = req?.params?.tackPackId;
   const profileId = (req.user as IRequestUser).profileId;
-  console.log(tackPackId);
 
   const result = await TackPackService.updateTackPack(profileId, tackPackId, req);
 
