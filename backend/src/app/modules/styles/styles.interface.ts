@@ -17,10 +17,10 @@ export type IStyleCreateRequest = {
 };
 export type IStyleUpdateRequest = {
   itemId?: string;
-  image?: string;
   fabric?: string;
   factoryId?: string;
   isActiveStyle?: boolean;
+  oldFilePath?: string;
 };
 
 export type IUpdateStyleRequest = {

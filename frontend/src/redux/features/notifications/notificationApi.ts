@@ -8,7 +8,7 @@ const notificationApi = baseApi.injectEndpoints({
         url: `/notification`,
         method: "GET",
       }),
-      providesTags: [tagTypes.notification],
+      providesTags: [tagTypes.notification, tagTypes.ppSubmission],
     }),
   }),
 });

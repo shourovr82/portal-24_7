@@ -13,7 +13,17 @@ const tackPackApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.style],
     }),
+    singleTackPack: builder.query({
+      query: ({ id }) => {
+        return {
+          url: `/${TACK_PACK_ROUTES}/get-tack-pack/${id}`,
+          method: "GET",
+        };
+      },
+      providesTags: [tagTypes.style],
+    }),
   }),
 });
 
-export const { useCreateTackPackMutation } = tackPackApi;
+export const { useCreateTackPackMutation, useSingleTackPackQuery } =
+  tackPackApi;

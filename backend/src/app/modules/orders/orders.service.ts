@@ -8,7 +8,7 @@ import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
-
+import fs from 'fs';
 import { ordersRelationalFields, ordersRelationalFieldsMapper, ordersSearchableFields } from './orders.constants';
 import { ICreateOrderResponse, IOrderCreateRequest, IOrderFilterRequest, IOrderUpdateRequest } from './orders.interface';
 import { Request } from 'express';
@@ -237,7 +237,18 @@ const updateOrder = async (orderNo: string, req: Request): Promise<Orders> => {
   const file = req.file as IUploadFile;
   const filePath = file?.path?.substring(8);
 
-  const { buyerEtd, noOfPack, portId, styleNo, totalPack, isActiveOrder } = req.body as IOrderUpdateRequest;
+  const { buyerEtd, noOfPack, portId, styleNo, totalPack, isActiveOrder, oldFilePath } = req.body as IOrderUpdateRequest;
+
+  //!
+  // deleting old style Image
+  const oldFilePaths = 'uploads/' + oldFilePath;
+  if (oldFilePath !== undefined && filePath !== undefined) {
+    fs.unlink(oldFilePaths, err => {
+      if (err) {
+        console.log('Error deleting old file');
+      }
+    });
+  }
 
   const result = await prisma.$transaction(async transactionClient => {
     // checking order exist or not

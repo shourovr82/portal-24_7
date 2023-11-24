@@ -177,6 +177,7 @@ const AddUser = () => {
                   render={({ field }) => (
                     <div className="rs-form-control-wrapper">
                       <SelectPicker
+                        searchable={false}
                         size="lg"
                         data={roles}
                         value={field.value}

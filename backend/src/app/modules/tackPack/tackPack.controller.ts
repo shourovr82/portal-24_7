@@ -33,10 +33,10 @@ const getSingleTackPack = catchAsync(async (req: Request, res: Response) => {
 });
 // !---------------------------------- Update  TackPack ---------------------------------------->>>
 const updateTackPack = catchAsync(async (req: Request, res: Response) => {
-  const tackPackId = req?.params?.tackPackId;
+  const styleNo = req?.params?.styleNo;
   const profileId = (req.user as IRequestUser).profileId;
 
-  const result = await TackPackService.updateTackPack(profileId, tackPackId, req);
+  const result = await TackPackService.updateTackPack(profileId, styleNo, req);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

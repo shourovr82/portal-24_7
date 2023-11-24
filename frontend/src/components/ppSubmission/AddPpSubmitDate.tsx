@@ -17,9 +17,7 @@ import {
   toastMessageError,
   toastMessageSuccess,
 } from "../../interfacesAndConstants/shared/constants/toastMessages.constants";
-import {
-  useTestPpSubmittedDateMutation,
-} from "../../redux/features/ppSubmission/ppSubmissionDateApi";
+import { useTestPpSubmittedDateMutation } from "../../redux/features/ppSubmission/ppSubmissionDateApi";
 import { useEffect, useState } from "react";
 import InfoOutlineIcon from "@rsuite/icons/InfoOutline";
 interface IFormInput {
