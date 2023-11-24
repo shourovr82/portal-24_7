@@ -286,7 +286,7 @@ const TopTenStyleTable = () => {
               // Display the profileId associated with the latest createdAt date
               return (
                 <p className="text-xs">
-                  {latestStatus?.profile?.firstName}
+                  {latestStatus?.profile?.firstName} {""}
                   {latestStatus?.profile?.lastName}
                 </p>
               );
