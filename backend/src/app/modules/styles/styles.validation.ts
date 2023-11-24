@@ -11,10 +11,7 @@ const createStyle = z.object({
     .refine(value => {
       if (typeof value === 'string') {
         if (value.trim() === '') {
-          throw new ApiError(
-            httpStatus.BAD_REQUEST,
-            'Style No wont be empty or contain only whitespace'
-          );
+          throw new ApiError(httpStatus.BAD_REQUEST, 'Style No wont be empty or contain only whitespace');
         }
       }
       return true;
@@ -31,10 +28,7 @@ const createStyle = z.object({
     .refine(value => {
       if (typeof value === 'string') {
         if (value.trim() === '') {
-          throw new ApiError(
-            httpStatus.BAD_REQUEST,
-            'Fabric wont not be empty or contain only whitespace'
-          );
+          throw new ApiError(httpStatus.BAD_REQUEST, 'Fabric wont not be empty or contain only whitespace');
         }
       }
       return true;
@@ -43,18 +37,13 @@ const createStyle = z.object({
 
 const updateStyle = z
   .object({
-    itemId: z
-      .string({ invalid_type_error: 'Item ID must be in String' })
-      .optional(),
+    itemId: z.string({ invalid_type_error: 'Item ID must be in String' }).optional(),
     fabric: z
       .string({ invalid_type_error: 'Fabric must be in String' })
       .refine(value => {
         if (typeof value === 'string') {
           if (value.trim() === '') {
-            throw new ApiError(
-              httpStatus.BAD_REQUEST,
-              'Fabric must not be empty or contain only whitespace'
-            );
+            throw new ApiError(httpStatus.BAD_REQUEST, 'Fabric must not be empty or contain only whitespace');
           }
         }
         return true;
@@ -68,6 +57,11 @@ const updateStyle = z
     factoryId: z
       .string({
         invalid_type_error: 'Factory ID must be in String',
+      })
+      .optional(),
+    oldFilePath: z
+      .string({
+        invalid_type_error: 'Old File Path must be in String',
       })
       .optional(),
   })

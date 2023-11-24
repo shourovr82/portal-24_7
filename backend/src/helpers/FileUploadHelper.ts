@@ -40,7 +40,8 @@ const stylesStorage = multer.diskStorage({
     callback(null, 'uploads/styles/');
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    const uniqueFilename = Date.now() + '-' + file.originalname;
+    cb(null, uniqueFilename);
   },
 });
 
@@ -65,16 +66,9 @@ const uploadStylesImage = multer({
 });
 
 // ! update style image
-const updateStylesStorage = multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, 'uploads/styles/');
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  },
-});
+
 const updateStylesImage = multer({
-  storage: updateStylesStorage,
+  storage: stylesStorage,
   limits: { fileSize: 512 * 2 * 1024 }, // 1 MB
 
   fileFilter: (req, file, cb) => {
@@ -100,7 +94,8 @@ const storageForTackPack = multer.diskStorage({
     callback(null, 'uploads/tackpack/');
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    const uniqueFilename = Date.now() + '-' + file.originalname;
+    cb(null, uniqueFilename);
   },
 });
 
@@ -151,7 +146,8 @@ const storageForOrder = multer.diskStorage({
     callback(null, 'uploads/orders/');
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    const uniqueFilename = Date.now() + '-' + file.originalname;
+    cb(null, uniqueFilename);
   },
 });
 

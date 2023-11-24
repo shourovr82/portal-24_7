@@ -18,6 +18,7 @@ import {
   IStyleUpdateRequest,
   IStylesFilterRequest,
 } from './styles.interface';
+import fs from 'fs';
 
 // ! create Style
 const createNewStyle = async (profileId: string, req: Request): Promise<Styles> => {
@@ -68,10 +69,7 @@ const createNewStyle = async (profileId: string, req: Request): Promise<Styles> 
 };
 
 // ! get all styles
-const getAllStyles = async (
-  filters: IStylesFilterRequest,
-  options: IPaginationOptions
-): Promise<IGenericResponse<Styles[]>> => {
+const getAllStyles = async (filters: IStylesFilterRequest, options: IPaginationOptions): Promise<IGenericResponse<Styles[]>> => {
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
 
   const { searchTerm, startDate, endDate, ...filterData } = filters;
@@ -229,10 +227,7 @@ const getAllStyles = async (
 };
 
 // ! get all style No
-const getAllStyleNumbers = async (
-  filters: IStylesFilterRequest,
-  options: IPaginationOptions
-): Promise<IGenericResponse<IGetAllStyleNo[]>> => {
+const getAllStyleNumbers = async (filters: IStylesFilterRequest, options: IPaginationOptions): Promise<IGenericResponse<IGetAllStyleNo[]>> => {
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
 
   const { searchTerm, startDate, endDate, ...filterData } = filters;
@@ -351,7 +346,16 @@ const updateStyleInformation = async (styleNo: string, req: Request): Promise<St
 
   const filePath = file?.path?.substring(8);
 
-  const { fabric, factoryId, isActiveStyle, itemId } = req.body as IStyleUpdateRequest;
+  const { fabric, factoryId, isActiveStyle, itemId, oldFilePath } = req.body as IStyleUpdateRequest;
+  // deleting old style Image
+  const oldFilePaths = 'uploads/' + oldFilePath;
+  if (oldFilePath !== undefined && filePath !== undefined) {
+    fs.unlink(oldFilePaths, err => {
+      if (err) {
+        console.log('Error deleting old file');
+      }
+    });
+  }
 
   const resultClient = await prisma.$transaction(async transactionClient => {
     const isExistStyle = await transactionClient.styles.findUnique({

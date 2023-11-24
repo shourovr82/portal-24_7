@@ -36,11 +36,6 @@ const AddPpSubmission = () => {
     { isLoading, isError, isSuccess, data, error, reset: resetCreate },
   ] = useCreatePpSubmissionDateMutation();
 
-  const allStyle = styles?.data?.map((style: any) => ({
-    label: style?.styleNo,
-    value: style?.styleNo,
-  }));
-
   const isDateBeforeToday = (date: Date) =>
     isBefore(date, new Date()) && !isToday(date);
 
@@ -135,7 +130,12 @@ const AddPpSubmission = () => {
                     <div className="rs-form-control-wrapper">
                       <SelectPicker
                         size="lg"
-                        data={allStyle || []}
+                        data={
+                          styles?.data?.map((style: any) => ({
+                            label: style?.styleNo,
+                            value: style?.styleNo,
+                          })) || []
+                        }
                         value={field.value}
                         placement="bottom"
                         placeholder="Select Style No"
@@ -235,7 +235,10 @@ const AddPpSubmission = () => {
       <div className="p-4 mb-20">
         {/* form */}
         <AddPpSubmitDate
-          allStyle={allStyle}
+          allStyle={styles?.data?.map((style: any) => ({
+            label: style?.styleNo,
+            value: style?.styleNo,
+          }))}
           isLoadingStyleNo={isLoadingStyleNo}
         />
       </div>

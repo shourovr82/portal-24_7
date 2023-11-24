@@ -6,6 +6,7 @@ import ApiError from '../../../errors/ApiError';
 import { IUploadFile } from '../../../interfaces/file';
 import prisma from '../../../shared/prisma';
 import { ICreateTackPack, IUpdateTackPack } from './tackPack.interface';
+import fs from 'fs';
 
 // !----------------------------------Create TackPack---------------------------------------->>>
 const createTackPack = async (profileId: string, req: Request): Promise<any> => {
@@ -17,7 +18,20 @@ const createTackPack = async (profileId: string, req: Request): Promise<any> => 
     throw new ApiError(httpStatus.BAD_REQUEST, 'Tack Pack pdf is required');
   }
 
-  const { styleNo, tackPackComment } = req.body as ICreateTackPack;
+  const { styleNo, tackPackComment, oldFilePath } = req.body as ICreateTackPack;
+
+  // deleting old file
+  const oldFilePaths = 'uploads/' + oldFilePath;
+  console.log(oldFilePaths);
+
+  if (oldFilePath !== undefined && filePath !== undefined) {
+    fs.unlink(oldFilePaths, err => {
+      if (err) {
+        console.log('Error deleting old file');
+      }
+    });
+  }
+
   // check is exist style
   const isExistStyleNo = await prisma.styles.findFirst({
     where: {
@@ -60,14 +74,14 @@ const createTackPack = async (profileId: string, req: Request): Promise<any> => 
   return result;
 };
 // !----------------------------------Create TackPack---------------------------------------->>>
-const getSingleTackPack = async (tackPackId: string): Promise<TackPack> => {
+const getSingleTackPack = async (styleNo: string): Promise<any> => {
   const result = await prisma.tackPack.findUnique({
     where: {
-      tackPackId,
+      styleNo,
     },
   });
 
-  if (!result) throw new ApiError(httpStatus.NOT_FOUND, 'Tack Pack Not Found !');
+  // if (!result) throw new ApiError(httpStatus.NOT_FOUND, 'Tack Pack Not Found !');
 
   return result;
 };

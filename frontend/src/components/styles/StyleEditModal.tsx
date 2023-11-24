@@ -69,7 +69,9 @@ const StyleEditModal = ({ styleEditData, open, handleClose }: any) => {
       factoryId: values.factoryId,
       itemId: values.itemId,
       isActiveStyle: styleStatus,
+      oldFilePath: undefined,
     };
+    if (values?.file?.blobFile) obj["oldFilePath"] = styleEditData?.image;
 
     const styleData = JSON.stringify(obj);
 

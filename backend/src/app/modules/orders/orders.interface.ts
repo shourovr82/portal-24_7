@@ -25,6 +25,7 @@ export type IOrderUpdateRequest = {
   portId?: string;
   buyerEtd?: Date;
   isActiveOrder?: boolean;
+  oldFilePath?: string;
 };
 
 export type IStyleWiseOrders = {

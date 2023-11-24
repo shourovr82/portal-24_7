@@ -19,11 +19,7 @@ router.post(
   }
 );
 // ! get details
-router.get(
-  '/get-tack-pack/:tackPackId',
-  auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
-  TackPackController.getSingleTackPack
-);
+router.get('/get-tack-pack/:styleNo', auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN), TackPackController.getSingleTackPack);
 
 // ! update tack pack
 router.patch(

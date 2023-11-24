@@ -60,7 +60,11 @@ const EditPoDetails = ({
       noOfPack: data?.noOfPack ? Number(data?.noOfPack) : undefined,
       portId: data?.portId,
       buyerEtd: data?.buyerEtd,
+      oldFilePath: undefined,
     };
+
+    if (data.orderFile?.blobFile)
+      orderDataObj["oldFilePath"] = poEditData?.orderFile;
 
     const updatedOrderData = JSON.stringify(orderDataObj);
     const formData = new FormData();
