@@ -18,19 +18,7 @@ const createTackPack = async (profileId: string, req: Request): Promise<any> => 
     throw new ApiError(httpStatus.BAD_REQUEST, 'Tack Pack pdf is required');
   }
 
-  const { styleNo, tackPackComment, oldFilePath } = req.body as ICreateTackPack;
-
-  // deleting old file
-  const oldFilePaths = 'uploads/' + oldFilePath;
-  console.log(oldFilePaths);
-
-  if (oldFilePath !== undefined && filePath !== undefined) {
-    fs.unlink(oldFilePaths, err => {
-      if (err) {
-        console.log('Error deleting old file');
-      }
-    });
-  }
+  const { styleNo, tackPackComment } = req.body as ICreateTackPack;
 
   // check is exist style
   const isExistStyleNo = await prisma.styles.findFirst({
@@ -45,10 +33,22 @@ const createTackPack = async (profileId: string, req: Request): Promise<any> => 
   if (!isExistStyleNo) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Style No not Found !!');
   }
+
   // !--------
   let result;
 
   if (isExistStyleNo?.tackPack !== null) {
+    if (isExistStyleNo?.tackPack?.tackFile) {
+      // deleting old file
+      const oldFilePaths = 'uploads/' + isExistStyleNo?.tackPack?.tackFile;
+
+      fs.unlink(oldFilePaths, err => {
+        if (err) {
+          console.log('Error deleting old file');
+        }
+      });
+    }
+
     // updated data
     const updatedTackPackData: Partial<TackPack> = {};
     if (tackPackComment !== undefined) updatedTackPackData['tackPackComment'] = tackPackComment;
@@ -74,10 +74,10 @@ const createTackPack = async (profileId: string, req: Request): Promise<any> => 
   return result;
 };
 // !----------------------------------Create TackPack---------------------------------------->>>
-const getSingleTackPack = async (styleNo: string): Promise<any> => {
+const getSingleTackPack = async (tackPackId: string): Promise<any> => {
   const result = await prisma.tackPack.findUnique({
     where: {
-      styleNo,
+      tackPackId,
     },
   });
 
