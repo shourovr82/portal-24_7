@@ -10,11 +10,6 @@ const createTackPack = z
       required_error: 'Tack Pack Comment is required',
       invalid_type_error: 'Tack Pack Comment must be in String',
     }),
-    oldFilePath: z
-      .string({
-        invalid_type_error: 'Tack Pack File must be in String',
-      })
-      .optional(),
   })
   .refine(data => {
     const keys = Object.keys(data);

@@ -6,11 +6,8 @@ import { useGetStyleNoQuery } from "../../redux/features/styles/styleApi";
 import { renderLoading } from "../../components/renderLoading/RenderLoading";
 import TackPackUploadPdf from "../../components/tackPack/uploads/TackPackUploadPdf";
 import { FileType } from "rsuite/esm/Uploader";
-import { useEffect, useState } from "react";
-import {
-  useCreateTackPackMutation,
-  useSingleTackPackQuery,
-} from "../../redux/features/tackPack/tackPackApi";
+import { useEffect } from "react";
+import { useCreateTackPackMutation } from "../../redux/features/tackPack/tackPackApi";
 import toast from "react-hot-toast";
 import {
   toastMessageError,
@@ -28,19 +25,6 @@ interface IFormInput {
 const TackPack = () => {
   // Fetching All Style
   const navigate = useNavigate();
-  const [styleValue, setStyleValue] = useState<string | null>(null);
-
-  const { data: singleTackPackRes, isLoading: isLoadingTackPackInfo } =
-    useSingleTackPackQuery(
-      {
-        id: styleValue,
-      },
-      {
-        skip: styleValue === null, // Skip the query when styleValue is null
-      }
-    );
-
-  console.log(singleTackPackRes);
 
   const { data: allStyles, isLoading: isLoadingStyleNo } =
     useGetStyleNoQuery(null);
@@ -67,10 +51,7 @@ const TackPack = () => {
     const obj = {
       styleNo: data.styleNo,
       tackPackComment: data.tackPackComment,
-      oldFilePath: undefined,
     };
-    if (data.tackPackFile?.blobFile)
-      obj["oldFilePath"] = singleTackPackRes?.data?.tackFile;
 
     const tackPackData = JSON.stringify(obj);
     const formData = new FormData();
@@ -97,7 +78,6 @@ const TackPack = () => {
         data?.message || "Successfully Created Tack pack",
         toastMessageSuccess
       );
-      setStyleValue(null);
     }
   }, [
     createError,
@@ -148,13 +128,8 @@ const TackPack = () => {
                           value: style?.styleNo,
                         })) || []
                       }
-                      onClean={() => setStyleValue(null)}
-                      onChange={(value: string | null) => {
-                        field.onChange(value);
-                        setStyleValue(value);
-                      }}
                       value={field.value}
-                      // onChange={(value: string | null) => field.onChange(value)}
+                      onChange={(value: string | null) => field.onChange(value)}
                       style={{
                         width: "100%",
                       }}
@@ -257,7 +232,7 @@ const TackPack = () => {
             <div className="flex justify-end mt-5">
               <button
                 type="submit"
-                disabled={createLoading || isLoadingTackPackInfo}
+                disabled={createLoading}
                 className={`bg-[#0284c7] text-white rounded-md items-center   flex px-5 py-1`}
               >
                 {createLoading && (
