@@ -151,16 +151,20 @@ const DashboardHome = () => {
                     <span className="text-red-700 font-bold">
                       AW: April - September:
                     </span>{" "}
-                    <span className="font-bold text-lg">{pc?.aprilToSept}</span>
+                    <span className="font-bold text-lg">
+                      {pc?.aprilToSept?.toLocaleString()}
+                    </span>
                   </p>
                   <p>
                     <span className="text-blue-700 font-bold">
                       SS: October - March:
                     </span>{" "}
-                    <span className="font-bold text-lg">{pc?.octToMarch}</span>
+                    <span className="font-bold text-lg">
+                      {pc?.octToMarch?.toLocaleString()}
+                    </span>
                   </p>
                   <p className="text-3xl font-bold bg-gray-50 p-2 rounded-md">
-                    Total: {pc?.total}
+                    Total: {pc?.total?.toLocaleString()}
                   </p>
                 </div>
               ))
