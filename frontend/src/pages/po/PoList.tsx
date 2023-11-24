@@ -562,10 +562,10 @@ const PoLists = () => {
                                       {po?.noOfPack}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
-                                      {po?.totalPack}
+                                      {po?.totalPack?.toLocaleString()}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
-                                      {po?.totalPc}
+                                      {po?.totalPc?.toLocaleString()}
                                     </td>{" "}
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-black  font-medium border-r">
                                       {moment(po?.friDate).format("DD-MM-YYYY")}
