@@ -59,7 +59,7 @@ const NotificationModal = () => {
   return (
     <Modal open={open} onClose={handleClose} backdrop="static" size="lg">
       <Modal.Header>
-        <Modal.Title className="ml-8">
+        <Modal.Title className="ml-2">
           PP Submission List
           <span className="text-red-600"> (Within 2 Days)</span>{" "}
         </Modal.Title>
@@ -70,7 +70,7 @@ const NotificationModal = () => {
             <div>
               <div className="mt-1 flex flex-col">
                 <div className="-my-2 overflow-x-auto">
-                  <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                  <div className="inline-block min-w-full py-2 align-middle px-2">
                     <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                       <table className="min-w-full divide-y divide-gray-300">
                         <thead className="bg-[#F4F6F8]">
@@ -107,8 +107,8 @@ const NotificationModal = () => {
                               <tr key={data.styleNo}>
                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm border-r">
                                   <img
-                                    className="w-8 h-8 rounded-full"
-                                    src={`${fileUrlKey()}/${data.Styles.image}`}
+                                    className="w-10 h-10 rounded-full"
+                                    src={`${fileUrlKey()}/${data?.Styles?.image}`}
                                     alt={data.Styles.image}
                                   />
                                 </td>

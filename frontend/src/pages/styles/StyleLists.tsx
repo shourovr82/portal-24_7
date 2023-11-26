@@ -212,11 +212,6 @@ const StyleLists = () => {
           </h2>
         </div>
         <div className="flex gap-4">
-          <Link to="/styles/styleAssign">
-            <button className="border-[#0284c7] border text-[#0284c7] text-sm font-semibold py-1.5 px-2.5 rounded-md ">
-              Style Assign
-            </button>
-          </Link>
           <div>
             <ButtonToolbar>
               <Whisper
@@ -226,7 +221,7 @@ const StyleLists = () => {
               >
                 <Button
                   appearance="default"
-                  className="!bg-[#0284c7] text-white hover:text-white focus-within:text-white focus-within:bg-[#0284c7] font-semibold
+                  className="!bg-[#0284c7] hover:!bg-sky-700 text-white hover:text-white focus-within:text-white focus-within:bg-[#0284c7] font-semibold
                     "
                   color="blue"
                   startIcon={<DocPassIcon className="text-base" />}
@@ -237,6 +232,11 @@ const StyleLists = () => {
               </Whisper>
             </ButtonToolbar>
           </div>
+          <Link to="/styles/styleAssign">
+            <button className="border-[#0284c7] border text-[#0284c7] text-sm font-semibold py-1.5 px-2.5 rounded-md ">
+              Style Assign
+            </button>
+          </Link>
           <div>
             <Link to="/styles/addstyle">
               <button

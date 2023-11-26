@@ -10,6 +10,8 @@ import { BiSearchAlt } from "react-icons/bi";
 import UserDetailsModal from "../../components/users/UserDetailsModal";
 import UserEditModal from "./UserEditModal";
 import { fileUrlKey } from "../../config/envConfig";
+import { FiPlus } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const UserLists = () => {
   const query: Record<string, any> = {};
@@ -52,9 +54,18 @@ const UserLists = () => {
 
   return (
     <>
-      <div className="  bg-white  shadow-md  m-5 pb-10 rounded-2xl">
-        <header className="px-8 text-2xl font-semibold p-3">Users List</header>
-
+      <header className="px-6 pt-5">
+        <div className="flex justify-between items-center">
+          <p className="text-2xl font-semibold">Users List</p>
+          <Link to="/users/addUser">
+            <button className="bg-[#0284c7] hover:bg-sky-700 focus:bg-sky-800 flex items-center text-white py-2 px-2.5 rounded-md gap-1 font-medium text-sm">
+              <FiPlus size={18} />
+              Add User
+            </button>
+          </Link>
+        </div>
+      </header>
+      <div className=" bg-white  shadow-md  m-5 py-8 rounded-2xl">
         <div className="mx-8 mb-5">
           <div className="grid grid-cols-5 gap-4">
             <div className="w-full col-span-3">

@@ -355,7 +355,7 @@ const AddCourier = () => {
                 size="lg"
                 type="submit"
                 loading={isLoadingCreateCourier}
-                className={`bg-[#0284c7] focus:bg-[#0284c7] hover:bg-[#0284c7] hover:text-white/80 focus:text-white text-white rounded items-center flex px-5 text-sm py-2 transition-all duration-300 ${
+                className={`bg-[#0284c7] hover:bg-sky-700 focus:bg-sky-800 font-medium hover:text-white focus:text-white text-white rounded items-center flex px-5 text-sm py-2 transition-all duration-300 ${
                   isLoadingCreateCourier ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               >

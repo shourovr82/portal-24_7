@@ -325,7 +325,7 @@ const PoLists = () => {
 
             <Link to="/po/addpo">
               <Button
-                className="flex items-center gap-2 hover:bg-sky-700 hover:text-white px-4 py-2 rounded-[4px] text-white  bg-[#0284c7]"
+                className="flex items-center gap-2 hover:bg-sky-700 focus-within:bg-sky-800 focus-within:text-white hover:text-white px-4 py-2 rounded-[4px] text-white bg-[#0284c7]"
                 type="button"
               >
                 <FiPlus size={18} />

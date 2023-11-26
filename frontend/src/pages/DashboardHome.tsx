@@ -47,7 +47,7 @@ const DashboardHome = () => {
           </div>
           <div className="text-right mt-2.5">
             <p className="font-medium text-sm text-[#667085]">
-              <span className="text-[#B42318] text-sm font-medium">
+              <span className="text-green-500 text-sm font-medium">
                 {" "}
                 {allStyles?.data?.currentYear != null &&
                 allStyles?.data?.lastYear != null &&
@@ -79,7 +79,7 @@ const DashboardHome = () => {
           </div>
           <div className="text-right mt-2.5">
             <p className="font-medium text-sm text-[#667085]">
-              <span className="text-[#B42318] text-sm font-medium">
+              <span className="text-green-500 text-sm font-medium">
                 {" "}
                 {allOrders?.data?.currentYear != null &&
                 allOrders?.data?.lastYear != null &&
@@ -111,7 +111,7 @@ const DashboardHome = () => {
           </div>
           <div className="text-right mt-2.5">
             <p className="font-medium text-sm text-[#667085]">
-              <span className="text-[#B42318] text-sm font-medium">
+              <span className="text-green-500 text-sm font-medium">
                 {" "}
                 {allFactories?.data?.currentYear != null &&
                 allFactories?.data?.lastYear != null &&
