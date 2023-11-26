@@ -201,17 +201,17 @@ const AddItem = () => {
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-x-4 gap-y-2 items-center justify-between rounded-lg   ">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-2 items-center justify-between rounded-lg">
             {allItems?.length
               ? allItems.map((singleItem: any) => (
                   <div
                     key={Math.random()}
-                    className="grid grid-cols-3 py-4 px-5 border items-center"
+                    className="flex justify-between py-4 px-5 border items-center bg-slate-100 rounded-md"
                   >
                     <p key={Math.random()}>{singleItem?.itemName}</p>
-                    <p className="text-xs text-slate-600">
+                    {/* <p className="text-xs text-slate-600">
                       {moment(singleItem?.createdAt).format("DD, MMM, YYYY h:mm A")}
-                    </p>
+                    </p> */}
 
                     {role !== "USER" && (
                       <MdModeEdit

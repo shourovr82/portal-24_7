@@ -210,12 +210,12 @@ const StyleAssign = () => {
 
             <div className="flex justify-end">
               <Button
-                appearance="primary"
+                // appearance="primary"
                 loading={assignLoading}
                 size="lg"
                 type="submit"
                 disabled={styleValue && singleStyle?.factory?.factoryName}
-                className={`bg-[#0284c7] text-white rounded-md items-center flex px-3 py-1.5`}
+                className={`bg-[#0284c7] hover:bg-sky-700 text-white hover:text-white focus-within:bg-sky-800 focus-within:text-white  rounded-md items-center flex px-3 py-1.5`}
               >
                 <span>
                   {styleValue && singleStyle?.factory?.factoryName

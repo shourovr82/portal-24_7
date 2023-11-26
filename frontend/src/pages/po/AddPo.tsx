@@ -420,7 +420,7 @@ const AddPo = () => {
               type="submit"
               loading={isLoading}
               size="lg"
-              className={`bg-[#0284c7] hover:bg-[#0284c7] focus:bg-[#0284c7] focus:text-white hover:text-white/80 text-white  items-center   flex px-3 py-2 text-sm rounded-md `}
+              className={`bg-[#0284c7] hover:bg-sky-700 focus:bg-[#0284c7] focus:text-white hover:text-white text-white items-center flex px-3 py-2 text-sm rounded-md font-medium`}
             >
               Create New Order
             </Button>

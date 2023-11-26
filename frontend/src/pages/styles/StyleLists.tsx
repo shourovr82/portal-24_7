@@ -221,10 +221,10 @@ const StyleLists = () => {
               >
                 <Button
                   appearance="default"
-                  className="!bg-[#0284c7] text-white hover:text-white/80 focus-within:text-white focus-within:bg-[#0284c7] font-semibold
+                  className="!bg-[#0284c7] hover:!bg-sky-700 text-white hover:text-white focus-within:text-white focus-within:bg-[#0284c7] font-semibold
                     "
                   color="blue"
-                  startIcon={<DocPassIcon className="text-xl" />}
+                  startIcon={<DocPassIcon className="text-base" />}
                   endIcon={<ArrowDownLineIcon className="text-xl" />}
                 >
                   Generate Report
@@ -232,10 +232,15 @@ const StyleLists = () => {
               </Whisper>
             </ButtonToolbar>
           </div>
+          <Link to="/styles/styleAssign">
+            <button className="border-[#0284c7] border text-[#0284c7] text-sm font-semibold py-1.5 px-2.5 rounded-md ">
+              Style Assign
+            </button>
+          </Link>
           <div>
             <Link to="/styles/addstyle">
               <button
-                className="flex items-center gap-2 px-4 py-2 rounded-[4px] text-white  bg-[#0284c7]"
+                className="flex items-center gap-2 px-2.5 py-2 rounded-[4px] text-white hover:bg-sky-700 bg-[#0284c7]"
                 type="button"
               >
                 <FiPlus size={18} />
