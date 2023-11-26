@@ -139,31 +139,29 @@ const DashboardHome = () => {
           {allPc?.data?.length
             ? allPc?.data?.map((pc: any, index: number) => (
                 <div
-                  className={`flex flex-col  gap-3 m-1 p-5 h-80 w-full ${
+                  className={`text-[#262626] mt-8 mx-2 h-80 w-full ${
                     index !== allPc?.data?.length - 1
                       ? "lg:border-r mx-md:border-b"
                       : ""
                   }`}
                   key={pc?.year}
                 >
-                  <h1 className="text-6xl font-extrabold mb-5">{pc?.year}</h1>
-                  <p>
-                    <span className="text-red-700 font-bold">
-                      AW: April - September:
-                    </span>{" "}
-                    <span className="font-bold text-lg">
-                      {pc?.aprilToSept?.toLocaleString()}
-                    </span>
+                  <h1 className="text-4xl font-extrabold mb-1">{pc?.year}</h1>
+                  <p className="text-rose-700 font-bold bg-rose-50 rounded-md inline-block p-1 mt-4 mb-2">
+                    AW: April - September
                   </p>
-                  <p>
-                    <span className="text-blue-700 font-bold">
-                      SS: October - March:
-                    </span>{" "}
-                    <span className="font-bold text-lg">
+                  <p className="font-bold text-lg text-[#262626]">
+                    {pc?.aprilToSept?.toLocaleString()}
+                  </p>
+                  
+                    <p className="text-emerald-700 font-bold inline-block rounded-md  bg-emerald-50 p-1 mt-4 mb-2">
+                      SS: October - March
+                    </p>{" "}
+                    <p className="font-bold text-lg text-[#262626]">
                       {pc?.octToMarch?.toLocaleString()}
-                    </span>
-                  </p>
-                  <p className="text-3xl font-bold bg-gray-50 p-2 rounded-md">
+                    </p>
+                 
+                  <p className="text-xl font-bold mt-14 text-[#262626]">
                     Total: {pc?.total?.toLocaleString()}
                   </p>
                 </div>

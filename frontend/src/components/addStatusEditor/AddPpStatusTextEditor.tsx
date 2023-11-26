@@ -80,7 +80,7 @@ const AddPpStatusTextEditor = ({ isLoadingStyleNo, allStyle }: any) => {
 
   return (
     <div className="">
-      <h1 className="text-2xl font-semibold mb-4">PP Strike Off Status</h1>
+      <h1 className="text-2xl font-semibold mb-4">PP Status</h1>
       <form
         onSubmit={handleSubmit(handlePPStatusComment)}
         className="p-4 bg-white border rounded-lg"
@@ -127,7 +127,7 @@ const AddPpStatusTextEditor = ({ isLoadingStyleNo, allStyle }: any) => {
         <div className="flex flex-col gap-3 w-full mt-2">
           <div>
             <label htmlFor="ppStatusComment" className="text-sm font-medium">
-              PP Strike Off Status
+              PP Status
             </label>
           </div>
 

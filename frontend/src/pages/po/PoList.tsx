@@ -33,6 +33,7 @@ import { FaFileDownload } from "react-icons/fa";
 import { fileUrlKey } from "../../config/envConfig";
 import Excel from "exceljs";
 import { saveAs } from "file-saver";
+import { FiPlus } from "react-icons/fi";
 
 const PoLists = () => {
   const query: Record<string, any> = {};
@@ -312,10 +313,10 @@ const PoLists = () => {
               >
                 <Button
                   appearance="default"
-                  className="!bg-[#0284c7] text-white hover:text-white/80 focus-within:text-white focus-within:bg-[#0284c7] font-semibold
+                  className="!bg-[#0284c7] hover:!bg-sky-700 text-white hover:text-white focus-within:text-white focus-within:bg-[#0284c7] font-semibold
                     "
                   color="blue"
-                  startIcon={<DocPassIcon className="text-xl" />}
+                  startIcon={<DocPassIcon className="text-base" />}
                 >
                   Generate Report
                 </Button>
@@ -324,25 +325,10 @@ const PoLists = () => {
 
             <Link to="/po/addpo">
               <Button
-                className="flex items-center gap-2 hover:bg-[#0284c7] hover:text-white/80 px-4 py-2 rounded-[4px] text-white  bg-[#0284c7]"
+                className="flex items-center gap-2 hover:bg-sky-700 hover:text-white px-4 py-2 rounded-[4px] text-white  bg-[#0284c7]"
                 type="button"
               >
-                <span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2.5}
-                    stroke="#fff"
-                    className="w-5 h-5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 4.5v15m7.5-7.5h-15"
-                    />
-                  </svg>
-                </span>
+                <FiPlus size={18} />
                 <span className="text-sm font-semibold">Add New PO</span>
               </Button>
             </Link>
