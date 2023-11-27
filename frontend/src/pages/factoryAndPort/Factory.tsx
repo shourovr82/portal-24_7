@@ -154,7 +154,7 @@ const Factory = () => {
                 type="submit"
                 size="lg"
                 appearance="default"
-                className={`bg-[#0284c7] hover:bg-sky-700 focus:!bg-[#0284c7] focus-within:text-white hover:text-white justify-center text-white rounded-md items-center   flex px-2.5 w-full`}
+                className={`bg-[#0284c7] ml-1 hover:bg-sky-700 focus:!bg-[#0284c7] focus-within:text-white hover:text-white justify-center text-white rounded-md items-center flex px-2.5 w-full`}
               >
                 <span>Create</span>
               </Button>

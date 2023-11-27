@@ -16,13 +16,14 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useCreateNewOrderMutation } from "../../redux/features/orders/ordersApi";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { renderLoading } from "../../components/renderLoading/RenderLoading";
 import { toastMessageSuccess } from "../../interfacesAndConstants/shared/constants/toastMessages.constants";
 import { dataForSelectPicker } from "../../common/commonData";
 import InfoOutlineIcon from "@rsuite/icons/InfoOutline";
 import { FileType } from "rsuite/esm/Uploader";
 import OrderFileUploader from "../../components/po/PoFileUploader";
+import { IoIosArrowForward } from "react-icons/io";
 
 interface IPOAddRequest {
   orderNo: string;
@@ -102,6 +103,17 @@ const AddPo = () => {
         <h2 className="text-2xl text-[#212B36] font-semibold">
           Create a new PO
         </h2>
+        <div className="flex text-sm mt-3 gap-2 items-center">
+          <Link to="/" className="text-blue-700 font-medium">
+            Dashboard
+          </Link>
+          <IoIosArrowForward className="text-blue-700" />
+          <Link to="/po/poLists" className="text-blue-700 font-medium">
+            PO List
+          </Link>
+          <IoIosArrowForward className="text-blue-700" />
+          <span className="text-gray-500">Add PO</span>
+        </div>
       </div>
 
       {/* form */}

@@ -208,12 +208,12 @@ const DashboardHome = () => {
         </div>
       </div>
 
-      {/* top ten recent style add */}
+      {/* top Twenty recent style add */}
       <div className="p-5">
         <section className="p-4 border bg-white rounded-md shadow-md">
           {/* header */}
           <p className="text-lg font-semibold pb-5">
-            Recent Top Ten Comment On Style
+            Recent Top Twenty Comment On Style
           </p>
           <TopTenStyleTable />
         </section>

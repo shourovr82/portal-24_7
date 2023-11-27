@@ -27,6 +27,7 @@ import ArrowDownLineIcon from "@rsuite/icons/ArrowDownLine";
 import Excel from "exceljs";
 import { saveAs } from "file-saver";
 import { fileUrlKey } from "../../config/envConfig";
+import { IoIosArrowForward } from "react-icons/io";
 
 // !
 const StyleLists = () => {
@@ -210,6 +211,15 @@ const StyleLists = () => {
           <h2 className="text-[24px] font-semibold text-[#212B36]">
             List Of Styles
           </h2>
+          <div className="flex text-sm mt-3 gap-2 items-center">
+            <Link to="/" className="text-blue-700 font-medium">
+              Dashboard
+            </Link>
+            <IoIosArrowForward className="text-blue-700" />
+            <span  className="text-gray-500">
+              Styles
+            </span>
+          </div>
         </div>
         <div className="flex gap-4">
           <div>
@@ -244,7 +254,7 @@ const StyleLists = () => {
                 type="button"
               >
                 <FiPlus size={18} />
-                <span className="text-sm font-semibold">Add New Style</span>
+                <span className="text-sm font-semibold">Add Style</span>
               </button>
             </Link>
           </div>

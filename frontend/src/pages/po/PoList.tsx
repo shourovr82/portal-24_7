@@ -34,6 +34,7 @@ import { fileUrlKey } from "../../config/envConfig";
 import Excel from "exceljs";
 import { saveAs } from "file-saver";
 import { FiPlus } from "react-icons/fi";
+import { IoIosArrowForward } from "react-icons/io";
 
 const PoLists = () => {
   const query: Record<string, any> = {};
@@ -303,6 +304,13 @@ const PoLists = () => {
         <div className="flex justify-between items-center">
           <div>
             <h2 className="text-[24px] font-semibold text-[#212B36]">PO</h2>
+            <div className="flex text-sm mt-3 gap-2 items-center">
+              <Link to="/" className="text-blue-700 font-medium">
+                Dashboard
+              </Link>
+              <IoIosArrowForward className="text-blue-700" />
+              <span className="text-gray-500">PO List</span>
+            </div>
           </div>
           <div className="flex gap-4">
             <ButtonToolbar>
@@ -453,7 +461,7 @@ const PoLists = () => {
                               <tr>
                                 <th
                                   scope="col"
-                                  className="py-3.5 pl-2 pr-3 text-center text-sm font-semibold text-[#637581] sm:pl-3 border-r"
+                                  className="py-3.5 px-3 whitespace-nowrap text-center text-sm font-semibold text-[#637581] border-r"
                                 >
                                   Style No
                                 </th>
@@ -536,7 +544,7 @@ const PoLists = () => {
                                     {index === 0 && (
                                       <td
                                         rowSpan={order.orders.length}
-                                        className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-black font-medium sm:pl-6 border-r"
+                                        className="whitespace-nowrap py-4 px-3 text-sm text-black font-medium border-r"
                                       >
                                         {po?.styleNo}
                                       </td>
