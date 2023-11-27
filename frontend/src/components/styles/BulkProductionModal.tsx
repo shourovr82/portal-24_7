@@ -13,7 +13,7 @@ const BulkProductionModal = ({
 }: any) => {
   return (
     <>
-      <Modal overflow={true} size="md" open={open} onClose={handleClose}>
+      <Modal overflow={true} size="md" open={open} onClose={handleClose} backdrop="static">
         <Modal.Header>
           <Modal.Title className="font-bold text-lg">
             Bulk production Status

@@ -7,7 +7,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
   html {
     @apply font-Inter;
@@ -135,4 +134,10 @@ body::-webkit-scrollbar-track {
 
 .rs-modal-header-close {
   font-size: 20px !important;
+}
+
+.rs-table-hover .rs-table-row:hover .rs-table-cell,
+.rs-table-hover .rs-table-row:hover .rs-table-cell-group,
+.rs-table-hover .rs-table-row:not(.rs-table-row-header):hover {
+  background-color: rgb(248 250 251);;
 }
