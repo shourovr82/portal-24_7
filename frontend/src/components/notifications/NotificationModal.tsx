@@ -12,8 +12,6 @@ const NotificationModal = () => {
   const [modalData, setModalData] = useState<any | null>(null);
   const { data } = useGetAllNotificationQuery(null);
 
-  console.log(modalData);
-
   useEffect(() => {
     if (data && data.data && data.data.length > 0) {
       const currentDate = new Date();
@@ -108,7 +106,9 @@ const NotificationModal = () => {
                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm border-r">
                                   <img
                                     className="w-10 h-10 rounded-full"
-                                    src={`${fileUrlKey()}/${data?.Styles?.image}`}
+                                    src={`${fileUrlKey()}/${
+                                      data?.Styles?.image
+                                    }`}
                                     alt={data.Styles.image}
                                   />
                                 </td>
