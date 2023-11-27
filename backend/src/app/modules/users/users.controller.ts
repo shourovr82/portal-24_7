@@ -6,19 +6,17 @@ import sendResponse from '../../../shared/sendResponse';
 import { IRequestUser } from './user.interface';
 import { UserService } from './user.service';
 
-const getAllUsersController = catchAsync(
-  async (req: Request, res: Response) => {
-    const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
-    const result = await UserService.getAllUserService(options);
+const getAllUsersController = catchAsync(async (req: Request, res: Response) => {
+  const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
+  const result = await UserService.getAllUserService(options);
 
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'All Users retrieved successfully',
-      data: result,
-    });
-  }
-);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'All Users retrieved successfully',
+    data: result,
+  });
+});
 
 const getSingleUser = catchAsync(async (req: Request, res: Response) => {
   const { userId } = req.params;
@@ -44,6 +42,7 @@ const updateProfileInfo = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+// ! update user info
 const updateUserInfo = catchAsync(async (req: Request, res: Response) => {
   const { userId } = req.params;
 

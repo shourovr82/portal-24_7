@@ -11,16 +11,12 @@ import { ZodError } from 'zod';
 import handleClientError from '../../errors/handleClientError';
 import handleZodError from '../../errors/handleZodError';
 import { IGenericErrorMessage } from '../../interfaces/error';
+import { errorLogger } from '../../shared/logger';
 
-const globalErrorHandler: ErrorRequestHandler = (
-  error,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  config.env === 'development'
-    ? console.log(`🐱‍🏍 globalErrorHandler ~~`, { error })
-    : console.log(`🐱‍🏍 globalErrorHandler ~~`, error);
+const globalErrorHandler: ErrorRequestHandler = (error, req: Request, res: Response, next: NextFunction) => {
+  console.log(error);
+  // config.env === 'development' ? console.log(`🐱‍🏍 globalErrorHandler ~~`, { error }) : console.log(`🐱‍🏍 globalErrorHandler ~~`, error);
+  config.env === 'development' ? errorLogger.error(`🐱‍🏍 globalErrorHandler ~~`, error) : errorLogger.error(`🐱‍🏍 globalErrorHandler ~~`, error);
 
   let statusCode = 500;
   let message = 'Something went wrong !';

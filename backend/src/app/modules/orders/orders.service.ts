@@ -14,6 +14,7 @@ import { ICreateOrderResponse, IOrderCreateRequest, IOrderFilterRequest, IOrderU
 import { Request } from 'express';
 import { IUploadFile } from '../../../interfaces/file';
 import { decreaseDateByDays } from './order.utils';
+import { logger } from '../../../shared/logger';
 
 // !----------------------------------Create New Order---------------------------------------->>>
 
@@ -245,7 +246,7 @@ const updateOrder = async (orderNo: string, req: Request): Promise<Orders> => {
   if (oldFilePath !== undefined && filePath !== undefined) {
     fs.unlink(oldFilePaths, err => {
       if (err) {
-        console.log('Error deleting old file');
+        logger.info('Error deleting old file');
       }
     });
   }

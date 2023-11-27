@@ -19,6 +19,7 @@ import {
   IStylesFilterRequest,
 } from './styles.interface';
 import fs from 'fs';
+import { logger } from '../../../shared/logger';
 
 // ! create Style
 const createNewStyle = async (profileId: string, req: Request): Promise<Styles> => {
@@ -352,7 +353,7 @@ const updateStyleInformation = async (styleNo: string, req: Request): Promise<St
   if (oldFilePath !== undefined && filePath !== undefined) {
     fs.unlink(oldFilePaths, err => {
       if (err) {
-        console.log('Error deleting old file');
+        logger.info('Error deleting old file');
       }
     });
   }
