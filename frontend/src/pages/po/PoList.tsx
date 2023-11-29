@@ -25,7 +25,6 @@ import noDataAnimation from "../../assets/animation/animation-nodata.json";
 import { dataForSelectPicker } from "../../common/commonData";
 import { predefinedRanges } from "../../constants";
 import { getUserInfo } from "../../hooks/services/auth.service";
-import { RiEdit2Line } from "react-icons/ri";
 import EditPoDetails from "./EditPo";
 import { useDebounced } from "../../redux/hook";
 import DocPassIcon from "@rsuite/icons/DocPass";
@@ -35,6 +34,7 @@ import Excel from "exceljs";
 import { saveAs } from "file-saver";
 import { FiPlus } from "react-icons/fi";
 import { IoIosArrowForward } from "react-icons/io";
+import { MdModeEdit } from "react-icons/md";
 
 const PoLists = () => {
   const query: Record<string, any> = {};
@@ -614,7 +614,7 @@ const PoLists = () => {
                                             handlePoEditModalOpen(po)
                                           }
                                           circle
-                                          icon={<RiEdit2Line size={20} />}
+                                          icon={<MdModeEdit size={20} />}
                                         />
                                       </td>
                                     )}
@@ -654,7 +654,7 @@ const PoLists = () => {
                           ellipsis
                           boundaryLinks
                           maxButtons={5}
-                          size="lg"
+                          size="md"
                           layout={["total", "-", "limit", "|", "pager", "skip"]}
                           limitOptions={[10, 20, 30, 50, 100, 150, 200]}
                           limit={size}

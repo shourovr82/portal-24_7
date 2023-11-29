@@ -120,7 +120,7 @@ const StyleEditModal = ({ styleEditData, open, handleClose }: any) => {
     <>
       <Modal size="lg" backdrop="static" open={open} onClose={handleCloseModal}>
         <Modal.Header>
-          <Modal.Title className="font-bold text-lg pl-7">
+          <Modal.Title className="font-bold text-lg">
             Edit Style
           </Modal.Title>
         </Modal.Header>
@@ -272,21 +272,21 @@ const StyleEditModal = ({ styleEditData, open, handleClose }: any) => {
                 />
               </div>
 
-              <div className="flex justify-end  w-full gap-3 col-span-5">
+              <div className="flex justify-end w-full gap-3 col-span-5">
+                <Button
+                  onClick={handleCloseModal}
+                  appearance="link"
+                  className="font-medium"
+                >
+                  Cancel
+                </Button>
                 <Button
                   type="submit"
                   loading={createLoading}
-                  appearance="default"
-                  className="bg-[#0284c7] text-white hover:text-white/80 hover:bg-[#0284c7] focus:bg-[#0284c7] focus:text-white/50"
+                  // appearance="default"
+                  className="bg-[#0284c7] font-medium text-white hover:text-white hover:bg-sky-700 focus:bg-sky-800 focus:text-white"
                 >
-                  Submit Changes
-                </Button>
-                <Button
-                  onClick={handleCloseModal}
-                  appearance="ghost"
-                  className="hover:border-transparent"
-                >
-                  Cancel
+                  Done
                 </Button>
               </div>
             </form>

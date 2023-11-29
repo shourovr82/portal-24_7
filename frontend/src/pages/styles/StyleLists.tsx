@@ -354,7 +354,7 @@ const StyleLists = () => {
               ellipsis
               boundaryLinks
               maxButtons={5}
-              size="lg"
+              size="md"
               layout={["total", "-", "limit", "|", "pager", "skip"]}
               limitOptions={[10, 20, 30, 50, 100, 150, 200]}
               limit={size}

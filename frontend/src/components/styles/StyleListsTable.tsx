@@ -6,7 +6,6 @@ import { IconButton, Popover, Table, Whisper } from "rsuite";
 
 // import { data } from "./mock";
 import { useState } from "react";
-import { RiEdit2Line } from "react-icons/ri";
 import { getUserInfo } from "../../hooks/services/auth.service";
 import CourierModal from "../courier/CourierModal";
 import { cellCss, headerCss } from "./CommonCss";
@@ -16,6 +15,7 @@ import PoModalTable from "./modals/PoModalTable";
 import PpSubmissionModal from "./modals/PpSubmissionModal";
 import TechPackModal from "./modals/TechPackModal";
 import { fileUrlKey } from "../../config/envConfig";
+import { MdModeEdit } from "react-icons/md";
 const { Column, HeaderCell, Cell } = Table;
 
 const rowKey = "styleNo";
@@ -351,7 +351,7 @@ const StyleListsTable = ({
                   <IconButton
                     onClick={() => handleStyleEditModalOpen(rowData)}
                     circle
-                    icon={<RiEdit2Line size={20} />}
+                    icon={<MdModeEdit size={20} />}
                   />
                 </Whisper>
               )}

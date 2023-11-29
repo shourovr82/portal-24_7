@@ -24,11 +24,12 @@ import { predefinedRanges } from "../../constants";
 import { SortType } from "rsuite/esm/Table";
 import { useDebounced } from "../../redux/hook";
 import { getUserInfo } from "../../hooks/services/auth.service";
-import { RiEdit2Line } from "react-icons/ri";
 import CourierEditModal from "../../components/courier/CourierEditModal";
 import DocPassIcon from "@rsuite/icons/DocPass";
 import Excel from "exceljs";
 import { saveAs } from "file-saver";
+import { MdModeEdit } from "react-icons/md";
+import { IoIosArrowForward } from "react-icons/io";
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -235,6 +236,13 @@ const CourierLists = () => {
             <h2 className="text-[24px] font-semibold text-[#212B36]">
               Courier Lists
             </h2>
+            <div className="flex text-sm mt-3 gap-2 items-center">
+              <Link to="/" className="text-blue-700 font-medium">
+                Dashboard
+              </Link>
+              <IoIosArrowForward className="text-blue-700" />
+              <span className="text-gray-500">Courier List</span>
+            </div>
           </div>
           {/* add */}
           <div className="flex gap-4 ">
@@ -436,7 +444,7 @@ const CourierLists = () => {
                             setCourierEditData(rowData);
                           }}
                           circle
-                          icon={<RiEdit2Line size={20} />}
+                          icon={<MdModeEdit size={20} />}
                         />
                       )}
                     </Cell>
@@ -455,7 +463,7 @@ const CourierLists = () => {
                 ellipsis
                 boundaryLinks
                 maxButtons={5}
-                size="lg"
+                size="md"
                 layout={["total", "-", "limit", "|", "pager", "skip"]}
                 limitOptions={[10, 20, 30, 50]}
                 limit={size}

@@ -139,7 +139,7 @@ const PortEditModal = ({ open, portEditData, handleClose }: any) => {
                 <Button
                   onClick={handleClose}
                   appearance="link"
-                  className="hover:border-transparent"
+                  className="font-medium"
                 >
                   Cancel
                 </Button>
@@ -147,7 +147,7 @@ const PortEditModal = ({ open, portEditData, handleClose }: any) => {
                   type="submit"
                   loading={isLoading}
                   appearance="default"
-                  className="bg-[#0284c7] text-white hover:text-white/80 hover:bg-[#0284c7] focus:bg-[#0284c7] focus:text-white/50"
+                  className="bg-[#0284c7] text-white font-medium hover:text-white hover:bg-sky-700 focus:bg-[#0284c7] focus:text-white"
                 >
                   Save
                 </Button>
