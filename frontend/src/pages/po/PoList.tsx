@@ -34,6 +34,7 @@ import Excel from "exceljs";
 import { saveAs } from "file-saver";
 import { FiPlus } from "react-icons/fi";
 import { IoIosArrowForward } from "react-icons/io";
+import ArrowDownLineIcon from "@rsuite/icons/ArrowDownLine";
 import { MdModeEdit } from "react-icons/md";
 
 const PoLists = () => {
@@ -321,12 +322,12 @@ const PoLists = () => {
               >
                 <Button
                   appearance="default"
-                  className="!bg-[#0284c7] hover:!bg-sky-700 text-white hover:text-white focus-within:text-white focus-within:bg-[#0284c7] font-semibold
-                    "
-                  color="blue"
-                  startIcon={<DocPassIcon className="text-base" />}
+                  className="bg-white hover:bg-white outline-gray-200 outline outline-1 font-medium text-gray-700 !rounded hover:text-gray-700 focus-within:text-gray-700 focus-within:bg-white"
+                  // color="blue"
+                  startIcon={<DocPassIcon className="text-sm" />}
+                  endIcon={<ArrowDownLineIcon className="text-xl" />}
                 >
-                  Generate Report
+                  Report
                 </Button>
               </Whisper>
             </ButtonToolbar>

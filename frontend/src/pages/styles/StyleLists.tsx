@@ -216,9 +216,7 @@ const StyleLists = () => {
               Dashboard
             </Link>
             <IoIosArrowForward className="text-blue-700" />
-            <span  className="text-gray-500">
-              Styles
-            </span>
+            <span className="text-gray-500">Styles</span>
           </div>
         </div>
         <div className="flex gap-4">
@@ -231,19 +229,18 @@ const StyleLists = () => {
               >
                 <Button
                   appearance="default"
-                  className="!bg-[#0284c7] hover:!bg-sky-700 text-white hover:text-white focus-within:text-white focus-within:bg-[#0284c7] font-semibold
-                    "
-                  color="blue"
-                  startIcon={<DocPassIcon className="text-base" />}
+                  className="bg-white hover:bg-white outline-gray-200 outline outline-1 font-medium text-gray-700 !rounded hover:text-gray-700 focus-within:text-gray-700 focus-within:bg-white"
+                  // color="blue"
+                  startIcon={<DocPassIcon className="text-sm" />}
                   endIcon={<ArrowDownLineIcon className="text-xl" />}
                 >
-                  Generate Report
+                  Report
                 </Button>
               </Whisper>
             </ButtonToolbar>
           </div>
           <Link to="/styles/styleAssign">
-            <button className="border-[#0284c7] border text-[#0284c7] text-sm font-semibold py-1.5 px-2.5 rounded-md ">
+            <button className="border-[#0284c7] border text-[#0284c7] text-sm font-semibold py-2 px-2.5 rounded-md">
               Style Assign
             </button>
           </Link>
