@@ -644,7 +644,7 @@ const PoLists = () => {
                           </div>
                         )}
                       </div>
-                      <div style={{ padding: 20 }}>
+                      <div className="py-5">
                         <Pagination
                           total={allOrders?.meta?.total}
                           prev
