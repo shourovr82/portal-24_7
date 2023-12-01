@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Button,
   DatePicker,
@@ -23,6 +23,7 @@ import {
 } from "../../interfacesAndConstants/shared/constants/toastMessages.constants";
 import { dataForSelectPicker } from "../../common/commonData";
 import InfoOutlineIcon from "@rsuite/icons/InfoOutline";
+import { IoIosArrowForward } from "react-icons/io";
 
 const AddCourier = () => {
   const navigate = useNavigate();
@@ -101,6 +102,17 @@ const AddCourier = () => {
             <h2 className="text-2xl text-[#212B36] font-semibold">
               Create a Courier
             </h2>
+            <div className="flex text-sm mt-3 gap-2 items-center">
+              <Link to="/" className="text-blue-700 font-medium">
+                Dashboard
+              </Link>
+              <IoIosArrowForward className="text-blue-700" />
+              <Link to="/courier/courierLists" className="text-blue-700 font-medium">
+                Courier List
+              </Link>
+              <IoIosArrowForward className="text-blue-700" />
+              <span className="text-gray-500">Add Courier</span>
+            </div>
           </div>
         </div>
 

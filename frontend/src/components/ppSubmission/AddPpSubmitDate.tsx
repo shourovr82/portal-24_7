@@ -83,7 +83,7 @@ const AddPpSubmitDate = ({ allStyle, isLoadingStyleNo }: any) => {
     <section className="mt-5 bg-white border rounded-lg p-5 mb-10">
       <div className="mb-6">
         {/* <p className="text-lg font-semibold">PO Details</p> */}
-        <p>Please provide submitted date on based of submission date:</p>
+        <p className="text-lg font-medium">Please provide submitted date on based of submission date:</p>
       </div>
       <form onSubmit={handleSubmit(handlePPSubmitDate)}>
         {/* 1st section */}
@@ -253,7 +253,7 @@ const AddPpSubmitDate = ({ allStyle, isLoadingStyleNo }: any) => {
                 ? "primary"
                 : "default"
             }`}
-            className={`  bg-[#0284c7] hover:bg-[#0284c7] hover:text-white/80 focus-within:bg-[#0284c7] focus-within:text-white text-white rounded-md  focus:scale-95 scale-100 items-center   flex px-6 py-2`}
+            className={`  bg-[#0284c7] hover:bg-sky-700 hover:text-white focus-within:bg-[#0284c7] focus-within:text-white text-white rounded-md focus:scale-95 scale-100 items-center flex px-2.5 py-2`}
           >
             {singleStyle?.PPSubmission?.factorySubmittedDate
               ? "PP Already Submitted"

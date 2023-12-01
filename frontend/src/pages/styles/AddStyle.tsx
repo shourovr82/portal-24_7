@@ -9,7 +9,8 @@ import { renderLoading } from "../../components/renderLoading/RenderLoading";
 import StyleImageUpload from "../../components/styles/uploads/StyleImageUpload";
 import { FileType } from "rsuite/esm/Uploader";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { IoIosArrowForward } from "react-icons/io";
+import { Link, useNavigate } from "react-router-dom";
 import {
   toastMessageError,
   toastMessageSuccess,
@@ -107,11 +108,27 @@ const AddStyle = () => {
   return (
     <>
       <div className="p-4 pb-10">
-        <div className="">
-          <div>
-            <h2 className="text-2xl text-[#212B36] font-semibold">
-              Create a new style
-            </h2>
+        <div>
+          <div className="flex justify-between items-center">
+            <div>
+              <h2 className="text-2xl text-[#212B36] font-semibold">
+                Create A New Style
+              </h2>
+              <div className="flex text-sm mt-3 gap-2 items-center">
+                <Link to="/" className="text-blue-700 font-medium">
+                  Dashboard
+                </Link>
+                <IoIosArrowForward className="text-blue-700" />
+                <Link
+                  to="/styles/listofstyle"
+                  className="text-blue-700 font-medium"
+                >
+                  Styles
+                </Link>
+                <IoIosArrowForward className="text-blue-700" />
+                <span className="text-gray-500">Add Style</span>
+              </div>
+            </div>
           </div>
         </div>
 

@@ -27,6 +27,7 @@ import ArrowDownLineIcon from "@rsuite/icons/ArrowDownLine";
 import Excel from "exceljs";
 import { saveAs } from "file-saver";
 import { fileUrlKey } from "../../config/envConfig";
+import { IoIosArrowForward } from "react-icons/io";
 
 // !
 const StyleLists = () => {
@@ -210,6 +211,13 @@ const StyleLists = () => {
           <h2 className="text-[24px] font-semibold text-[#212B36]">
             List Of Styles
           </h2>
+          <div className="flex text-sm mt-3 gap-2 items-center">
+            <Link to="/" className="text-blue-700 font-medium">
+              Dashboard
+            </Link>
+            <IoIosArrowForward className="text-blue-700" />
+            <span className="text-gray-500">Styles</span>
+          </div>
         </div>
         <div className="flex gap-4">
           <div>
@@ -221,19 +229,18 @@ const StyleLists = () => {
               >
                 <Button
                   appearance="default"
-                  className="!bg-[#0284c7] hover:!bg-sky-700 text-white hover:text-white focus-within:text-white focus-within:bg-[#0284c7] font-semibold
-                    "
-                  color="blue"
-                  startIcon={<DocPassIcon className="text-base" />}
+                  className="bg-white hover:bg-white outline-gray-200 outline outline-1 font-medium text-gray-700 !rounded hover:text-gray-700 focus-within:text-gray-700 focus-within:bg-white"
+                  // color="blue"
+                  startIcon={<DocPassIcon className="text-sm" />}
                   endIcon={<ArrowDownLineIcon className="text-xl" />}
                 >
-                  Generate Report
+                  Report
                 </Button>
               </Whisper>
             </ButtonToolbar>
           </div>
           <Link to="/styles/styleAssign">
-            <button className="border-[#0284c7] border text-[#0284c7] text-sm font-semibold py-1.5 px-2.5 rounded-md ">
+            <button className="border-[#0284c7] border text-[#0284c7] text-sm font-semibold py-2 px-2.5 rounded-md">
               Style Assign
             </button>
           </Link>
@@ -244,7 +251,7 @@ const StyleLists = () => {
                 type="button"
               >
                 <FiPlus size={18} />
-                <span className="text-sm font-semibold">Add New Style</span>
+                <span className="text-sm font-semibold">Add Style</span>
               </button>
             </Link>
           </div>
@@ -344,7 +351,7 @@ const StyleLists = () => {
               ellipsis
               boundaryLinks
               maxButtons={5}
-              size="lg"
+              size="md"
               layout={["total", "-", "limit", "|", "pager", "skip"]}
               limitOptions={[10, 20, 30, 50, 100, 150, 200]}
               limit={size}
