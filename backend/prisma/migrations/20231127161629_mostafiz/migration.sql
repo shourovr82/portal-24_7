@@ -10,9 +10,9 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "userStatus" "UserStatus" NOT NULL DEFAULT 'Active',
-    "profileId" TEXT,
     "createdAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMPTZ(0) NOT NULL,
+    "profileId" TEXT,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("userId")
 );
@@ -89,6 +89,7 @@ CREATE TABLE "orders" (
     "buyerEtd" TIMESTAMP(3) NOT NULL,
     "factoryEtd" TIMESTAMP(3) NOT NULL,
     "friDate" TIMESTAMP(3) NOT NULL,
+    "orderFile" TEXT,
     "styleNo" TEXT NOT NULL,
     "createdAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMPTZ(0) NOT NULL,
@@ -100,15 +101,15 @@ CREATE TABLE "orders" (
 
 -- CreateTable
 CREATE TABLE "tackpack" (
-    "tackpackId" TEXT NOT NULL,
+    "tackPackId" TEXT NOT NULL,
     "tackPackComment" TEXT NOT NULL,
     "tackFile" TEXT NOT NULL,
-    "styleNo" TEXT NOT NULL,
     "profileId" TEXT NOT NULL,
+    "styleNo" TEXT NOT NULL,
     "createdAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMPTZ(0) NOT NULL,
 
-    CONSTRAINT "tackpack_pkey" PRIMARY KEY ("tackpackId")
+    CONSTRAINT "tackpack_pkey" PRIMARY KEY ("tackPackId")
 );
 
 -- CreateTable
@@ -165,7 +166,6 @@ CREATE TABLE "courier_details" (
     "awbNo" TEXT NOT NULL,
     "courierDate" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "courierDetails" TEXT NOT NULL,
-    "courierWeight" TEXT NOT NULL,
     "styleNo" TEXT NOT NULL,
     "createdAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMPTZ(0) NOT NULL,
@@ -194,6 +194,9 @@ CREATE UNIQUE INDEX "items_itemName_key" ON "items"("itemName");
 -- CreateIndex
 CREATE UNIQUE INDEX "orders_orderNo_key" ON "orders"("orderNo");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "tackpack_styleNo_key" ON "tackpack"("styleNo");
+
 -- AddForeignKey
 ALTER TABLE "users" ADD CONSTRAINT "users_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "profiles"("profileId") ON DELETE SET NULL ON UPDATE CASCADE;
 
@@ -219,10 +222,10 @@ ALTER TABLE "orders" ADD CONSTRAINT "orders_profileId_fkey" FOREIGN KEY ("profil
 ALTER TABLE "orders" ADD CONSTRAINT "orders_styleNo_fkey" FOREIGN KEY ("styleNo") REFERENCES "styles"("styleNo") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "tackpack" ADD CONSTRAINT "tackpack_styleNo_fkey" FOREIGN KEY ("styleNo") REFERENCES "styles"("styleNo") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "tackpack" ADD CONSTRAINT "tackpack_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "profiles"("profileId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "tackpack" ADD CONSTRAINT "tackpack_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "profiles"("profileId") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "tackpack" ADD CONSTRAINT "tackpack_styleNo_fkey" FOREIGN KEY ("styleNo") REFERENCES "styles"("styleNo") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "pp_strike_off_status" ADD CONSTRAINT "pp_strike_off_status_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "profiles"("profileId") ON DELETE RESTRICT ON UPDATE CASCADE;

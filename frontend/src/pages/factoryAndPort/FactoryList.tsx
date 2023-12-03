@@ -5,9 +5,10 @@ import { getUserInfo } from "../../hooks/services/auth.service";
 import { useGetAllFactoriesQuery } from "../../redux/features/factories/factoryApi";
 import { IconButton, Table } from "rsuite";
 import { IUserDetails } from "../users/addUser.interface";
-import { RiEdit2Line } from "react-icons/ri";
+// import { RiEdit2Line } from "react-icons/ri";
 import { useState } from "react";
 import FactoryEditModal from "../../components/factory/FactoryEditModal";
+import { MdModeEdit } from "react-icons/md";
 const { Column, HeaderCell, Cell } = Table;
 
 const FactoryList = () => {
@@ -58,7 +59,7 @@ const FactoryList = () => {
                   <IconButton
                     onClick={() => handleFactoryEditModalOpen(rowData)}
                     circle
-                    icon={<RiEdit2Line size={20} />}
+                    icon={<MdModeEdit size={20} />}
                   />
                 )}
               </Cell>

@@ -144,19 +144,19 @@ const FactoryEditModal = ({ open, factoryEditData, handleClose }: any) => {
 
               <div className="flex justify-end mt-3 w-full gap-3 col-span-5">
                 <Button
+                  onClick={handleModalClose}
+                  appearance="link"
+                  className="font-medium"
+                >
+                  Cancel
+                </Button>
+                <Button
                   type="submit"
                   loading={isLoading}
                   appearance="default"
-                  className="bg-[#0284c7] text-white hover:text-white/80 hover:bg-[#0284c7] focus:bg-[#0284c7] focus:text-white/50"
+                  className="bg-[#0284c7] text-white font-medium hover:text-white hover:bg-[#0284c7] focus:bg-[#0284c7] focus:text-white"
                 >
-                  Submit Changes
-                </Button>
-                <Button
-                  onClick={handleModalClose}
-                  appearance="ghost"
-                  className="hover:border-transparent"
-                >
-                  Cancel
+                  Save
                 </Button>
               </div>
             </form>

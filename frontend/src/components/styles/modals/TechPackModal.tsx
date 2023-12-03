@@ -46,8 +46,8 @@ const TechPackModal = ({ tackPacks, open, handleClose }: any) => {
                       }
                       className="flex border hover:text-[#0284c7] border-transparent hover:border-gray-200 hover:border px-2 py-2 rounded-lg gap-2 items-center text-[#0284c7] font-bold text-sm"
                     >
-                      <FaRegFilePdf size={20} className="text-[#0284c7]" />{" "}
-                      Download
+                      <FaRegFilePdf size={20} className="text-[#0284c7]" /> View
+                      PDF
                     </Button>
                   </div>
                 </div>
@@ -62,16 +62,6 @@ const TechPackModal = ({ tackPacks, open, handleClose }: any) => {
             <h2 className="text-center font-semibold">No Tack Pack Added...</h2>
           )}
         </Modal.Body>
-        <Modal.Footer>
-          <Button
-            onClick={handleClose}
-            appearance="ghost"
-            size="sm"
-            className="hover:border-transparent px-10"
-          >
-            Cancel
-          </Button>
-        </Modal.Footer>
       </Modal>
     </>
   );
