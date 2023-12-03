@@ -4,6 +4,7 @@ import { FileUploadHelper } from '../../../helpers/FileUploadHelper';
 import auth from '../../middlewares/auth';
 import { TackPackController } from './tackPack.controller';
 import { TackPackValidation } from './tackPack.validations';
+import routeInfoMessage from '../../middlewares/routeInfoMessage';
 
 const router = express.Router();
 
@@ -11,6 +12,7 @@ const router = express.Router();
 
 router.post(
   '/create-tack-pack',
+  routeInfoMessage(),
   auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
   FileUploadHelper.uploadTackPackPdf.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
@@ -19,11 +21,17 @@ router.post(
   }
 );
 // ! get details
-router.get('/get-tack-pack/:styleNo', auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN), TackPackController.getSingleTackPack);
+router.get(
+  '/get-tack-pack/:styleNo',
+  routeInfoMessage(),
+  auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
+  TackPackController.getSingleTackPack
+);
 
 // ! update tack pack
 router.patch(
   '/update/:tackPackId',
+  routeInfoMessage(),
   auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
   FileUploadHelper.updateUploadTackPackPdf.single('file'),
   (req: Request, res: Response, next: NextFunction) => {

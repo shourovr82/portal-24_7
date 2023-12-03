@@ -26,6 +26,10 @@ if (!fs.existsSync('./uploads/tackpack')) {
 if (!fs.existsSync('./uploads/styles')) {
   fs.mkdirSync('./uploads/styles');
 }
+// Create orders directory in the /uploads path while starting the application
+if (!fs.existsSync('./uploads/orders')) {
+  fs.mkdirSync('./uploads/orders');
+}
 
 app.use(
   cors({

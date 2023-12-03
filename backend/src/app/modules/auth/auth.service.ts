@@ -7,12 +7,7 @@ import ApiError from '../../../errors/ApiError';
 import { jwtHelpers } from '../../../helpers/jwtHelpers';
 import { IUploadFile } from '../../../interfaces/file';
 import prisma from '../../../shared/prisma';
-import {
-  ILoginUserResponse,
-  IRefreshTokenResponse,
-  IUserCreate,
-  IUserLogin,
-} from './auth.interface';
+import { ILoginUserResponse, IRefreshTokenResponse, IUserCreate, IUserLogin } from './auth.interface';
 
 const createNewUser = async (req: Request) => {
   const file = req.file as IUploadFile;
@@ -21,10 +16,7 @@ const createNewUser = async (req: Request) => {
   const data = req.body as IUserCreate;
 
   const { password, email } = data;
-  const hashedPassword = await bcrypt.hash(
-    password,
-    Number(config.bcrypt_salt_rounds)
-  );
+  const hashedPassword = await bcrypt.hash(password, Number(config.bcrypt_salt_rounds));
 
   // transaction start
   const newUser = await prisma.$transaction(async transactionClient => {
@@ -80,9 +72,7 @@ const createNewUser = async (req: Request) => {
   return newUser;
 };
 //login
-const userLogin = async (
-  loginData: IUserLogin
-): Promise<ILoginUserResponse> => {
+const userLogin = async (loginData: IUserLogin): Promise<ILoginUserResponse> => {
   const { email, password } = loginData;
 
   const isUserExist = await prisma.user.findUnique({
@@ -103,7 +93,7 @@ const userLogin = async (
   });
 
   if (!isUserExist) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'User not found !!');
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found !!');
   }
 
   const isPasswordValid = await bcrypt.compare(password, isUserExist?.password);
@@ -153,10 +143,7 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
   // ! verify token
   let verifiedToken = null;
   try {
-    verifiedToken = jwtHelpers.verifyToken(
-      token,
-      config.jwt.refresh_secret as Secret
-    );
+    verifiedToken = jwtHelpers.verifyToken(token, config.jwt.refresh_secret as Secret);
   } catch (error) {
     // err
     throw new ApiError(httpStatus.FORBIDDEN, 'Invalid Refresh Token');
