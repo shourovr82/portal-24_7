@@ -5,31 +5,19 @@ import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import routes from './app/routes';
 
 import cookieParser from 'cookie-parser';
-import fs from 'fs';
+import create_required_directories from './tasks/directory_creation_task';
+import dbBackupTask from './tasks/database_backup_task';
+
 
 const app: Application = express();
 
-// create uploads directory while starting the application
-if (!fs.existsSync('./uploads')) {
-  fs.mkdirSync('./uploads');
-}
+// Create required directories 
+create_required_directories()
 
-// Create user directory in the /uploads path while starting the application
-if (!fs.existsSync('./uploads/users')) {
-  fs.mkdirSync('./uploads/users');
-}
-// Create tack pack directory in the /uploads path while starting the application
-if (!fs.existsSync('./uploads/tackpack')) {
-  fs.mkdirSync('./uploads/tackpack');
-}
-// Create styles directory in the /uploads path while starting the application
-if (!fs.existsSync('./uploads/styles')) {
-  fs.mkdirSync('./uploads/styles');
-}
-// Create orders directory in the /uploads path while starting the application
-if (!fs.existsSync('./uploads/orders')) {
-  fs.mkdirSync('./uploads/orders');
-}
+
+// Start the database backup task
+dbBackupTask.start();
+
 
 app.use(
   cors({
