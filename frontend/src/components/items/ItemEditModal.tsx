@@ -135,8 +135,8 @@ const ItemEditModal = ({ open, itemEditData, handleClose }: any) => {
               <div className="flex justify-end mt-3 w-full gap-3 col-span-5">
                 <Button
                   onClick={handleCloseModal}
-                  appearance="default"
-                  className="hover:bg-slate-300 font-medium bg-slate-200 border-0 text-slate-800 hover:text-slate-800"
+                  appearance="link"
+                  className="font-medium"
                 >
                   Cancel
                 </Button>
@@ -144,9 +144,9 @@ const ItemEditModal = ({ open, itemEditData, handleClose }: any) => {
                   type="submit"
                   loading={isLoading}
                   appearance="default"
-                  className="bg-[#0A78C3] text-white font-medium hover:text-white hover:bg-sky-800 focus:bg-[#0284c7] focus:text-white/50"
+                  className="bg-[#0A78C3] text-white font-medium hover:text-white hover:bg-sky-700 focus:bg-sky-800 focus:text-white"
                 >
-                  Submit Changes
+                  Done
                 </Button>
               </div>
             </form>

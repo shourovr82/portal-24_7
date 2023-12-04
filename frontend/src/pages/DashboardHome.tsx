@@ -130,16 +130,16 @@ const DashboardHome = () => {
         </li>
       </ul>
 
-      <div className="m-6 bg-white border rounded-lg shadow-md p-2">
+      <div className="mx-6 bg-white border rounded-lg shadow-md p-2">
         <h1>
           <span className="bg-gray-100 p-1 rounded-md"> Total Pieces:</span>{" "}
           <span className="text-green-600">(Last 4 Years Comparison)</span>
         </h1>
-        <div className="grid grid-cols-1 lg:grid-cols-4 justify-start items-center gap-5   ">
+        <div className="grid grid-cols-1 lg:grid-cols-4 justify-start items-center gap-5">
           {allPc?.data?.length
             ? allPc?.data?.map((pc: any, index: number) => (
                 <div
-                  className={`text-[#262626] mt-8 mx-2 h-80 w-full ${
+                  className={`text-[#262626] my-8 mx-2 h-72 w-full ${
                     index !== allPc?.data?.length - 1
                       ? "lg:border-r mx-md:border-b"
                       : ""
@@ -147,14 +147,14 @@ const DashboardHome = () => {
                   key={pc?.year}
                 >
                   <h1 className="text-4xl font-extrabold mb-1">{pc?.year}</h1>
-                  <p className="text-rose-700 font-bold bg-rose-50 rounded-md inline-block p-1 mt-4 mb-2">
+                  <p className="text-rose-700 text-sm font-bold bg-rose-50 rounded-md inline-block p-1 mt-4 mb-2">
                     AW: April - September
                   </p>
                   <p className="font-bold text-lg text-[#262626]">
                     {pc?.aprilToSept?.toLocaleString()}
                   </p>
                   
-                    <p className="text-emerald-700 font-bold inline-block rounded-md  bg-emerald-50 p-1 mt-4 mb-2">
+                    <p className="text-emerald-700 text-sm font-bold inline-block rounded-md  bg-emerald-50 p-1 mt-4 mb-2">
                       SS: October - March
                     </p>{" "}
                     <p className="font-bold text-lg text-[#262626]">
@@ -162,7 +162,7 @@ const DashboardHome = () => {
                     </p>
                  
                   <p className="text-xl font-bold mt-14 text-[#262626]">
-                    Total: {pc?.total?.toLocaleString()}
+                    Total: <span className="font-semibold">{pc?.total?.toLocaleString()}</span>
                   </p>
                 </div>
               ))
@@ -208,12 +208,12 @@ const DashboardHome = () => {
         </div>
       </div>
 
-      {/* top ten recent style add */}
+      {/* top Twenty recent style add */}
       <div className="p-5">
         <section className="p-4 border bg-white rounded-md shadow-md">
           {/* header */}
           <p className="text-lg font-semibold pb-5">
-            Recent Top Ten Comment On Style
+            Recent Top Twenty Comment On Style
           </p>
           <TopTenStyleTable />
         </section>

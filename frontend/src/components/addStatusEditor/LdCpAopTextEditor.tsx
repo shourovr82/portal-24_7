@@ -174,7 +174,7 @@ const LdCpAopTextEditor = ({ isLoadingStyleNo, allStyle }: any) => {
           <button
             type="submit"
             disabled={isLoadingCreate}
-            className={`bg-[#0284c7] text-white rounded items-center flex px-2.5 py-1 transition-all duration-300 ${
+            className={`bg-[#0284c7] hover:bg-sky-700 focus:bg-sky-800 text-white rounded items-center flex px-2.5 font-medium py-2 text-sm transition-all duration-300 ${
               isLoadingCreate ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >

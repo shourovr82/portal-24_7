@@ -167,7 +167,7 @@ const NoOfCourier = () => {
                 </Cell>
               </Column>
             </Table>
-            <div style={{ padding: "20px 10px 0px 10px" }}>
+            <div className="py-5">
               <Pagination
                 total={NoOfCourierData?.meta?.total}
                 prev
@@ -177,7 +177,7 @@ const NoOfCourier = () => {
                 ellipsis
                 boundaryLinks
                 maxButtons={5}
-                size="lg"
+                size="md"
                 layout={["total", "-", "limit", "|", "pager", "skip"]}
                 limitOptions={[10, 20, 30, 50]}
                 limit={size}
