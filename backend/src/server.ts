@@ -5,7 +5,6 @@ import { errorLogger, logger } from './shared/logger';
 
 async function bootstrap() {
   const server: Server = app.listen(config.port, () => {
-    // console.info(`Server running on port ${config.port}`);
     logger.info(`Server running on port ${config.port}`);
   });
 
@@ -25,13 +24,6 @@ async function bootstrap() {
 
   process.on('uncaughtException', unexpectedErrorHandler);
   process.on('unhandledRejection', unexpectedErrorHandler);
-
-  // process.on('SIGTERM', () => {
-  //   console.info('SIGTERM received');
-  //   if (server) {
-  //     server.close();
-  //   }
-  // });
 }
 
 bootstrap();

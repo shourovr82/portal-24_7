@@ -4,14 +4,16 @@ import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { LdCpAopStatusController } from './LdCpAopStatus.controller';
 import { LdCpAopStatusValidation } from './LdCpAopStatus.validations';
+import routeInfoMessage from '../../middlewares/routeInfoMessage';
 
 const router = express.Router();
 
 // ! Create New  LdCpAopStatus  Status ------------------------------->>>
 router.post(
   '/create',
-  validateRequest(LdCpAopStatusValidation.createLdCpAopStatus),
+  routeInfoMessage(),
   auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
+  validateRequest(LdCpAopStatusValidation.createLdCpAopStatus),
   LdCpAopStatusController.createNewLdCpAopStatus
 );
 

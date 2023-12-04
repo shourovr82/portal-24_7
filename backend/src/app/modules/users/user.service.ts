@@ -164,10 +164,6 @@ const updateUserInfo = async (
   message: string;
   updatedInfo: IUserUpdateReqAndResponse;
 }> => {
-  // if ('userId' in payload) {
-  //   throw new ApiError(httpStatus.BAD_REQUEST, `User ID cannot be changed`);
-  // }
-
   // Check if the user exists
   const existingUser = await prisma.user.findUnique({
     where: {
@@ -216,8 +212,6 @@ const updateUserInfo = async (
     if (!updateProfile) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'User Update Failed');
     }
-
-    console.log(updateProfile);
   }
 
   if (!result) {

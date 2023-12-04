@@ -7,6 +7,7 @@ import { IUploadFile } from '../../../interfaces/file';
 import prisma from '../../../shared/prisma';
 import { ICreateTackPack, IUpdateTackPack } from './tackPack.interface';
 import fs from 'fs';
+import { errorLogger } from '../../../shared/logger';
 
 // !----------------------------------Create TackPack---------------------------------------->>>
 const createTackPack = async (profileId: string, req: Request): Promise<any> => {
@@ -44,7 +45,7 @@ const createTackPack = async (profileId: string, req: Request): Promise<any> => 
 
       fs.unlink(oldFilePaths, err => {
         if (err) {
-          console.log('Error deleting old file');
+          errorLogger.error('Error deleting old file');
         }
       });
     }

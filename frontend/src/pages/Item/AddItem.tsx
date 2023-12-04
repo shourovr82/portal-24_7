@@ -6,7 +6,7 @@ import {
   useCreateNewItemMutation,
   useGetAllItemsQuery,
 } from "../../redux/features/items/itemApi";
-// import moment from "moment";
+
 import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import toast from "react-hot-toast";
 import Lottie from "lottie-react";
@@ -27,7 +27,7 @@ import ItemEditModal from "../../components/items/ItemEditModal";
 
 const AddItem = () => {
   const query: Record<string, any> = {};
-
+  query["limit"] = 1000;
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   // query["searchTerm"] = searchTerm;

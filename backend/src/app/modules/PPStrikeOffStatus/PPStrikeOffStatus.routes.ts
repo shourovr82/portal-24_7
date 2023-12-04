@@ -4,34 +4,34 @@ import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { PPStrikeOffStatusController } from './PPStrikeOffStatus.controller';
 import { ppStrikeOffStatusValidation } from './PPStrikeOffStatus.validations';
+import routeInfoMessage from '../../middlewares/routeInfoMessage';
 
 const router = express.Router();
 
 // ! Create New  Strike Off Status ------------------------------->>>
 router.post(
   '/',
-  validateRequest(ppStrikeOffStatusValidation.createPpStrikeOffStatus),
+  routeInfoMessage(),
   auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
+  validateRequest(ppStrikeOffStatusValidation.createPpStrikeOffStatus),
   PPStrikeOffStatusController.createNewPPStrikeOffStatus
 );
 // ! Get all Strike Off Status----------------------------------->>>
-router.get(
-  '/',
-  auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
-  PPStrikeOffStatusController.getAllPPStrikeOffStatus
-);
+router.get('/', routeInfoMessage(), auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN), PPStrikeOffStatusController.getAllPPStrikeOffStatus);
 
 // ! Get Single Strike Off Status----------------------------------->>>
 router.get(
   '/:ppStatusId',
+  routeInfoMessage(),
   auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
   PPStrikeOffStatusController.getSinglePPStrikeOffStatus
 );
 // ! Update Strike Off Status----------------------------------->>>
 router.patch(
   '/:PPStatusId',
-  validateRequest(ppStrikeOffStatusValidation.updatePpStrikeOffStatus),
+  routeInfoMessage(),
   auth(UserRoles.ADMIN, UserRoles.SUPERADMIN),
+  validateRequest(ppStrikeOffStatusValidation.updatePpStrikeOffStatus),
   PPStrikeOffStatusController.updatePPStrikeOffStatusInformation
 );
 
