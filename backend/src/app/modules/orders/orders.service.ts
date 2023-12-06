@@ -21,7 +21,7 @@ import { logger } from '../../../shared/logger';
 const createNewOrder = async (profileId: string, req: Request): Promise<ICreateOrderResponse> => {
   const file = req.file as IUploadFile;
 
-  const filePath = file?.path?.substring(8);
+  const filePath = file?.path?.substring(13);
 
   const { styleNo, orderNo, buyerEtd, noOfPack, portId, totalPack } = req.body as IOrderCreateRequest;
 
@@ -236,7 +236,7 @@ const getSingleOrder = async (orderNo: string): Promise<Orders | null> => {
 // !----------------------------------Update Order---------------------------------------->>>
 const updateOrder = async (orderNo: string, req: Request): Promise<Orders> => {
   const file = req.file as IUploadFile;
-  const filePath = file?.path?.substring(8);
+  const filePath = file?.path?.substring(13);
 
   const { buyerEtd, noOfPack, portId, styleNo, totalPack, isActiveOrder, oldFilePath } = req.body as IOrderUpdateRequest;
 

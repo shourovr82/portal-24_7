@@ -12,7 +12,7 @@ import { ILoginUserResponse, IRefreshTokenResponse, IUserCreate, IUserLogin } fr
 const createNewUser = async (req: Request) => {
   const file = req.file as IUploadFile;
 
-  const filePath = file.path.substring(8);
+  const filePath = file.path.substring(13);
   const data = req.body as IUserCreate;
 
   const { password, email } = data;
@@ -196,64 +196,3 @@ export const AuthService = {
   userLogin,
   refreshToken,
 };
-
-// const createNewUser = async (payload: IUserCreate) => {
-//   const { password, email } = payload;
-//   const hashedPassword = await bcrypt.hash(
-//     password,
-//     Number(config.bcrypt_salt_rounds)
-//   );
-
-//   // transaction start
-//   const newUser = await prisma.$transaction(async transactionClient => {
-//     const isUserExist = await transactionClient.user.findFirst({
-//       where: { email },
-//     });
-
-//     if (isUserExist) {
-//       throw new ApiError(httpStatus.BAD_REQUEST, 'Email is already in use');
-//     }
-
-//     const profileData = {
-//       firstName: payload.firstName,
-//       lastName: payload.lastName,
-//       profileImage: payload?.profileImage,
-//       role: payload?.role,
-//     };
-
-//     const createdProfile = await transactionClient.profile.create({
-//       data: profileData,
-//     });
-
-//     if (!createdProfile) {
-//       throw new ApiError(httpStatus.BAD_REQUEST, 'Profile creation failed');
-//     }
-
-//     const createdUser = await transactionClient.user.create({
-//       data: {
-//         email,
-//         password: hashedPassword,
-//         profile: {
-//           connect: {
-//             profileId: createdProfile.profileId,
-//           },
-//         },
-//       },
-//       select: {
-//         userId: true,
-//         email: true,
-//         createdAt: true,
-//         userStatus: true,
-//         profile: true,
-//       },
-//     });
-
-//     if (!createdUser) {
-//       throw new ApiError(httpStatus.BAD_REQUEST, 'User creation failed');
-//     }
-
-//     return createdUser;
-//   });
-
-//   return newUser;
-// };

@@ -25,7 +25,7 @@ import { logger } from '../../../shared/logger';
 const createNewStyle = async (profileId: string, req: Request): Promise<Styles> => {
   const file = req.file as IUploadFile;
 
-  const filePath = file?.path?.substring(8);
+  const filePath = file?.path?.substring(13);
 
   const data = req.body as IStyleCreateRequest;
 
@@ -345,7 +345,7 @@ const getSingleStyle = async (styleNo: string): Promise<Styles | null> => {
 const updateStyleInformation = async (styleNo: string, req: Request): Promise<Styles | null> => {
   const file = req?.file as IUploadFile;
 
-  const filePath = file?.path?.substring(8);
+  const filePath = file?.path?.substring(13);
 
   const { fabric, factoryId, isActiveStyle, itemId, oldFilePath } = req.body as IStyleUpdateRequest;
   // deleting old style Image

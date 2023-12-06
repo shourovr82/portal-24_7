@@ -7,10 +7,12 @@ import path from 'path';
 // user
 const userStorage = multer.diskStorage({
   destination: function (req, file, callback) {
-    callback(null, 'uploads/users/');
+    callback(null, 'data/uploads/users');
   },
+
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    const uniqueFilename = Date.now() + '-' + file.originalname;
+    cb(null, uniqueFilename);
   },
 });
 
@@ -37,7 +39,8 @@ const uploadProfileImage = multer({
 // styles photos
 const stylesStorage = multer.diskStorage({
   destination: function (req, file, callback) {
-    callback(null, 'uploads/styles/');
+    // callback(null, 'uploads/styles/');
+    callback(null, 'data/uploads/styles');
   },
   filename: function (req, file, cb) {
     const uniqueFilename = Date.now() + '-' + file.originalname;
@@ -91,7 +94,8 @@ const updateStylesImage = multer({
 // tack pack
 const storageForTackPack = multer.diskStorage({
   destination: function (req, file, callback) {
-    callback(null, 'uploads/tackpack/');
+    // callback(null, 'uploads/tackpack/');
+    callback(null, 'data/uploads/tackpack');
   },
   filename: function (req, file, cb) {
     const uniqueFilename = Date.now() + '-' + file.originalname;
@@ -143,7 +147,8 @@ const updateUploadTackPackPdf = multer({
 // orders
 const storageForOrder = multer.diskStorage({
   destination: function (req, file, callback) {
-    callback(null, 'uploads/orders/');
+    // callback(null, 'uploads/orders/');
+    callback(null, 'data/uploads/orders');
   },
   filename: function (req, file, cb) {
     const uniqueFilename = Date.now() + '-' + file.originalname;

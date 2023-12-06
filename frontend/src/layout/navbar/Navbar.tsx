@@ -25,9 +25,11 @@ const Navbar = () => {
 
   const user = getUserInfo() as any;
 
+  // console.log(user);
+  // console.log(`${fileUrlKey()}/${user?.profileImage}`);
+
   return (
     <>
-      {/*  */}
       <div className="flex z-50 flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-between py-3 border-b h-[60px] shadow-sm bg-white sticky top-0 items-center">
         <div className="pl-5">
           <h2 className="font-semibold">

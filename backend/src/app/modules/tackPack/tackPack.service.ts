@@ -13,7 +13,7 @@ import { errorLogger } from '../../../shared/logger';
 const createTackPack = async (profileId: string, req: Request): Promise<any> => {
   const file = req.file as IUploadFile;
 
-  const filePath = file?.path?.substring(8);
+  const filePath = file?.path?.substring(13);
 
   if (!filePath) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Tack Pack pdf is required');
@@ -89,7 +89,7 @@ const getSingleTackPack = async (tackPackId: string): Promise<any> => {
 // !----------------------------------Create TackPack---------------------------------------->>>
 const updateTackPack = async (profileId: string, tackPackId: string, req: Request): Promise<TackPack> => {
   const file = req.file as IUploadFile;
-  const filePath = file?.path?.substring(8);
+  const filePath = file?.path?.substring(13);
 
   const { tackPackComment } = req.body as IUpdateTackPack;
 
