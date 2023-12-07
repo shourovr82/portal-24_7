@@ -6,7 +6,6 @@ import routes from './app/routes';
 
 import cookieParser from 'cookie-parser';
 import create_required_directories from './tasks/directory_creation_task';
-import dbBackupTask from './tasks/database_backup_task';
 
 
 const app: Application = express();
@@ -14,9 +13,6 @@ const app: Application = express();
 // Create required directories 
 create_required_directories()
 
-
-// Start the database backup task
-dbBackupTask.start();
 
 
 app.use(
