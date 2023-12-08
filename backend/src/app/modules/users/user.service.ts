@@ -7,16 +7,10 @@ import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
-import {
-  IUpdateProfileReqAndResponse,
-  IUserUpdateReqAndResponse,
-  IUsersResponse,
-} from './user.interface';
+import { IUpdateProfileReqAndResponse, IUserUpdateReqAndResponse, IUsersResponse } from './user.interface';
 
 // ! getting all users ----------------------------------------------------------------------->>>
-const getAllUserService = async (
-  options: IPaginationOptions
-): Promise<IGenericResponse<IUsersResponse[]>> => {
+const getAllUserService = async (options: IPaginationOptions): Promise<IGenericResponse<IUsersResponse[]>> => {
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
 
   const result = await prisma.user.findMany({
@@ -70,9 +64,7 @@ const getAllUserService = async (
 };
 
 // ! getting single user data -------------------------------------------------------->>>
-const getSingleUser = async (
-  userId: string
-): Promise<IUsersResponse | null> => {
+const getSingleUser = async (userId: string): Promise<IUsersResponse | null> => {
   // Check if the user exists
   const existingUser = await prisma.user.findUnique({
     where: {
@@ -172,10 +164,6 @@ const updateUserInfo = async (
   message: string;
   updatedInfo: IUserUpdateReqAndResponse;
 }> => {
-  if ('userId' in payload) {
-    throw new ApiError(httpStatus.BAD_REQUEST, `User ID cannot be changed`);
-  }
-
   // Check if the user exists
   const existingUser = await prisma.user.findUnique({
     where: {
@@ -187,17 +175,13 @@ const updateUserInfo = async (
     throw new ApiError(httpStatus.NOT_FOUND, 'User not Found !!');
   }
 
-  const { password, email, userStatus, firstName, lastName, role, profileId } =
-    payload;
+  const { password, email, userStatus, firstName, lastName, role, profileId } = payload;
 
   const updatedData: Partial<User> = {};
 
   // If a new password is provided, hash and include it in the update
   if (password) {
-    const hashPassword = await bcrypt.hash(
-      password,
-      Number(config.bcrypt_salt_rounds)
-    );
+    const hashPassword = await bcrypt.hash(password, Number(config.bcrypt_salt_rounds));
     updatedData['password'] = hashPassword;
   }
 
@@ -218,7 +202,7 @@ const updateUserInfo = async (
   if (lastName) updatedProfileData['lastName'] = lastName;
   if (role) updatedProfileData['role'] = role;
 
-  if (updatedProfileData) {
+  if (updatedProfileData && profileId) {
     const updateProfile = await prisma.profile.update({
       where: {
         profileId,

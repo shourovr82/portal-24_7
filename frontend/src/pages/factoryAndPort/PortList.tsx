@@ -4,10 +4,10 @@ import { useGetAllPortsQuery } from "../../redux/features/ports/portsApi";
 import { cellCss, headerCss } from "../../components/styles/CommonCss";
 import { getUserInfo } from "../../hooks/services/auth.service";
 import { IUserDetails } from "../users/addUser.interface";
-import { RiEdit2Line } from "react-icons/ri";
 import { useState } from "react";
 const { Column, HeaderCell, Cell } = Table;
 import PortEditModal from "../../components/port/PortEditModal";
+import { MdModeEdit } from "react-icons/md";
 
 const PortList = () => {
   const { data: ports, isLoading } = useGetAllPortsQuery(null);
@@ -54,7 +54,7 @@ const PortList = () => {
                   <IconButton
                     onClick={() => handlePortEditModalOpen(rowData)}
                     circle
-                    icon={<RiEdit2Line size={20} />}
+                    icon={<MdModeEdit size={20} />}
                   />
                 )}
               </Cell>

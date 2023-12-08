@@ -18,6 +18,7 @@ import { useGetAllItemNamesQuery } from "../../redux/features/items/itemApi";
 import { renderLoading } from "../../components/renderLoading/RenderLoading";
 import { useGetStylesQuery } from "../../redux/features/styles/styleApi";
 import { BiSearchAlt } from "react-icons/bi";
+import { FiPlus } from "react-icons/fi";
 import StyleListsTable from "../../components/styles/StyleListsTable";
 import { predefinedRanges } from "../../constants";
 import { useDebounced } from "../../redux/hook";
@@ -26,6 +27,7 @@ import ArrowDownLineIcon from "@rsuite/icons/ArrowDownLine";
 import Excel from "exceljs";
 import { saveAs } from "file-saver";
 import { fileUrlKey } from "../../config/envConfig";
+import { IoIosArrowForward } from "react-icons/io";
 
 // !
 const StyleLists = () => {
@@ -147,36 +149,25 @@ const StyleLists = () => {
         column.alignment = { horizontal: "center" };
       });
 
-      allStylesList?.data?.forEach((singleData: any) => {
+      allStylesList?.data?.forEach(async (singleData: any) => {
         const customRows = {
           styleNo: singleData.styleNo,
           image: `${fileUrlKey()}/${singleData?.image}`,
-          noOfPack: singleData.noOfPack,
           itemName: singleData?.item?.itemName,
           fabric: singleData?.fabric,
           factoryName: singleData?.factory?.factoryName ?? "-",
         };
-        // Add a row to the worksheet
-        const row = worksheet.addRow(customRows);
 
-        // Add an image to the worksheet
-        const image = workbook.addImage({
-          filename: customRows.image,
-          extension: "png", // Change the extension based on your image format
-        });
+        // !
 
-        // Set the image position (you may need to adjust these values based on your layout)
-        worksheet.addImage(image, {
-          tl: { col: 1, row: row.number - 1 },
-          ext: { width: 100, height: 100 },
-        });
-
-        // Save the workbook
+        worksheet.addRow(customRows);
+        //
       });
 
-      // Add style
+      //! Add style-----------------------------------------------------
       const headerRow = worksheet.getRow(1);
       headerRow.font = { bold: true }; // Font styling
+
       headerRow.height = 30;
       headerRow.alignment = { vertical: "middle", horizontal: "center" };
       // loop through all of the rows and set the outline style.
@@ -191,6 +182,7 @@ const StyleLists = () => {
           const cellAddress = singleCell._address;
 
           // apply border
+
           worksheet.getCell(cellAddress).border = {
             top: { style: "thin" },
             left: { style: "thin" },
@@ -219,6 +211,13 @@ const StyleLists = () => {
           <h2 className="text-[24px] font-semibold text-[#212B36]">
             List Of Styles
           </h2>
+          <div className="flex text-sm mt-3 gap-2 items-center">
+            <Link to="/" className="text-blue-700 font-medium">
+              Dashboard
+            </Link>
+            <IoIosArrowForward className="text-blue-700" />
+            <span className="text-gray-500">Styles</span>
+          </div>
         </div>
         <div className="flex gap-4">
           <div>
@@ -230,40 +229,29 @@ const StyleLists = () => {
               >
                 <Button
                   appearance="default"
-                  className="!bg-[#0284c7] text-white hover:text-white/80 focus-within:text-white focus-within:bg-[#0284c7] font-semibold
-                    "
-                  color="blue"
-                  startIcon={<DocPassIcon className="text-xl" />}
+                  className="bg-white hover:bg-white outline-gray-200 outline outline-1 font-medium text-gray-700 !rounded hover:text-gray-700 focus-within:text-gray-700 focus-within:bg-white"
+                  // color="blue"
+                  startIcon={<DocPassIcon className="text-sm" />}
                   endIcon={<ArrowDownLineIcon className="text-xl" />}
                 >
-                  Generate Report
+                  Report
                 </Button>
               </Whisper>
             </ButtonToolbar>
           </div>
+          <Link to="/styles/styleAssign">
+            <button className="border-[#0284c7] border text-[#0284c7] text-sm font-semibold py-2 px-2.5 rounded-md">
+              Style Assign
+            </button>
+          </Link>
           <div>
             <Link to="/styles/addstyle">
               <button
-                className="flex items-center gap-2 px-4 py-2 rounded-[4px] text-white  bg-[#0284c7]"
+                className="flex items-center gap-2 px-2.5 py-2 rounded-[4px] text-white hover:bg-sky-700 bg-[#0284c7]"
                 type="button"
               >
-                <span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2.5}
-                    stroke="#fff"
-                    className="w-5 h-5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 4.5v15m7.5-7.5h-15"
-                    />
-                  </svg>
-                </span>
-                <span className="text-sm font-semibold">Add New Style</span>
+                <FiPlus size={18} />
+                <span className="text-sm font-semibold">Add Style</span>
               </button>
             </Link>
           </div>
@@ -363,7 +351,7 @@ const StyleLists = () => {
               ellipsis
               boundaryLinks
               maxButtons={5}
-              size="lg"
+              size="md"
               layout={["total", "-", "limit", "|", "pager", "skip"]}
               limitOptions={[10, 20, 30, 50, 100, 150, 200]}
               limit={size}

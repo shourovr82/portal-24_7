@@ -4,40 +4,31 @@ import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { ItemController } from './item.controller';
 import { ItemValidation } from './item.validations';
+import routeInfoMessage from '../../middlewares/routeInfoMessage';
 
 const router = express.Router();
 
 // ! Create New  item ------------------------------->>>
 router.post(
   '/',
-  validateRequest(ItemValidation.createItem),
+  routeInfoMessage(),
   auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
+  validateRequest(ItemValidation.createItem),
   ItemController.createNewItem
 );
 // ! Get all item----------------------------------->>>
-router.get(
-  '/',
-  auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
-  ItemController.getAllItems
-);
+router.get('/', routeInfoMessage(), auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN), ItemController.getAllItems);
 // ! Get all item Names----------------------------------->>>
-router.get(
-  '/get-all-item-names',
-  auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
-  ItemController.getAllItemNames
-);
+router.get('/get-all-item-names', auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN), ItemController.getAllItemNames);
 
 // ! Get Single item----------------------------------->>>
-router.get(
-  '/:itemId',
-  auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
-  ItemController.getSingleItem
-);
+router.get('/:itemId', routeInfoMessage(), auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN), ItemController.getSingleItem);
 // ! Update item----------------------------------->>>
 router.post(
   '/update/:itemId',
-  validateRequest(ItemValidation.updateItem),
+  routeInfoMessage(),
   auth(UserRoles.ADMIN, UserRoles.SUPERADMIN),
+  validateRequest(ItemValidation.updateItem),
   ItemController.updateItemInformation
 );
 

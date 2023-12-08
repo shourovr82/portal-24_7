@@ -8,6 +8,8 @@ import PageIcon from "@rsuite/icons/Page";
 import { Icon } from "@rsuite/icons";
 import { FaRegPaperPlane } from "react-icons/fa";
 import { MdOutlineFactory } from "react-icons/md";
+import { IoDocumentTextOutline } from "react-icons/io5";
+
 import { GiClothes } from "react-icons/gi";
 import ListIcon from "@rsuite/icons/List";
 import logo from "../../assets/logo/portal-logo.png";
@@ -124,7 +126,7 @@ const SidebarV2 = () => {
                 LD/CP/AOP Strike Off Status
               </Nav.Item>
               <Nav.Item eventKey="4-2" as={NavLink} to="/ppStatus">
-                PP Strike Off Status
+                PP Status
               </Nav.Item>
               <Nav.Item eventKey="4-3" as={NavLink} to="/bulkProductionStatus">
                 Bulk production Status
@@ -133,7 +135,7 @@ const SidebarV2 = () => {
             {/* Tack Pack  */}
             <Nav.Item
               eventKey="5"
-              icon={<Icon as={MdOutlineFactory} />}
+              icon={<Icon as={IoDocumentTextOutline} />}
               as={NavLink}
               to="/tackPack"
             >

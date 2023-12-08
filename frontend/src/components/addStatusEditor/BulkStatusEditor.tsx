@@ -171,7 +171,7 @@ const BulkStatusEditor = ({ isLoadingStyleNo, allStyle }: any) => {
             type="submit"
             size="lg"
             loading={isLoadingCreate}
-            className={`bg-[#0284c7] hover:bg-[#0284c7] hover:text-white/80 focus-within:scale-95 focus-within:bg-[#0284c7] focus:text-white text-white rounded items-center flex px-5 py-1 transition-all duration-300 ${
+            className={`bg-[#0284c7] hover:bg-sky-700 hover:text-white focus-within:bg-sky-800 focus:text-white text-white rounded items-center flex px-2.5 font-medium py-2 ${
               isLoadingCreate ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >

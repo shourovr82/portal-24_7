@@ -25,13 +25,9 @@ interface IFormInput {
 const TackPack = () => {
   // Fetching All Style
   const navigate = useNavigate();
+
   const { data: allStyles, isLoading: isLoadingStyleNo } =
     useGetStyleNoQuery(null);
-
-  const styles = allStyles?.data?.map((style: any) => ({
-    label: style?.styleNo,
-    value: style?.styleNo,
-  }));
 
   const [
     CreateTackPack,
@@ -56,6 +52,7 @@ const TackPack = () => {
       styleNo: data.styleNo,
       tackPackComment: data.tackPackComment,
     };
+
     const tackPackData = JSON.stringify(obj);
     const formData = new FormData();
     formData.append("file", data.tackPackFile?.blobFile as Blob);
@@ -125,7 +122,12 @@ const TackPack = () => {
                   <div className="rs-form-control-wrapper">
                     <SelectPicker
                       size="lg"
-                      data={styles || []}
+                      data={
+                        allStyles?.data?.map((style: any) => ({
+                          label: style?.styleNo,
+                          value: style?.styleNo,
+                        })) || []
+                      }
                       value={field.value}
                       onChange={(value: string | null) => field.onChange(value)}
                       style={{

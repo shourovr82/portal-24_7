@@ -8,19 +8,20 @@ import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
-
+import fs from 'fs';
 import { ordersRelationalFields, ordersRelationalFieldsMapper, ordersSearchableFields } from './orders.constants';
 import { ICreateOrderResponse, IOrderCreateRequest, IOrderFilterRequest, IOrderUpdateRequest } from './orders.interface';
 import { Request } from 'express';
 import { IUploadFile } from '../../../interfaces/file';
 import { decreaseDateByDays } from './order.utils';
+import { logger } from '../../../shared/logger';
 
 // !----------------------------------Create New Order---------------------------------------->>>
 
 const createNewOrder = async (profileId: string, req: Request): Promise<ICreateOrderResponse> => {
   const file = req.file as IUploadFile;
 
-  const filePath = file?.path?.substring(8);
+  const filePath = file?.path?.substring(13);
 
   const { styleNo, orderNo, buyerEtd, noOfPack, portId, totalPack } = req.body as IOrderCreateRequest;
 
@@ -235,9 +236,20 @@ const getSingleOrder = async (orderNo: string): Promise<Orders | null> => {
 // !----------------------------------Update Order---------------------------------------->>>
 const updateOrder = async (orderNo: string, req: Request): Promise<Orders> => {
   const file = req.file as IUploadFile;
-  const filePath = file?.path?.substring(8);
+  const filePath = file?.path?.substring(13);
 
-  const { buyerEtd, noOfPack, portId, styleNo, totalPack, isActiveOrder } = req.body as IOrderUpdateRequest;
+  const { buyerEtd, noOfPack, portId, styleNo, totalPack, isActiveOrder, oldFilePath } = req.body as IOrderUpdateRequest;
+
+  //!
+  // deleting old style Image
+  const oldFilePaths = 'uploads/' + oldFilePath;
+  if (oldFilePath !== undefined && filePath !== undefined) {
+    fs.unlink(oldFilePaths, err => {
+      if (err) {
+        logger.info('Error deleting old file');
+      }
+    });
+  }
 
   const result = await prisma.$transaction(async transactionClient => {
     // checking order exist or not

@@ -11,7 +11,11 @@ const ppSubmissionDateApi = baseApi.injectEndpoints({
         method: "POST",
         data: data,
       }),
-      invalidatesTags: [tagTypes.ppSubmission, tagTypes.style],
+      invalidatesTags: [
+        tagTypes.ppSubmission,
+        tagTypes.style,
+        tagTypes.notification,
+      ],
     }),
     createPpSubmittedDate: builder.mutation({
       query: (data: any) => ({

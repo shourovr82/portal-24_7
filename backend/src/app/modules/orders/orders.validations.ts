@@ -93,6 +93,11 @@ const updateOrder = z.object({
       invalid_type_error: 'PortId must be in String',
     })
     .optional(),
+  oldFilePath: z
+    .string({
+      invalid_type_error: 'Old File Path must be in String',
+    })
+    .optional(),
   buyerEtd: z
     .string({
       invalid_type_error: 'Buyer ETD must be in String',

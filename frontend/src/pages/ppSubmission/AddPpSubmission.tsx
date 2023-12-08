@@ -12,7 +12,7 @@ import { useGetStyleNoQuery } from "../../redux/features/styles/styleApi";
 import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { renderLoading } from "../../components/renderLoading/RenderLoading";
 import { toastMessageSuccess } from "../../interfacesAndConstants/shared/constants/toastMessages.constants";
 
@@ -20,6 +20,7 @@ import AddPpSubmitDate from "../../components/ppSubmission/AddPpSubmitDate";
 import { useCreatePpSubmissionDateMutation } from "../../redux/features/ppSubmission/ppSubmissionDateApi";
 import InfoOutlineIcon from "@rsuite/icons/InfoOutline";
 import { isBefore, isToday } from "date-fns";
+import { IoIosArrowForward } from "react-icons/io";
 
 interface IFormInput {
   styleNo: string | null;
@@ -35,11 +36,6 @@ const AddPpSubmission = () => {
     createPpSubmissionDate,
     { isLoading, isError, isSuccess, data, error, reset: resetCreate },
   ] = useCreatePpSubmissionDateMutation();
-
-  const allStyle = styles?.data?.map((style: any) => ({
-    label: style?.styleNo,
-    value: style?.styleNo,
-  }));
 
   const isDateBeforeToday = (date: Date) =>
     isBefore(date, new Date()) && !isToday(date);
@@ -100,19 +96,26 @@ const AddPpSubmission = () => {
   return (
     <>
       <div className="p-4">
-        <div className="">
-          <div>
-            <h2 className="text-2xl text-[#212B36] font-semibold">
-              PP Submission Date For Factory:
-            </h2>
-          </div>
+        <h2 className="text-2xl text-[#212B36] font-semibold">
+          PP Submission Date For Factory:
+        </h2>
+        <div className="flex text-sm mt-2 gap-2 items-center">
+          <Link to="/" className="text-blue-700 font-medium">
+            Dashboard
+          </Link>
+          <IoIosArrowForward className="text-blue-700" />
+          <Link to="/styles/listofstyle" className="text-blue-700 font-medium">
+            Styles
+          </Link>
+          <IoIosArrowForward className="text-blue-700" />
+          <span className="text-gray-500">PP Submission</span>
         </div>
 
         {/* form */}
-        <section className="mt-5 bg-white border rounded-lg p-5 mb-10">
-          <div className="mb-6">
+        <section className="mt-5 bg-white border rounded-lg p-5">
+          <div className="mb-5">
             {/* <p className="text-lg font-semibold">PO Details</p> */}
-            <p>Please provide submission date:</p>
+            <p className="text-lg font-medium">Please provide submission date:</p>
           </div>
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* 1st section */}
@@ -135,7 +138,12 @@ const AddPpSubmission = () => {
                     <div className="rs-form-control-wrapper">
                       <SelectPicker
                         size="lg"
-                        data={allStyle || []}
+                        data={
+                          styles?.data?.map((style: any) => ({
+                            label: style?.styleNo,
+                            value: style?.styleNo,
+                          })) || []
+                        }
                         value={field.value}
                         placement="bottom"
                         placeholder="Select Style No"
@@ -224,7 +232,7 @@ const AddPpSubmission = () => {
                 type="submit"
                 size="lg"
                 loading={isLoading}
-                className={`bg-[#0284c7] hover:bg-[#0284c7] focus:bg-[#0284c7] hover:text-white/80 focus:text-white text-white rounded-md  items-center   flex px-5 py-2 text-sm `}
+                className={`bg-[#0284c7] hover:bg-sky-700 focus:bg-[#0284c7] hover:text-white/80 focus:text-white focus-within:bg-sky-800 font-medium text-white rounded-md items-center flex px-2.5 py-2 text-sm `}
               >
                 PP Submission
               </Button>
@@ -235,7 +243,10 @@ const AddPpSubmission = () => {
       <div className="p-4 mb-20">
         {/* form */}
         <AddPpSubmitDate
-          allStyle={allStyle}
+          allStyle={styles?.data?.map((style: any) => ({
+            label: style?.styleNo,
+            value: style?.styleNo,
+          }))}
           isLoadingStyleNo={isLoadingStyleNo}
         />
       </div>

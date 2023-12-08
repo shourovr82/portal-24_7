@@ -5,27 +5,15 @@ import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import routes from './app/routes';
 
 import cookieParser from 'cookie-parser';
-import fs from 'fs';
+import create_required_directories from './tasks/directory_creation_task';
+
 
 const app: Application = express();
 
-// create uploads directory while starting the application
-if (!fs.existsSync('./uploads')) {
-  fs.mkdirSync('./uploads');
-}
+// Create required directories 
+create_required_directories()
 
-// Create user directory in the /uploads path while starting the application
-if (!fs.existsSync('./uploads/users')) {
-  fs.mkdirSync('./uploads/users');
-}
-// Create tack pack directory in the /uploads path while starting the application
-if (!fs.existsSync('./uploads/tackpack')) {
-  fs.mkdirSync('./uploads/tackpack');
-}
-// Create styles directory in the /uploads path while starting the application
-if (!fs.existsSync('./uploads/styles')) {
-  fs.mkdirSync('./uploads/styles');
-}
+
 
 app.use(
   cors({
@@ -41,7 +29,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static('uploads'));
+app.use(express.static('data/uploads'));
 
 app.use('/api/v1', routes);
 

@@ -10,7 +10,7 @@ import { Modal, Tooltip, Whisper } from "rsuite";
 const PpStrikeOffModal = ({ ppStatusComment, open, handleClose }: any) => {
   return (
     <>
-      <Modal overflow={true} size="md" open={open} onClose={handleClose}>
+      <Modal overflow={true} size="md" open={open} onClose={handleClose} backdrop="static">
         <Modal.Header>
           <Modal.Title className="font-bold text-lg">
             PP/Strike off status

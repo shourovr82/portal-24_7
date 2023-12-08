@@ -6,7 +6,7 @@ import {
   useCreateNewItemMutation,
   useGetAllItemsQuery,
 } from "../../redux/features/items/itemApi";
-import moment from "moment";
+
 import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import toast from "react-hot-toast";
 import Lottie from "lottie-react";
@@ -21,12 +21,13 @@ import { useDebounced } from "../../redux/hook";
 import InfoOutlineIcon from "@rsuite/icons/InfoOutline";
 import { getUserInfo } from "../../hooks/services/auth.service";
 import { IUserDetails } from "../users/addUser.interface";
-import { RiEdit2Line } from "react-icons/ri";
+import { MdModeEdit } from "react-icons/md";
+
 import ItemEditModal from "../../components/items/ItemEditModal";
 
 const AddItem = () => {
   const query: Record<string, any> = {};
-
+  query["limit"] = 1000;
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   // query["searchTerm"] = searchTerm;
@@ -173,7 +174,7 @@ const AddItem = () => {
                     type="submit"
                     loading={createLoading}
                     size="lg"
-                    className={` text-white text-sm   h-full bg-[#0284c7] hover:bg-[#0284c7] hover:text-white/80 focus:bg-[#0284c7] focus:text-white items-center    flex px-3 py-[11px]`}
+                    className={`text-white font-medium hover:text-white text-sm h-full bg-[#0284c7] hover:bg-sky-700 focus:bg-[#0284c7] focus:text-white items-center flex px-3 py-[11px]`}
                   >
                     Create New Item
                   </Button>
@@ -200,21 +201,21 @@ const AddItem = () => {
               />
             </div>
           </div>
-          <div className=" grid grid-cols-2 items-center justify-between divide-y-2  border-2 rounded-lg   ">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-2 items-center justify-between rounded-lg">
             {allItems?.length
               ? allItems.map((singleItem: any) => (
                   <div
                     key={Math.random()}
-                    className="flex  py-4 px-5 justify-between items-center"
+                    className="flex justify-between py-4 px-5 border items-center bg-slate-100 rounded-md"
                   >
                     <p key={Math.random()}>{singleItem?.itemName}</p>
-                    <p className="text-sm text-slate-600">
-                      {moment(singleItem?.createdAt).format("LLL")}
-                    </p>
+                    {/* <p className="text-xs text-slate-600">
+                      {moment(singleItem?.createdAt).format("DD, MMM, YYYY h:mm A")}
+                    </p> */}
 
                     {role !== "USER" && (
-                      <RiEdit2Line
-                        className="text-2xl text-red-600"
+                      <MdModeEdit
+                        className="text-xl text-gray-600 cursor-pointer justify-self-end"
                         onClick={() => handleItemEditModalOpen(singleItem)}
                       />
                     )}

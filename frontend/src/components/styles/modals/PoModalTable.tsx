@@ -9,6 +9,7 @@ const PoModalTable = ({ orders, open, handleClose }: any) => {
   return (
     <>
       <Modal
+        className="font-Inter"
         size={orders?.length > 0 ? "lg" : "sm"}
         open={open}
         onClose={handleClose}
@@ -105,10 +106,10 @@ const PoModalTable = ({ orders, open, handleClose }: any) => {
                                   {order.noOfPack}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
-                                  {order.totalPack}
+                                  {order.totalPack?.toLocaleString()}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
-                                  {order.totalPc}
+                                  {order.totalPc?.toLocaleString()}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
                                   {moment(order?.friDate).format("DD-MM-YYYY")}

@@ -251,20 +251,21 @@ const CourierEditModal = ({ open, courierEditData, handleClose }: any) => {
 
               <div className="flex justify-end gap-3">
                 <Button
-                  type="submit"
-                  loading={isLoading}
-                  appearance="default"
-                  className="bg-[#0284c7] text-white hover:text-white/80 hover:bg-[#0284c7] focus:bg-[#0284c7] focus:text-white/50"
-                >
-                  Submit Changes
-                </Button>
-                <Button
                   onClick={handleCloseModal}
-                  appearance="ghost"
-                  className="hover:border-transparent"
+                  appearance="link"
+                  className="font-medium"
                 >
                   Cancel
                 </Button>
+                <Button
+                  type="submit"
+                  loading={isLoading}
+                  appearance="default"
+                  className="bg-[#0284c7] text-white hover:text-white hover:bg-sky-700 focus:bg-sky-800 font-medium focus:text-white"
+                >
+                  Done
+                </Button>
+                
               </div>
             </form>
           </section>

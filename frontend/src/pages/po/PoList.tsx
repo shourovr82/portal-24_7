@@ -25,7 +25,6 @@ import noDataAnimation from "../../assets/animation/animation-nodata.json";
 import { dataForSelectPicker } from "../../common/commonData";
 import { predefinedRanges } from "../../constants";
 import { getUserInfo } from "../../hooks/services/auth.service";
-import { RiEdit2Line } from "react-icons/ri";
 import EditPoDetails from "./EditPo";
 import { useDebounced } from "../../redux/hook";
 import DocPassIcon from "@rsuite/icons/DocPass";
@@ -33,6 +32,10 @@ import { FaFileDownload } from "react-icons/fa";
 import { fileUrlKey } from "../../config/envConfig";
 import Excel from "exceljs";
 import { saveAs } from "file-saver";
+import { FiPlus } from "react-icons/fi";
+import { IoIosArrowForward } from "react-icons/io";
+import ArrowDownLineIcon from "@rsuite/icons/ArrowDownLine";
+import { MdModeEdit } from "react-icons/md";
 
 const PoLists = () => {
   const query: Record<string, any> = {};
@@ -302,6 +305,13 @@ const PoLists = () => {
         <div className="flex justify-between items-center">
           <div>
             <h2 className="text-[24px] font-semibold text-[#212B36]">PO</h2>
+            <div className="flex text-sm mt-3 gap-2 items-center">
+              <Link to="/" className="text-blue-700 font-medium">
+                Dashboard
+              </Link>
+              <IoIosArrowForward className="text-blue-700" />
+              <span className="text-gray-500">PO List</span>
+            </div>
           </div>
           <div className="flex gap-4">
             <ButtonToolbar>
@@ -312,37 +322,22 @@ const PoLists = () => {
               >
                 <Button
                   appearance="default"
-                  className="!bg-[#0284c7] text-white hover:text-white/80 focus-within:text-white focus-within:bg-[#0284c7] font-semibold
-                    "
-                  color="blue"
-                  startIcon={<DocPassIcon className="text-xl" />}
+                  className="bg-white hover:bg-white outline-gray-200 outline outline-1 font-medium text-gray-700 !rounded hover:text-gray-700 focus-within:text-gray-700 focus-within:bg-white"
+                  // color="blue"
+                  startIcon={<DocPassIcon className="text-sm" />}
+                  endIcon={<ArrowDownLineIcon className="text-xl" />}
                 >
-                  Generate Report
+                  Report
                 </Button>
               </Whisper>
             </ButtonToolbar>
 
             <Link to="/po/addpo">
               <Button
-                className="flex items-center gap-2 hover:bg-[#0284c7] hover:text-white/80 px-4 py-2 rounded-[4px] text-white  bg-[#0284c7]"
+                className="flex items-center gap-2 hover:bg-sky-700 focus-within:bg-sky-800 focus-within:text-white hover:text-white px-4 py-2 rounded-[4px] text-white bg-[#0284c7]"
                 type="button"
               >
-                <span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2.5}
-                    stroke="#fff"
-                    className="w-5 h-5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 4.5v15m7.5-7.5h-15"
-                    />
-                  </svg>
-                </span>
+                <FiPlus size={18} />
                 <span className="text-sm font-semibold">Add New PO</span>
               </Button>
             </Link>
@@ -467,7 +462,7 @@ const PoLists = () => {
                               <tr>
                                 <th
                                   scope="col"
-                                  className="py-3.5 pl-2 pr-3 text-center text-sm font-semibold text-[#637581] sm:pl-3 border-r"
+                                  className="py-3.5 px-3 whitespace-nowrap text-center text-sm font-semibold text-[#637581] border-r"
                                 >
                                   Style No
                                 </th>
@@ -550,7 +545,7 @@ const PoLists = () => {
                                     {index === 0 && (
                                       <td
                                         rowSpan={order.orders.length}
-                                        className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-black font-medium sm:pl-6 border-r"
+                                        className="whitespace-nowrap py-4 px-3 text-sm text-black font-medium border-r"
                                       >
                                         {po?.styleNo}
                                       </td>
@@ -562,10 +557,10 @@ const PoLists = () => {
                                       {po?.noOfPack}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
-                                      {po?.totalPack}
+                                      {po?.totalPack?.toLocaleString()}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-black font-medium border-r">
-                                      {po?.totalPc}
+                                      {po?.totalPc?.toLocaleString()}
                                     </td>{" "}
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-black  font-medium border-r">
                                       {moment(po?.friDate).format("DD-MM-YYYY")}
@@ -620,7 +615,7 @@ const PoLists = () => {
                                             handlePoEditModalOpen(po)
                                           }
                                           circle
-                                          icon={<RiEdit2Line size={20} />}
+                                          icon={<MdModeEdit size={20} />}
                                         />
                                       </td>
                                     )}
@@ -650,7 +645,7 @@ const PoLists = () => {
                           </div>
                         )}
                       </div>
-                      <div style={{ padding: 20 }}>
+                      <div className="py-5">
                         <Pagination
                           total={allOrders?.meta?.total}
                           prev
@@ -660,7 +655,7 @@ const PoLists = () => {
                           ellipsis
                           boundaryLinks
                           maxButtons={5}
-                          size="lg"
+                          size="md"
                           layout={["total", "-", "limit", "|", "pager", "skip"]}
                           limitOptions={[10, 20, 30, 50, 100, 150, 200]}
                           limit={size}

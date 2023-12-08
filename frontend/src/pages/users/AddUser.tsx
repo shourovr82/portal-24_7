@@ -177,6 +177,7 @@ const AddUser = () => {
                   render={({ field }) => (
                     <div className="rs-form-control-wrapper">
                       <SelectPicker
+                        searchable={false}
                         size="lg"
                         data={roles}
                         value={field.value}
@@ -323,9 +324,9 @@ const AddUser = () => {
             <div className="flex justify-end">
               <Button
                 type="submit"
-                appearance="primary"
+                // appearance="primary"
                 loading={isLoading}
-                className=" hover:text-white/80 text-white px-6 py-2 rounded-lg"
+                className=" hover:text-white text-white px-6 py-2 rounded-lg bg-[#0284c7] hover:bg-sky-700 focus-within:bg-sky-800 focus-within:text-white"
               >
                 Submit
               </Button>

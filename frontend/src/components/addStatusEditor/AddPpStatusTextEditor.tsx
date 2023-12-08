@@ -80,7 +80,7 @@ const AddPpStatusTextEditor = ({ isLoadingStyleNo, allStyle }: any) => {
 
   return (
     <div className="">
-      <h1 className="text-2xl font-semibold mb-4">PP Strike Off Status</h1>
+      <h1 className="text-2xl font-semibold mb-4">PP Status</h1>
       <form
         onSubmit={handleSubmit(handlePPStatusComment)}
         className="p-4 bg-white border rounded-lg"
@@ -127,7 +127,7 @@ const AddPpStatusTextEditor = ({ isLoadingStyleNo, allStyle }: any) => {
         <div className="flex flex-col gap-3 w-full mt-2">
           <div>
             <label htmlFor="ppStatusComment" className="text-sm font-medium">
-              PP Strike Off Status
+              PP Status
             </label>
           </div>
 
@@ -170,7 +170,7 @@ const AddPpStatusTextEditor = ({ isLoadingStyleNo, allStyle }: any) => {
             type="submit"
             size="lg"
             loading={isLoadingCreate}
-            className={`bg-[#0284c7] hover:bg-[#0284c7] hover:text-white/80 focus-within:scale-95 focus-within:bg-[#0284c7] focus:text-white text-white rounded items-center flex px-5 py-1 transition-all duration-300 ${
+            className={`bg-[#0284c7] hover:bg-sky-700 hover:text-white focus-within:bg-sky-800 focus:text-white text-white rounded items-center flex px-2.5 font-medium py-2 transition-all duration-300 ${
               isLoadingCreate ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
