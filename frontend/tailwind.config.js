@@ -10,6 +10,7 @@ export default {
     },
     fontFamily: {
       Inter: ["Inter", "sans-serif"],
+      joseFin: ["Josefin Sans", "sans-serif"],
       Playpen: ["Playpen Sans", "cursive"],
     },
   },
