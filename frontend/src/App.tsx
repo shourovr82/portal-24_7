@@ -1,4 +1,3 @@
-import "./App.css";
 import "rsuite/dist/rsuite-no-reset.min.css";
 import { router } from "./routes/router";
 import { RouterProvider } from "react-router-dom";
