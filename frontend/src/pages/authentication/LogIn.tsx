@@ -16,7 +16,8 @@ import {
   toastMessageSuccess,
 } from "../../interfacesAndConstants/shared/constants/toastMessages.constants";
 
-import loginPhoto from "../../assets/login/data_reports.svg";
+import loginPhoto from "../../assets/login/loginbg.svg";
+import moment from "moment";
 
 export default function LogIn() {
   const navigate = useNavigate();
@@ -178,7 +179,7 @@ export default function LogIn() {
                         </div>
 
                         <div className="rs-form-control-wrapper ">
-                          <InputGroup inside>
+                          <InputGroup size="lg" inside>
                             <Input
                               size="lg"
                               {...field}
@@ -227,13 +228,20 @@ export default function LogIn() {
           </div>
         </div>
         {/* background image */}
-        <div className="max-md:hidden ">
-          <div></div>
-          <img
-            src={loginPhoto}
-            className="h-screen object-cover w-full"
-            alt=""
-          />
+        <div className="max-md:hidden flex flex-col justify-center items-center   bg-[#0d1065]">
+          <div className="flex  flex-col mt-10 items-center justify-center">
+            <div className="space-y-3">
+              <h2 className="text-7xl font-light  text-white">
+                {moment().format("MMMM Do")},
+              </h2>
+              <h2 className="text-6xl font-semibold text-white">
+                {moment().format("YYYY")},
+              </h2>
+            </div>
+            <div>
+              <img src={loginPhoto} className=" w-[80%]  mx-auto " alt="" />
+            </div>
+          </div>
         </div>
       </div>
     </>
