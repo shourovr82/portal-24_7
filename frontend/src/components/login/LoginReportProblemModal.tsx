@@ -1,23 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Input, SelectPicker } from "rsuite";
+import { ProblemReportIssues } from "../../constants";
 
 const LoginReportProblemModal = ({ handleClose }: any) => {
-  const contactAdminOptions = [
-    { label: "Trouble logging in", value: "TroubleLoggingIn" },
-    { label: "Forgot Email", value: "ForgotEmail" },
-    { label: "Forgot Password", value: "ForgotPassword" },
-    { label: "Loading Issues", value: "LoadingIssues" },
-    { label: "Account Deactivation Request", value: "AccountDeactivation" },
-    { label: "Security Concerns", value: "SecurityConcerns" },
-    { label: "Technical Glitches", value: "TechnicalGlitches" },
-    { label: "Feature Request", value: "FeatureRequest" },
-    { label: "Payment Issues", value: "PaymentIssues" },
-    { label: "User Interface Feedback", value: "UIFeedback" },
-    { label: "Account Recovery Assistance", value: "AccountRecovery" },
-    { label: "Other", value: "other" },
-  ].map((item) => ({ label: item.label, value: item.value }));
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 px-1">
       {/* select issue */}
       <div>
         <label htmlFor="">
@@ -26,7 +13,7 @@ const LoginReportProblemModal = ({ handleClose }: any) => {
         <SelectPicker
           placeholder="Select your issue..."
           searchable={false}
-          data={contactAdminOptions}
+          data={ProblemReportIssues}
           className="!w-full"
           menuMaxHeight={200}
         />

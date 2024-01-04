@@ -128,7 +128,7 @@ const AddItem = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* 1st section */}
             <div className=" gap-[24px] mb-5">
-              {/* First Name */}
+              {/* Item Name */}
               <div className=" w-full flex gap-5  items-end">
                 <div className="flex flex-col gap-3 w-[50%] ">
                   <div>
@@ -203,7 +203,7 @@ const AddItem = () => {
           </div>
           <div className="grid grid-cols-2 gap-x-4 gap-y-2 items-center justify-between rounded-lg">
             {allItems?.length
-              ? allItems.map((singleItem: any) => (
+              ? allItems?.map((singleItem: any) => (
                   <div
                     key={Math.random()}
                     className="flex justify-between py-4 px-5 border items-center bg-slate-100 rounded-md"
@@ -223,15 +223,6 @@ const AddItem = () => {
                 ))
               : ""}
 
-            {!isLoading && !isError && !allItems?.length && (
-              <div className="flex justify-center">
-                <Lottie
-                  className="w-[40%] "
-                  animationData={noDataAnimation}
-                  loop={true}
-                />
-              </div>
-            )}
             {isLoading && !isError && (
               <div className="flex justify-center py-20">
                 <Loader
@@ -241,7 +232,16 @@ const AddItem = () => {
                 />
               </div>
             )}
-          </div>
+          </div>{" "}
+          {!isLoading && !isError && !allItems?.length && (
+            <div className="flex justify-center">
+              <Lottie
+                className="w-[40%] "
+                animationData={noDataAnimation}
+                loop={true}
+              />
+            </div>
+          )}
         </div>
         {/* Item Edit Modal */}
         <ItemEditModal
