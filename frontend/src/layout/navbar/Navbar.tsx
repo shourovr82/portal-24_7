@@ -25,21 +25,21 @@ const Navbar = () => {
         ref={ref}
         icon={
           <img
-            className="h-8 w-8  object-contain  rounded-full "
+            className="h-6 w-6  object-contain  rounded-full "
             src={`${fileUrlKey()}/${user?.profileImage}`}
             alt=""
           />
         }
         circle
         size="xs"
-        className="border-2 border-[#2222223b] hover:!border-[#22222281] hover:ring-0"
+        className="!border-1 !border-[#2222223b] hover:!border-[#22222281] hover:ring-0"
         appearance="ghost"
       />
     );
   };
   return (
     <>
-      <div className="flex z-50 flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-between py-3 border-b h-[60px] shadow-sm bg-white sticky top-0 items-center">
+      <div className="flex z-50 flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-between py-3 border-b h-[50px] shadow-sm bg-white sticky top-0 items-center">
         <div className="pl-5">
           <h2 className="font-semibold">
             Welcome back, {user?.firstName} {user?.lastName} 👋

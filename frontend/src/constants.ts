@@ -15,3 +15,21 @@ export const predefinedRanges = [
     value: [new Date(), addDays(new Date(), 30)],
   },
 ];
+
+
+// 
+export const ProblemReportIssues = [
+  { label: "Trouble logging in", value: "troubleLoggingIn" },
+  { label: "Forgot Email", value: "forgotEmail" },
+  { label: "Forgot Password", value: "forgotPassword" },
+  { label: "Loading Issues", value: "loadingIssues" },
+  { label: "Account Deactivation Request", value: "accountDeactivation" },
+  { label: "Security Concerns", value: "securityConcerns" },
+  { label: "Technical Glitches", value: "technicalGlitches" },
+  { label: "Feature Request", value: "featureRequest" },
+  { label: "Payment Issues", value: "paymentIssue" },
+  { label: "User Interface Feedback", value: "uiFeedback" },
+  { label: "Account Recovery Assistance", value: "accountRecovery" },
+  { label: "Other", value: "other" },
+].map((item) => ({ label: item.label, value: item.value }));
+

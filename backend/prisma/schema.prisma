@@ -198,6 +198,19 @@ model Courier {
   @@map("courier_details")
 }
 
+model ProblemReports {
+  problemReportsId String     @id @default(uuid())
+  issueName        IssueLists
+  emailAddress     String
+  description      String
+  createdAt        DateTime   @default(now()) @db.Timestamptz(0)
+  updatedAt        DateTime   @updatedAt @db.Timestamptz(0)
+
+  @@map("problem_reports")
+}
+
+// enums
+
 enum UserRoles {
   SUPERADMIN
   ADMIN
@@ -208,4 +221,19 @@ enum UserStatus {
   Active
   Paused
   Suspended
+}
+
+enum IssueLists {
+  troubleLoggingIn
+  forgotEmail
+  forgotPassword
+  loadingIssues
+  accountDeactivation
+  securityConcerns
+  technicalGlitches
+  featureRequest
+  paymentIssue
+  uiFeedback
+  accountRecovery
+  other
 }

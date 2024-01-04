@@ -225,8 +225,8 @@ export default function LogIn() {
                     <Button
                       loading={isLoading}
                       type="submit"
-                      className="flex w-full justify-center rounded-lg border border-transparent bg-[#0284c7] focus-within:bg-[#0284c7] focus-within:text-white hover:text-white/80 
-                    py-3  px-4 text-sm font-medium text-white shadow-sm hover:bg-[#0284c7] focus:outline-none "
+                      className="flex w-full justify-center rounded-lg border border-transparent bg-[#3639bf] focus-within:bg-[#202498] focus-within:text-white hover:text-white/80 
+                    py-3  px-4 text-sm font-medium text-white shadow-sm hover:bg-[#202498] focus:outline-none "
                     >
                       Sign in
                     </Button>
