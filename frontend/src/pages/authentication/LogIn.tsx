@@ -5,7 +5,7 @@ import logo from "../../assets/logo/portal-logo.png";
 import { useLoginMutation } from "../../redux/features/auth/authApi";
 import { ILogin } from "../users/addUser.interface";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { Button, Checkbox, Form, Input, InputGroup } from "rsuite";
+import { Button, Checkbox, Form, Input, InputGroup, Modal } from "rsuite";
 import EyeIcon from "@rsuite/icons/legacy/Eye";
 import EyeSlashIcon from "@rsuite/icons/legacy/EyeSlash";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -16,13 +16,17 @@ import {
   toastMessageSuccess,
 } from "../../interfacesAndConstants/shared/constants/toastMessages.constants";
 
-import loginPhoto from "../../assets/login/data_reports.svg";
+import loginPhoto from "../../assets/login/loginbg.svg";
+import moment from "moment";
+import LoginReportProblemModal from "../../components/login/LoginReportProblemModal";
 
 export default function LogIn() {
   const navigate = useNavigate();
   const userLoggedIn = isLoggedIn();
   const [visible, setVisible] = useState(false);
-
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const location = useLocation();
 
   const handleChange = () => {
@@ -36,9 +40,7 @@ export default function LogIn() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<ILogin>({
-    mode: "onChange",
-  });
+  } = useForm<ILogin>();
 
   const handleLogin: SubmitHandler<ILogin> = async (user) => {
     const res: any = await login({ data: user }).unwrap();
@@ -93,7 +95,9 @@ export default function LogIn() {
               <img className="mx-auto h-12 w-auto" src={logo} alt="logo" />
             </div>
             <div>
-              <Button>Contact Admin</Button>
+              <Button className="font-semibold " onClick={handleOpen}>
+                Contact Admin
+              </Button>
             </div>
           </div>
           <div className="space-y-3 ">
@@ -104,138 +108,161 @@ export default function LogIn() {
               Please use your Email and Password to Login
             </p>
           </div>
+          {/* form */}
           <div className="  py-4">
             <div className="   ">
               <form
                 onSubmit={handleSubmit(handleLogin)}
-                className="space-y-6"
+                className="space-y-5"
                 action="#"
               >
-                <Controller
-                  name="email"
-                  control={control}
-                  rules={{
-                    required: "Email is required",
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                      message: "Please provide your valid email",
-                    },
-                  }}
-                  render={({ field }: any) => (
-                    <div>
-                      <div className="flex justify-between items-center">
-                        <label
-                          htmlFor="email"
-                          className="block text-lg font-medium text-gray-700"
-                        >
-                          Email address
-                        </label>
-
-                        {errors?.email && (
-                          <p className="text-xs bg-red-600/80 px-2 rounded  py-[0.5px] text-white/80 ">
-                            {errors?.email?.message}
-                          </p>
-                        )}
-                      </div>
-                      <div className="rs-form-control-wrapper ">
-                        <Input
-                          size="lg"
-                          {...field}
-                          id="orderNo"
-                          style={{ width: "100%" }}
-                          placeholder="enter your email..."
-                          type="text"
-                        />
-
-                        <Form.ErrorMessage
-                          show={
-                            (!!errors?.email && !!errors?.email?.message) ||
-                            false
-                          }
-                          placement="topEnd"
-                        >
-                          {errors?.email?.message}
-                        </Form.ErrorMessage>
-                      </div>
-                    </div>
-                  )}
-                />
-
-                <Controller
-                  name="password"
-                  control={control}
-                  rules={{ required: "Password is required" }}
-                  render={({ field }) => (
-                    <>
+                <div className="">
+                  <Controller
+                    name="email"
+                    control={control}
+                    rules={{
+                      required: "Email is required",
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                        message: "Please provide your valid email",
+                      },
+                    }}
+                    render={({ field }: any) => (
                       <div>
                         <div className="flex justify-between items-center">
                           <label
-                            htmlFor="password"
+                            htmlFor="email"
                             className="block text-lg font-medium text-gray-700"
                           >
-                            Password
+                            Email address
                           </label>
-                        </div>
 
+                          {errors?.email && (
+                            <p className="text-xs bg-red-600/80 px-2 rounded  py-[0.5px] text-white/80 ">
+                              {errors?.email?.message}
+                            </p>
+                          )}
+                        </div>
                         <div className="rs-form-control-wrapper ">
-                          <InputGroup inside>
-                            <Input
-                              size="lg"
-                              {...field}
-                              type={visible ? "text" : "password"}
-                              placeholder="enter your password..."
-                            />
-                            <InputGroup.Button onClick={handleChange}>
-                              {visible ? <EyeIcon /> : <EyeSlashIcon />}
-                            </InputGroup.Button>
-                          </InputGroup>
+                          <Input
+                            size="lg"
+                            {...field}
+                            id="orderNo"
+                            style={{ width: "100%" }}
+                            placeholder="enter your email..."
+                            type="text"
+                          />
+
                           <Form.ErrorMessage
                             show={
-                              (!!errors?.password &&
-                                !!errors?.password?.message) ||
+                              (!!errors?.email && !!errors?.email?.message) ||
                               false
                             }
                             placement="topEnd"
                           >
-                            {errors?.password?.message}
+                            {errors?.email?.message}
                           </Form.ErrorMessage>
                         </div>
                       </div>
-                    </>
-                  )}
-                />
-                <div>
-                  <Checkbox className="select-none  ">
-                    <span className="text-xs  text-[#868585] font-semibold">
-                      Keep me logged in
-                    </span>
-                  </Checkbox>
+                    )}
+                  />
                 </div>
 
                 <div>
-                  <Button
-                    loading={isLoading}
-                    type="submit"
-                    className="flex w-full justify-center rounded-lg border border-transparent bg-[#0284c7] focus-within:bg-[#0284c7] focus-within:text-white hover:text-white/80 
+                  <Controller
+                    name="password"
+                    control={control}
+                    rules={{ required: "Password is required" }}
+                    render={({ field }) => (
+                      <>
+                        <div>
+                          <div className="flex justify-between items-center">
+                            <label
+                              htmlFor="password"
+                              className="block text-lg font-medium text-gray-700"
+                            >
+                              Password
+                            </label>
+                          </div>
+
+                          <div className="rs-form-control-wrapper ">
+                            <InputGroup size="lg" inside>
+                              <Input
+                                size="lg"
+                                {...field}
+                                type={visible ? "text" : "password"}
+                                placeholder="enter your password..."
+                              />
+                              <InputGroup.Button onClick={handleChange}>
+                                {visible ? <EyeIcon /> : <EyeSlashIcon />}
+                              </InputGroup.Button>
+                            </InputGroup>
+                            <Form.ErrorMessage
+                              show={
+                                (!!errors?.password &&
+                                  !!errors?.password?.message) ||
+                                false
+                              }
+                              placement="topEnd"
+                            >
+                              {errors?.password?.message}
+                            </Form.ErrorMessage>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <div>
+                    <Checkbox className="select-none  ">
+                      <span className="text-xs  text-[#868585] font-semibold">
+                        Keep me logged in
+                      </span>
+                    </Checkbox>
+                  </div>
+                  <div>
+                    <Button
+                      loading={isLoading}
+                      type="submit"
+                      className="flex w-full justify-center rounded-lg border border-transparent bg-[#0284c7] focus-within:bg-[#0284c7] focus-within:text-white hover:text-white/80 
                     py-3  px-4 text-sm font-medium text-white shadow-sm hover:bg-[#0284c7] focus:outline-none "
-                  >
-                    Sign in
-                  </Button>
+                    >
+                      Sign in
+                    </Button>
+                  </div>
                 </div>
               </form>
             </div>
           </div>
         </div>
         {/* background image */}
-        <div className="max-md:hidden ">
-          <div></div>
-          <img
-            src={loginPhoto}
-            className="h-screen object-cover w-full"
-            alt=""
-          />
+        <div className="max-md:hidden flex flex-col justify-center items-center   bg-[#0d1065]">
+          <div className="flex  flex-col mt-10 items-center justify-center">
+            <div className="space-y-3">
+              <h2 className="text-7xl font-light  text-white">
+                {moment().format("MMMM Do")},
+              </h2>
+              <h2 className="text-6xl font-semibold text-white">
+                {moment().format("YYYY")},
+              </h2>
+            </div>
+            <div>
+              <img src={loginPhoto} className=" w-[80%]  mx-auto " alt="" />
+            </div>
+          </div>
         </div>
       </div>
+      {/* modal */}
+
+      <Modal open={open} size="xs" backdrop="static" onClose={handleClose}>
+        <Modal.Header>
+          <Modal.Title>Report a Problem to Admin</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <LoginReportProblemModal handleClose={handleClose} />
+        </Modal.Body>
+      </Modal>
     </>
   );
 }
