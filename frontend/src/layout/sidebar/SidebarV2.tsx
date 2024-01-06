@@ -311,7 +311,7 @@ const SidebarV2 = () => {
                 <Nav.Item
                   eventKey="10-3"
                   as={NavLink}
-                  to="/users/report-problems"
+                  to="/users/problems-reported"
                   active={pathname === "/users/report-problems"}
                   className={`${
                     pathname === "/users/report-problems" && "!bg-blue-100"
