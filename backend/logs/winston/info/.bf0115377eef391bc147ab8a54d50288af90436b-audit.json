@@ -1,0 +1,65 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 30
+    },
+    "auditLog": "C:\\personal\\portal-247\\backend\\logs\\winston\\info\\.bf0115377eef391bc147ab8a54d50288af90436b-audit.json",
+    "files": [
+        {
+            "date": 1704123275093,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\info\\portal_247-2024-01-01-21-info.log",
+            "hash": "3bbe6799ead5c048dc17bc0a21645ab9496213c925f5d9f431a7d4735c7c175f"
+        },
+        {
+            "date": 1704171505914,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\info\\portal_247-2024-02-01-10-info.log",
+            "hash": "183b9c3400601833a03d0bdd716eaeba00356a634ecd79717a9464880bb47058"
+        },
+        {
+            "date": 1704182003889,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\info\\portal_247-2024-02-01-13-info.log",
+            "hash": "9d44e3bd6c9172338ea0f7c0483e3ef76b9731e461cb15a3412014988bcf9fd5"
+        },
+        {
+            "date": 1704195159025,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\info\\portal_247-2024-02-01-17-info.log",
+            "hash": "b7b821fe701e223326d305529b07c98d85c8f794bff4e0eb8d6bf74fa7eccff5"
+        },
+        {
+            "date": 1704209090384,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\info\\portal_247-2024-02-01-21-info.log",
+            "hash": "3235ff9f966c96a50bf62ea9939399082259c367533a89837d5d7fcb991a3a96"
+        },
+        {
+            "date": 1704365049978,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\info\\portal_247-2024-04-01-16-info.log",
+            "hash": "8ccfff1e7eb67f2a912eafb1171ea5b019879e4cb94a0920647999f509214fb7"
+        },
+        {
+            "date": 1704382879855,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\info\\portal_247-2024-04-01-21-info.log",
+            "hash": "1e80840f39104c657c47c62c1060fed8db7cfca446f5e31182993ff0b9a115fc"
+        },
+        {
+            "date": 1704384593522,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\info\\portal_247-2024-04-01-22-info.log",
+            "hash": "e983924e6d613a2af78bc8f7b70247f5235a88b16a58b8c0df27742b1d5f7768"
+        },
+        {
+            "date": 1704550325169,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\info\\portal_247-2024-06-01-20-info.log",
+            "hash": "5eaba805b916d0ba9903a2d94f8e7a64b4e5678470ab78979026f85a57eb5a96"
+        },
+        {
+            "date": 1704554053847,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\info\\portal_247-2024-06-01-21-info.log",
+            "hash": "98f0c18c0d2a0a1f712de1ac4d1b70dc6bcf0aa4d349f24ce56b30db1bfad8b4"
+        },
+        {
+            "date": 1704556842417,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\info\\portal_247-2024-06-01-22-info.log",
+            "hash": "20d6e9f2c062ea0ba602f05eec620e2be458bcd5d54e1058b085254a0502daf8"
+        }
+    ],
+    "hashType": "sha256"
+}

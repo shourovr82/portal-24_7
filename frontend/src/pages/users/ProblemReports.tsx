@@ -2,10 +2,20 @@
 
 import { IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { Input, InputGroup, Pagination, SelectPicker, Table } from "rsuite";
+import {
+  IconButton,
+  Input,
+  InputGroup,
+  Pagination,
+  Popover,
+  SelectPicker,
+  Table,
+  Whisper,
+} from "rsuite";
 const { Column, Cell, HeaderCell } = Table;
 import SearchIcon from "@rsuite/icons/Search";
 import { cellCss, headerCss } from "../../components/styles/CommonCss";
+import { MdModeEdit } from "react-icons/md";
 
 const mockUsers = [
   { id: 1, name: "John Doe", city: "New York", email: "john.doe@example.com" },
@@ -100,12 +110,12 @@ const ProblemReports = () => {
               className="!w-full"
               placeholder="Filter by Status..."
               data={[
-                "Solved",
-                "Working",
-                "Not Possible",
-                "Hold",
-                "Already Fixed",
-              ].map((item) => ({ label: item, value: item }))}
+                { label: "Solved", value: "Solved" },
+                { label: "Working", value: "Working" },
+                { label: "Not Possible", value: "NotPossible" },
+                { label: "Hold", value: "Hold" },
+                { label: "Already Fixed", value: "Already Fixed" },
+              ].map((item) => ({ label: item.label, value: item.value }))}
               style={{ width: 224 }}
             />
           </div>
@@ -129,20 +139,48 @@ const ProblemReports = () => {
             </Column>
             <Column width={240} align="start" verticalAlign="middle">
               <HeaderCell style={headerCss}>Email</HeaderCell>
-              <Cell dataKey="email" />
+              <Cell style={cellCss} dataKey="email" />
             </Column>
             <Column flexGrow={2} align="start" verticalAlign="middle">
               <HeaderCell style={headerCss}>
                 Name <code>flexGrow={2}</code>
               </HeaderCell>
-              <Cell dataKey="name" />
+              <Cell style={cellCss} dataKey="name" />
             </Column>
-
             <Column width={200} align="start" verticalAlign="middle">
               <HeaderCell style={headerCss}>
                 City <code>flexGrow={1}</code>
               </HeaderCell>
-              <Cell dataKey="city" />
+              <Cell style={cellCss} dataKey="city" />
+            </Column>
+            <Column width={150} align="start" verticalAlign="middle">
+              <HeaderCell style={headerCss}>
+                City <code>flexGrow={1}</code>
+              </HeaderCell>
+              <Cell style={cellCss} dataKey="city" />
+            </Column>
+            {/*  */}
+            <Column width={70}>
+              <HeaderCell style={headerCss}>Action</HeaderCell>
+              <Cell style={cellCss} verticalAlign="middle" align="center">
+                <Whisper
+                  placement="topEnd"
+                  speaker={
+                    <Popover
+                      className="border bg-[#2baa56] text-white rounded-full py-1.5 px-5"
+                      arrow={false}
+                    >
+                      Edit
+                    </Popover>
+                  }
+                >
+                  <IconButton
+                    // onClick={() => handleStyleEditModalOpen(rowData)}
+                    circle
+                    icon={<MdModeEdit size={20} />}
+                  />
+                </Whisper>
+              </Cell>
             </Column>
           </Table>
         </div>
