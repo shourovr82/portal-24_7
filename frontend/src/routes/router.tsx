@@ -23,6 +23,7 @@ import BulkProductionStatus from "../pages/status/BulkProductionStatus";
 import StyleAssign from "../pages/styles/StyleAssign";
 import AddPpSubmission from "../pages/ppSubmission/AddPpSubmission";
 import TackPack from "../pages/tackPack/TackPack";
+import ProblemReports from "../pages/users/ProblemReports";
 
 export const router = createBrowserRouter([
   {
@@ -110,6 +111,10 @@ export const router = createBrowserRouter([
       {
         path: "/users/addUser",
         element: <AddUser />,
+      },
+      {
+        path: "/users/problems-reported",
+        element: <ProblemReports />,
       },
     ],
   },
