@@ -1,0 +1,2 @@
+📅Thu Jan 04 2024  ⏲9:44:42 PM ▶ error: 🐱‍🏍 ErrorMessages ~~ Cannot read properties of undefined (reading 'path') 😟 statusCode: 400
+📅Thu Jan 04 2024  ⏲9:54:20 PM ▶ error: 🐱‍🏍 ErrorMessages ~~ User not found !! 😟 statusCode: 404

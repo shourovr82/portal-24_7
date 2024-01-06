@@ -1,0 +1,45 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 30
+    },
+    "auditLog": "C:\\personal\\portal-247\\backend\\logs\\winston\\successes\\.39ecc88edc2bded27e5eabcfa03df65982da50cf-audit.json",
+    "files": [
+        {
+            "date": 1704123275085,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\successes\\portal_247-2024-01-01-21-success.log",
+            "hash": "ce61ee8048edcc38dbe0df48c08a2cc4d58951a8b50321101a2ddc68641356f7"
+        },
+        {
+            "date": 1704171505898,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\successes\\portal_247-2024-02-01-10-success.log",
+            "hash": "460875fe2d29f38e335426d0c59a857b73f504d920dec9cea5f28b2299deee95"
+        },
+        {
+            "date": 1704182003875,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\successes\\portal_247-2024-02-01-13-success.log",
+            "hash": "95e1e482f3f4ca627eae180ace1e671c281c94d5afde3a7b163ad485fc7402fd"
+        },
+        {
+            "date": 1704365049961,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\successes\\portal_247-2024-04-01-16-success.log",
+            "hash": "fcf915f76e16c0639087fec49feb681d376a3446af5c5fd5f21ada03732f71b1"
+        },
+        {
+            "date": 1704382879837,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\successes\\portal_247-2024-04-01-21-success.log",
+            "hash": "4a0d738c7aa0a56a52b3c4d41b39c115d90c8d1e28edeaaf54a6c6f5f21d1a0b"
+        },
+        {
+            "date": 1704550325145,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\successes\\portal_247-2024-06-01-20-success.log",
+            "hash": "c41c3d67894a1476c0a363e695fd61a9795bc9aefa9b7ae45f2ae065bbcd8a1d"
+        },
+        {
+            "date": 1704556842408,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\successes\\portal_247-2024-06-01-22-success.log",
+            "hash": "b684b664d696e336994d82d6b65573ba5fd3f9326d16722edf4d48afc1401cfd"
+        }
+    ],
+    "hashType": "sha256"
+}

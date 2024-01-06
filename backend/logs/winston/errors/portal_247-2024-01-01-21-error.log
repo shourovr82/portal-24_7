@@ -1,0 +1,7 @@
+📅Mon Jan 01 2024  ⏲9:34:54 PM ▶ error: 
+Invalid `prisma.orders.count()` invocation:
+
+
+Can't reach database server at `localhost`:`5432`
+
+Please make sure your database server is running at `localhost`:`5432`. 😟 statusCode: 400

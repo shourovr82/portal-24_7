@@ -199,12 +199,13 @@ model Courier {
 }
 
 model ProblemReports {
-  problemReportsId String     @id @default(uuid())
+  problemReportsId String      @id @default(uuid())
   issueName        IssueLists
   emailAddress     String
   description      String
-  createdAt        DateTime   @default(now()) @db.Timestamptz(0)
-  updatedAt        DateTime   @updatedAt @db.Timestamptz(0)
+  problemStatus    IssueStatus
+  createdAt        DateTime    @default(now()) @db.Timestamptz(0)
+  updatedAt        DateTime    @updatedAt @db.Timestamptz(0)
 
   @@map("problem_reports")
 }
@@ -221,6 +222,14 @@ enum UserStatus {
   Active
   Paused
   Suspended
+}
+
+enum IssueStatus {
+  Solved
+  Working
+  NotPossible
+  Hold
+  AlreadyFixed
 }
 
 enum IssueLists {
