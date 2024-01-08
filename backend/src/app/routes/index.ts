@@ -13,66 +13,71 @@ import { PPSubmissionRoutes } from '../modules/ppSubmission/ppSubmission.routes'
 import { StyleRoutes } from '../modules/styles/styles.routes';
 import { TackPackRoutes } from '../modules/tackPack/tackPack.routes';
 import { UserRoutes } from '../modules/users/user.routes';
+import { ReportedProblemsRoutes } from '../modules/reportedProblems/reportedProblems.routes';
 
 const router = express.Router();
 
 const moduleRoutes = [
   {
     path: '/users',
-    route: UserRoutes,
+    route: UserRoutes
   },
   {
     path: '/auth',
-    route: AuthRoutes,
+    route: AuthRoutes
   },
   {
     path: '/orders',
-    route: OrderRoutes,
+    route: OrderRoutes
   },
   {
     path: '/styles',
-    route: StyleRoutes,
+    route: StyleRoutes
   },
   {
     path: '/factories',
-    route: FactoryRoutes,
+    route: FactoryRoutes
   },
   {
     path: '/ports',
-    route: PortRoutes,
+    route: PortRoutes
   },
   {
     path: '/pp-status',
-    route: PPStrikeOffStatusRoutes,
+    route: PPStrikeOffStatusRoutes
   },
   {
     path: '/bulk-status',
-    route: BulkProductionStatusRoutes,
+    route: BulkProductionStatusRoutes
   },
   {
     path: '/ld-cp-aop-status',
-    route: LdCpAopStatusRoutes,
+    route: LdCpAopStatusRoutes
   },
   {
     path: '/courier',
-    route: CourierRoutes,
+    route: CourierRoutes
   },
   {
     path: '/items',
-    route: ItemRoutes,
+    route: ItemRoutes
   },
   {
     path: '/pp-submission',
-    route: PPSubmissionRoutes,
+    route: PPSubmissionRoutes
   },
   {
     path: '/tack-pack',
-    route: TackPackRoutes,
+    route: TackPackRoutes
   },
   {
     path: '/notification',
-    route: NotificationRoutes,
+    route: NotificationRoutes
   },
+  {
+    path: '/reported-problems',
+    route: ReportedProblemsRoutes
+  }
 ];
 
 moduleRoutes.forEach(route => router.use(route.path, route.route));
