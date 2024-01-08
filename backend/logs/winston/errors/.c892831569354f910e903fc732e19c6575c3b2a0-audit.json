@@ -74,6 +74,11 @@
             "date": 1704697582494,
             "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\errors\\portal_247-2024-08-01-13-error.log",
             "hash": "a7ffcfafb416ae9e694c483ea7df1b54c94cdc679c91eb58a29ca2971254fb9e"
+        },
+        {
+            "date": 1704726904121,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\errors\\portal_247-2024-08-01-21-error.log",
+            "hash": "aeb0ce261be29e0875267a94c84b0ea6357842daa2ac6fcbbc675c02d41c073f"
         }
     ],
     "hashType": "sha256"

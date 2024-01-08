@@ -33,3 +33,11 @@ export const ProblemReportIssues = [
   { label: "Other", value: "other" },
 ].map((item) => ({ label: item.label, value: item.value }));
 
+export const ProblemReportIssuesStatus = [
+  { label: "Solved", value: "Solved" }, 
+  { label: "Working", value: "Working" }, 
+  { label: "Not Possible", value: "NotPossible" }, 
+  { label: "Hold", value: "Hold" }, 
+  { label: "AlreadyFixed", value: "AlreadyFixed" }, 
+].map((item) => ({ label: item.label, value: item.value }));
+

@@ -1,5 +1,5 @@
+/* eslint-disable no-extra-boolean-cast */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// mock.js
 
 import { IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
@@ -19,56 +19,34 @@ import { cellCss, headerCss } from "../../components/styles/CommonCss";
 import { MdModeEdit } from "react-icons/md";
 import { useState } from "react";
 import ProblemEditModal from "../../components/users/ProblemEditModal";
-
-const mockUsers = [
-  {
-    id: 1,
-
-    city: "New York",
-    email: "john.doe@example.com",
-  },
-  {
-    id: 2,
-
-    city: "San Francisco",
-    email: "jane.smith@example.com",
-  },
-  {
-    id: 3,
-
-    city: "Los Angeles",
-    email: "bob.johnson@example.com",
-  },
-  {
-    id: 4,
-
-    city: "Chicago",
-    email: "alice.williams@example.com",
-  },
-  {
-    id: 5,
-
-    city: "Seattle",
-    email: "charlie.brown@example.com",
-  },
-  { id: 6, city: "Miami", email: "eva.davis@example.com" },
-  {
-    id: 7,
-
-    city: "Boston",
-    email: "frank.wilson@example.com",
-  },
-  {
-    id: 8,
-
-    city: "Denver",
-    email: "grace.miller@example.com",
-  },
-];
+import { useGetAllReportedProblemsQuery } from "../../redux/features/reportedProblems/reportedProblemsApi";
+import { useDebounced } from "../../redux/hook";
 
 const ProblemReports = () => {
   const [open, setOpen] = useState(false);
   const [modalEditData, setModalEditData] = useState<any | null>(null);
+  const query: Record<string, any> = {};
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(10);
+
+  const debouncedTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 1,
+  });
+
+  query["page"] = page;
+  query["size"] = size;
+  if (!!debouncedTerm) {
+    query["searchTerm"] = debouncedTerm;
+  }
+
+  const { data, isLoading, isFetching } = useGetAllReportedProblemsQuery({
+    ...query,
+  });
+
+  //
   const handleProblemEditModal = (rowData: any) => {
     setModalEditData(rowData);
     setOpen(true);
@@ -76,6 +54,15 @@ const ProblemReports = () => {
   const handleClose = () => {
     setOpen(false);
     setModalEditData(null);
+  };
+
+  const statusClass: any = {
+    New: "bg-purple-500",
+    Working: "bg-blue-500",
+    NotPossible: "bg-red-700",
+    Hold: "bg-cyan-500",
+    AlreadyFixed: "bg-green-800",
+    Solved: "bg-green-600",
   };
   return (
     <>
@@ -98,7 +85,11 @@ const ProblemReports = () => {
           <div className="flex   gap-5 py-5 px-5">
             <div className="w-full">
               <InputGroup inside>
-                <Input className="w-full" placeholder="Search by email..." />
+                <Input
+                  onChange={(e) => setSearchTerm(e)}
+                  className="w-full"
+                  placeholder="Search by email..."
+                />
                 <InputGroup.Button>
                   <SearchIcon />
                 </InputGroup.Button>
@@ -142,32 +133,50 @@ const ProblemReports = () => {
           {/* table */}
           <div>
             <Table
+              loading={isLoading || isFetching}
               wordWrap="break-word"
               shouldUpdateScroll={false}
               autoHeight
-              data={mockUsers}
+              data={data?.data || []}
               bordered
               cellBordered
             >
-              <Column width={45} align="center" verticalAlign="middle">
-                <HeaderCell style={headerCss}>Serial</HeaderCell>
-                <Cell style={cellCss} dataKey="id" />
-              </Column>
-              <Column width={210} align="start" verticalAlign="middle">
+              <Column fullText width={210} align="start" verticalAlign="middle">
                 <HeaderCell style={headerCss}>Email</HeaderCell>
-                <Cell style={cellCss} dataKey="email" />
+                <Cell style={cellCss} dataKey="emailAddress" />
               </Column>
 
-              <Column flexGrow={2} align="start" verticalAlign="middle">
+              <Column
+                flexGrow={2}
+                fullText
+                align="start"
+                verticalAlign="middle"
+              >
                 <HeaderCell style={headerCss}>Description</HeaderCell>
-                <Cell style={cellCss} dataKey="city" />
+                <Cell style={cellCss} dataKey="description" />
               </Column>
               <Column width={200} align="start" verticalAlign="middle">
                 <HeaderCell style={headerCss}>Category</HeaderCell>
-                <Cell style={cellCss} dataKey="city" />
+                <Cell style={cellCss} dataKey="issueName" />
               </Column>
               {/*  */}
-              <Column width={70}>
+              <Column width={150}>
+                <HeaderCell style={headerCss}>Action</HeaderCell>
+                <Cell style={cellCss} verticalAlign="middle" align="center">
+                  {(rowData: any) => (
+                    <>
+                      <span
+                        className={`text-white ${
+                          statusClass[rowData?.problemStatus] || "text-black"
+                        } px-5 py-2 rounded-full`}
+                      >
+                        {rowData?.problemStatus}
+                      </span>
+                    </>
+                  )}
+                </Cell>
+              </Column>
+              <Column width={60}>
                 <HeaderCell style={headerCss}>Action</HeaderCell>
                 <Cell style={cellCss} verticalAlign="middle" align="center">
                   {(rowData: any) => (
@@ -183,7 +192,6 @@ const ProblemReports = () => {
                       }
                     >
                       <IconButton
-                        // onClick={() => handleStyleEditModalOpen(rowData)}
                         onClick={() => handleProblemEditModal(rowData)}
                         circle
                         icon={<MdModeEdit size={20} />}
@@ -198,7 +206,7 @@ const ProblemReports = () => {
 
           <div style={{ padding: 20 }}>
             <Pagination
-              total={20}
+              total={data?.meta?.total || 0}
               prev
               next
               first
@@ -208,11 +216,11 @@ const ProblemReports = () => {
               maxButtons={5}
               size="md"
               layout={["total", "-", "limit", "|", "pager", "skip"]}
-              limitOptions={[10, 20, 30, 50, 100, 150, 200]}
-              // limit={size}
-              // onChangeLimit={(limitChange) => setSize(limitChange)}
-              // activePage={page}
-              // onChangePage={setPage}
+              limitOptions={[10, 20, 30, 50]}
+              limit={size}
+              onChangeLimit={(limitChange) => setSize(limitChange)}
+              activePage={page}
+              onChangePage={setPage}
             />
           </div>
         </div>

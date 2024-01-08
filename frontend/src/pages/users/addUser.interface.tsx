@@ -14,6 +14,9 @@ export type ILogin = {
   email: string;
   password: string;
 };
+export type IStatusChange = {
+  problemStatus: string;
+};
 
 export type IUser = {
   user: any;
