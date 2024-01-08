@@ -114,7 +114,11 @@ const StyleLists = () => {
     return (
       <Popover ref={ref} className={className} style={{ left, top }} full>
         <Dropdown.Menu onSelect={handleSelect}>
-          <Dropdown.Item onClick={saveExcel} eventKey={4}>
+          <Dropdown.Item
+            disabled={!allStylesList?.data?.length}
+            onClick={saveExcel}
+            eventKey={4}
+          >
             Export to Excel
           </Dropdown.Item>
         </Dropdown.Menu>

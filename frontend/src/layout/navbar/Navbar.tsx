@@ -17,7 +17,11 @@ const Navbar = () => {
   };
 
   const user = getUserInfo() as any;
-
+  const renderIconButton2 = (props: any, ref: any) => {
+    return (
+      <IconButton {...props} ref={ref} icon={<GoBell size={22} />} circle />
+    );
+  };
   const renderIconButton = (props: any, ref: any) => {
     return (
       <IconButton
@@ -25,14 +29,14 @@ const Navbar = () => {
         ref={ref}
         icon={
           <img
-            className="h-6 w-6  object-contain  rounded-full "
+            className="h-7 w-7  object-cover  rounded-full "
             src={`${fileUrlKey()}/${user?.profileImage}`}
             alt=""
           />
         }
         circle
         size="xs"
-        className="!border-1 !border-[#2222223b] hover:!border-[#22222281] hover:ring-0"
+        className="!border-1 focus-within:scale-95 !border-[#2222223b] hover:!border-[#22222281] hover:ring-0"
         appearance="ghost"
       />
     );
@@ -48,13 +52,22 @@ const Navbar = () => {
 
         <div className="flex items-center gap-x-4 lg:gap-x-6 pr-6">
           <div>
-            <button
-              type="button"
-              className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+            <Dropdown
+              size="lg"
+              noCaret
+              appearance="default"
+              color="blue"
+              defaultOpen={true}
+              renderToggle={renderIconButton2}
+              placement="bottomEnd"
             >
-              <span className="sr-only">View notifications</span>
-              <GoBell size={24} aria-hidden="true" />
-            </button>
+              <Dropdown.Item>Violets are blue</Dropdown.Item>
+              <Dropdown.Item>Violets are blue</Dropdown.Item>
+              <Dropdown.Item>Violets are blue</Dropdown.Item>
+              <Dropdown.Item>Violets are blue</Dropdown.Item>
+              <Dropdown.Item>Violets are blue</Dropdown.Item>
+              <Dropdown.Item>Violets are blue</Dropdown.Item>
+            </Dropdown>
           </div>
 
           {/* Profile dropdown */}
