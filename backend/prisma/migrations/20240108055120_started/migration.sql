@@ -4,6 +4,12 @@ CREATE TYPE "UserRoles" AS ENUM ('SUPERADMIN', 'ADMIN', 'USER');
 -- CreateEnum
 CREATE TYPE "UserStatus" AS ENUM ('Active', 'Paused', 'Suspended');
 
+-- CreateEnum
+CREATE TYPE "IssueStatus" AS ENUM ('Solved', 'Working', 'NotPossible', 'Hold', 'New', 'AlreadyFixed');
+
+-- CreateEnum
+CREATE TYPE "IssueLists" AS ENUM ('troubleLoggingIn', 'forgotEmail', 'forgotPassword', 'loadingIssues', 'accountDeactivation', 'securityConcerns', 'technicalGlitches', 'featureRequest', 'paymentIssue', 'uiFeedback', 'accountRecovery', 'other');
+
 -- CreateTable
 CREATE TABLE "users" (
     "userId" TEXT NOT NULL,
@@ -171,6 +177,19 @@ CREATE TABLE "courier_details" (
     "updatedAt" TIMESTAMPTZ(0) NOT NULL,
 
     CONSTRAINT "courier_details_pkey" PRIMARY KEY ("courierId")
+);
+
+-- CreateTable
+CREATE TABLE "problem_reports" (
+    "problemReportsId" TEXT NOT NULL,
+    "issueName" "IssueLists" NOT NULL,
+    "emailAddress" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "problemStatus" "IssueStatus" NOT NULL DEFAULT 'New',
+    "createdAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMPTZ(0) NOT NULL,
+
+    CONSTRAINT "problem_reports_pkey" PRIMARY KEY ("problemReportsId")
 );
 
 -- CreateIndex

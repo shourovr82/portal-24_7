@@ -203,7 +203,7 @@ model ProblemReports {
   issueName        IssueLists
   emailAddress     String
   description      String
-  problemStatus    IssueStatus
+  problemStatus    IssueStatus @default(New)
   createdAt        DateTime    @default(now()) @db.Timestamptz(0)
   updatedAt        DateTime    @updatedAt @db.Timestamptz(0)
 
@@ -229,6 +229,7 @@ enum IssueStatus {
   Working
   NotPossible
   Hold
+  New
   AlreadyFixed
 }
 
