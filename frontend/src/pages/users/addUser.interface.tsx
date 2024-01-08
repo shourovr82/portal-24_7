@@ -17,6 +17,11 @@ export type ILogin = {
 export type IStatusChange = {
   problemStatus: string;
 };
+export type IAddReportToAdmin = {
+  issueName: string;
+  emailAddress: string;
+  description: string;
+};
 
 export type IUser = {
   user: any;

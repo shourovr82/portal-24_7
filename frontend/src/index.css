@@ -24,6 +24,29 @@ body {
 }
 
 /* Customize scrollbar for Webkit-based browsers (e.g., Chrome and Safari) */
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 5px;
+  /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  /* Track color */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #0d106557;
+  /* Thumb color */
+  border-radius: 6px;
+  /* Border radius of the thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+  /* Hover color for the thumb */
+}
+
 body::-webkit-scrollbar {
   width: 0px;
 }
