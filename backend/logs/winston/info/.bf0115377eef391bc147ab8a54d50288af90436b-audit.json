@@ -79,6 +79,21 @@
             "date": 1704697582490,
             "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\info\\portal_247-2024-08-01-13-info.log",
             "hash": "71691a33fac9c00c092be523b43bdbe48fd2a7c1cd574125b9daba7c44c046c3"
+        },
+        {
+            "date": 1704700988227,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\info\\portal_247-2024-08-01-14-info.log",
+            "hash": "24b91585100e24ab3487b58eaa787f685694571d9f6324e32d30202262cd7685"
+        },
+        {
+            "date": 1704726904106,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\info\\portal_247-2024-08-01-21-info.log",
+            "hash": "92f16050813111d2f22a9e4cc952a14221bcc33a1095a07465594ba16e92ab08"
+        },
+        {
+            "date": 1704730066770,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\info\\portal_247-2024-08-01-22-info.log",
+            "hash": "7cdf5fe64cb41c3721b24b562acf01ce9f8efff733768fcc685b324cec868ffe"
         }
     ],
     "hashType": "sha256"

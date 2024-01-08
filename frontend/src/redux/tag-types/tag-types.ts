@@ -11,6 +11,7 @@ export enum tagTypes {
   ppSubmission = "pp-submission-date",
   ldCpAopStrikeOff = "ld-cp-aop-strike-off",
   notification = "notification",
+  reportedProblems = "reportedProblems",
 }
 
 export const tagTypesList = [
@@ -27,4 +28,5 @@ export const tagTypesList = [
   tagTypes.ppSubmission,
   tagTypes.ldCpAopStrikeOff,
   tagTypes.notification,
+  tagTypes.reportedProblems,
 ];
