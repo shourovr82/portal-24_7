@@ -17,8 +17,8 @@ const reportedProblemsApi = baseApi.injectEndpoints({
     
 
     updateReportedProblem: builder.mutation({
-      query: ({ id, data }: any) => ({
-        url: `/${reportedProblemsRoute}/update/${id}`,
+      query: ({ problemReportsId, data }: any) => ({
+        url: `/${reportedProblemsRoute}/update/${problemReportsId}`,
         method: "PATCH",
         data: data,
       }),

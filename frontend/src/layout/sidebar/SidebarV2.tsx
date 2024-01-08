@@ -48,7 +48,7 @@ const SidebarV2 = () => {
           : "sticky top-0 shadow-md z-[100]"
       }`}
     >
-      <Sidenav expanded={expanded} className="h-screen ">
+      <Sidenav expanded={expanded} className="h-screen sidebarScroll">
         <Sidenav.Header>
           <Link to="/">
             <div
@@ -135,10 +135,8 @@ const SidebarV2 = () => {
                 eventKey="3-1"
                 as={NavLink}
                 to="/po/poLists"
-                active={pathname === "/styles/poLists"}
-                className={`${
-                  pathname === "/styles/poLists" && "!bg-blue-100"
-                }`}
+                active={pathname === "/po/poLists"}
+                className={`${pathname === "/po/poLists" && "!bg-blue-100"}`}
               >
                 List Of PO
               </Nav.Item>
@@ -146,8 +144,8 @@ const SidebarV2 = () => {
                 eventKey="3-2"
                 as={NavLink}
                 to="/po/addpo"
-                active={pathname === "/styles/addpo"}
-                className={`${pathname === "/styles/addpo" && "!bg-blue-100"}`}
+                active={pathname === "/po/addpo"}
+                className={`${pathname === "/po/addpo" && "!bg-blue-100"}`}
               >
                 Add PO
               </Nav.Item>
@@ -163,10 +161,8 @@ const SidebarV2 = () => {
                 eventKey="4-1"
                 as={NavLink}
                 to="/LdCpAopStatus"
-                active={pathname === "/styles/LdCpAopStatus"}
-                className={`${
-                  pathname === "/styles/LdCpAopStatus" && "!bg-blue-100"
-                }`}
+                active={pathname === "/LdCpAopStatus"}
+                className={`${pathname === "/LdCpAopStatus" && "!bg-blue-100"}`}
               >
                 LD/CP/AOP Strike Off Status
               </Nav.Item>
@@ -174,10 +170,8 @@ const SidebarV2 = () => {
                 eventKey="4-2"
                 as={NavLink}
                 to="/ppStatus"
-                active={pathname === "/styles/ppStatus"}
-                className={`${
-                  pathname === "/styles/ppStatus" && "!bg-blue-100"
-                }`}
+                active={pathname === "/ppStatus"}
+                className={`${pathname === "/ppStatus" && "!bg-blue-100"}`}
               >
                 PP Status
               </Nav.Item>
@@ -185,9 +179,9 @@ const SidebarV2 = () => {
                 eventKey="4-3"
                 as={NavLink}
                 to="/bulkProductionStatus"
-                active={pathname === "/styles/bulkProductionStatus"}
+                active={pathname === "/bulkProductionStatus"}
                 className={`${
-                  pathname === "/styles/bulkProductionStatus" && "!bg-blue-100"
+                  pathname === "/bulkProductionStatus" && "!bg-blue-100"
                 }`}
               >
                 Bulk production Status
@@ -199,8 +193,8 @@ const SidebarV2 = () => {
               icon={<Icon as={IoDocumentTextOutline} />}
               as={NavLink}
               to="/tackPack"
-              active={pathname === "/styles/tackPack"}
-              className={`${pathname === "/styles/tackPack" && "!bg-blue-100"}`}
+              active={pathname === "/tackPack"}
+              className={`${pathname === "/tackPack" && "!bg-blue-100"}`}
             >
               Tack Pack
             </Nav.Item>
@@ -312,9 +306,9 @@ const SidebarV2 = () => {
                   eventKey="10-3"
                   as={NavLink}
                   to="/users/problems-reported"
-                  active={pathname === "/users/report-problems"}
+                  active={pathname === "/users/problems-reported"}
                   className={`${
-                    pathname === "/users/report-problems" && "!bg-blue-100"
+                    pathname === "/users/problems-reported" && "!bg-blue-100"
                   }`}
                 >
                   Problem Reported

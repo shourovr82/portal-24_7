@@ -11,7 +11,7 @@ const router = express.Router();
 router.post(
   '/',
   routeInfoMessage(),
-  auth(UserRoles.USER, UserRoles.ADMIN, UserRoles.SUPERADMIN),
+
   validateRequest(ReportedProblemValidation.createNewProblem),
   ReportedProblemsController.createNewProblem
 );
