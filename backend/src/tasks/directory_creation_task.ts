@@ -3,7 +3,7 @@ import { logger } from '../shared/logger';
 
 const create_required_directories = () => {
   /**
-   *   create required directories if they are not already exist during the application starup.
+   *   create required directories if they are not already exist during the application start up.
    **/
 
   // create data directory

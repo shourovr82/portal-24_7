@@ -7,19 +7,16 @@ import routes from './app/routes';
 import cookieParser from 'cookie-parser';
 import create_required_directories from './tasks/directory_creation_task';
 
-
 const app: Application = express();
 
-// Create required directories 
-create_required_directories()
-
-
+// Create required directories
+create_required_directories();
 
 app.use(
   cors({
-    // origin: 'http://85.31.225.190:3100',
-    origin: 'http://localhost:3100',
-    credentials: true,
+    origin: 'http://65.109.90.157:3100',
+    // origin: 'http://localhost:3100',
+    credentials: true
     // methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   })
 );
@@ -45,9 +42,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     errorMessages: [
       {
         path: req.originalUrl,
-        message: 'API Not Found',
-      },
-    ],
+        message: 'API Not Found'
+      }
+    ]
   });
   next();
 });
