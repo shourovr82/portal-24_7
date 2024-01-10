@@ -20,7 +20,7 @@ const AddUser = () => {
   const [createUser, { isError, isSuccess, error, isLoading, data }] =
     useCreateUserMutation();
 
-  const roles = ["ADMIN", "USER"].map((item) => ({
+  const roles = ["ADMIN", "USER", "SUPERADMIN"].map((item) => ({
     label: item,
     value: item,
   }));
