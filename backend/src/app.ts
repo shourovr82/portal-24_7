@@ -14,7 +14,7 @@ create_required_directories();
 
 app.use(
   cors({
-    origin: 'http://65.109.90.157:3100',
+    origin: 'http://65.109.90.157:4173',
     // origin: 'http://localhost:3100',
     credentials: true
     // methods: ['GET', 'POST', 'PATCH', 'DELETE'],
