@@ -88,7 +88,7 @@ export default function LogIn() {
 
   return (
     <>
-      <div className="lg:grid lg:grid-cols-2   h-screen flex-col justify-center    ">
+      <div className="md:grid md:grid-cols-2   h-screen flex-col justify-center    ">
         <div className="mt-10 w-[80%] mx-auto  ">
           <div className="flex justify-between pb-20">
             <div>
@@ -244,7 +244,7 @@ export default function LogIn() {
                 {moment().format("MMMM Do")},
               </h2>
               <h2 className="text-6xl font-semibold text-white">
-                {moment().format("YYYY")},
+                {moment().format("YYYY")}.
               </h2>
             </div>
             <div>

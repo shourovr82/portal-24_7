@@ -57,16 +57,15 @@ const Navbar = () => {
               noCaret
               appearance="default"
               color="blue"
-              defaultOpen={true}
               renderToggle={renderIconButton2}
               placement="bottomEnd"
             >
-              <Dropdown.Item>Violets are blue</Dropdown.Item>
-              <Dropdown.Item>Violets are blue</Dropdown.Item>
-              <Dropdown.Item>Violets are blue</Dropdown.Item>
-              <Dropdown.Item>Violets are blue</Dropdown.Item>
-              <Dropdown.Item>Violets are blue</Dropdown.Item>
-              <Dropdown.Item>Violets are blue</Dropdown.Item>
+              <Dropdown.Item>This feature is under construction</Dropdown.Item>
+              <Dropdown.Item>This feature is under construction</Dropdown.Item>
+              <Dropdown.Item>This feature is under construction</Dropdown.Item>
+              <Dropdown.Item>This feature is under construction</Dropdown.Item>
+              <Dropdown.Item>This feature is under construction</Dropdown.Item>
+              <Dropdown.Item>This feature is under construction</Dropdown.Item>
             </Dropdown>
           </div>
 
