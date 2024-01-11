@@ -14,7 +14,8 @@ create_required_directories();
 
 app.use(
   cors({
-    origin: 'http://65.109.90.157:4173',
+    origin: 'https://portal-247.vercel.app',
+    // origin: 'http://65.109.90.157:4173',
     // origin: 'http://localhost:3100',
     credentials: true
     // methods: ['GET', 'POST', 'PATCH', 'DELETE'],
