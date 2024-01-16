@@ -3,7 +3,7 @@
 import { useGetAllUsersQuery } from "../../redux/features/users/userApi";
 import { useDebounced } from "../../redux/hook";
 import { useState } from "react";
-import { IconButton, Popover, SelectPicker, Whisper } from "rsuite";
+import { IconButton, Loader, Popover, SelectPicker, Whisper } from "rsuite";
 import { HiOutlineEye } from "react-icons/hi";
 import { RiEdit2Line } from "react-icons/ri";
 import { BiSearchAlt } from "react-icons/bi";
@@ -282,6 +282,11 @@ const UserLists = () => {
                         ))}
                     </tbody>
                   </table>
+                  {isLoading && (
+                    <div className="mt-5 flex py-10 justify-center ">
+                      <Loader size="lg" content="Loading..." />
+                    </div>
+                  )}
                   {!isLoading && !isError && !allUsers?.data?.length && (
                     <div className="mt-5 flex py-10 justify-center ">
                       <p className="font-medium text-slate-500">
