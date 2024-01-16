@@ -119,6 +119,16 @@
             "date": 1704902589916,
             "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\info\\portal_247-2024-10-01-22-info.log",
             "hash": "826159d0a1b3c95ce13eee5006adda868b8b5a69ba2064264836b9ce5115f3de"
+        },
+        {
+            "date": 1705379717433,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\info\\portal_247-2024-16-01-10-info.log",
+            "hash": "a56cd1727800b0209a144be94cf6b7f1dfed410e3025a7a7c36d45f74563dfd1"
+        },
+        {
+            "date": 1705382209693,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\info\\portal_247-2024-16-01-11-info.log",
+            "hash": "4efc1300a38cb96ffeb0bc9fc7bbf4becfb8d30a3a88fca7914f75bcc868478c"
         }
     ],
     "hashType": "sha256"
