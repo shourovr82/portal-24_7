@@ -15,21 +15,17 @@ import { Link } from "react-router-dom";
 
 const UserLists = () => {
   const query: Record<string, any> = {};
-  // const [page, setPage] = useState<number>(1);
-  // const [size, setSize] = useState<number>(30);
-  // const [sortBy, setSortBy] = useState<string>("");
-  // const [sortOrder, setSortOrder] = useState<SortType>("desc");
+
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedRole, setSelectedRole] = useState<string | undefined>(
     undefined
   );
+  const [selectedStatus, setSelectedStatus] = useState<string | undefined>(
+    undefined
+  );
 
-  //
-  // query["limit"] = size;
-  // query["page"] = page;
-  // query["sortBy"] = sortBy;
-  // query["sortOrder"] = sortOrder;
   query["role"] = selectedRole;
+  query["userStatus"] = selectedStatus;
 
   const debouncedTerm = useDebounced({
     searchQuery: searchTerm,
@@ -44,13 +40,12 @@ const UserLists = () => {
     data: allUsersRes,
     isLoading,
     isError,
+    isFetching,
   } = useGetAllUsersQuery({ ...query });
   const [userDetails, setUserDetails] = useState(null);
   const [openDetails, setOpenDetails] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [editUser, setEditUser] = useState(null);
-
-  const { data: allUsers } = allUsersRes || {};
 
   return (
     <>
@@ -81,7 +76,7 @@ const UserLists = () => {
                   type="text"
                   id="voice-search"
                   className="border border-gray-300 text-gray-900 placeholder:text-[#919EAB]   w-full pl-10 p-2.5 py-2 rounded-lg focus:outline-none"
-                  placeholder="Search ..."
+                  placeholder="Search by email or name ..."
                   required
                 />
               </div>
@@ -105,12 +100,12 @@ const UserLists = () => {
                   },
                 ]}
                 onChange={(value: string | null): void =>
-                  setSelectedRole(value as string)
+                  setSelectedStatus(value as string)
                 }
                 onClean={() => setSelectedRole(undefined)}
                 style={{ width: "100%" }}
                 searchable={false}
-                placeholder="Filter By Role"
+                placeholder="Filter By Status"
               />
             </div>
 
@@ -127,8 +122,8 @@ const UserLists = () => {
                     value: "ADMIN",
                   },
                   {
-                    label: "SUPER_ADMIN",
-                    value: "SUPER_ADMIN",
+                    label: "SUPER ADMIN",
+                    value: "SUPERADMIN",
                   },
                 ]}
                 onChange={(value: string | null): void =>
@@ -179,8 +174,8 @@ const UserLists = () => {
                       </tr>
                     </thead>
                     <tbody className=" bg-white">
-                      {!!allUsers?.data?.length &&
-                        allUsers?.data?.map((singleUser: any) => (
+                      {!!allUsersRes?.data?.length &&
+                        allUsersRes?.data?.map((singleUser: any) => (
                           <tr key={Math.random()}>
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-black font-medium sm:pl-6 ">
                               <div className="flex  gap-2">
@@ -221,7 +216,7 @@ const UserLists = () => {
                                 }  
                                 ${
                                   singleUser?.userStatus === "Paused" &&
-                                  "bg-[#ffec43] text-yellow-800"
+                                  "bg-[#116dd6] text-white"
                                 }
                                 ${
                                   singleUser?.userStatus === "Suspended" &&
@@ -282,12 +277,13 @@ const UserLists = () => {
                         ))}
                     </tbody>
                   </table>
-                  {isLoading && (
-                    <div className="mt-5 flex py-10 justify-center ">
-                      <Loader size="lg" content="Loading..." />
-                    </div>
-                  )}
-                  {!isLoading && !isError && !allUsers?.data?.length && (
+                  {isLoading ||
+                    (isFetching && (
+                      <div className="mt-5 flex py-10 justify-center ">
+                        <Loader size="lg" content="Loading..." />
+                      </div>
+                    ))}
+                  {!isLoading && !isError && !allUsersRes?.data?.length && (
                     <div className="mt-5 flex py-10 justify-center ">
                       <p className="font-medium text-slate-500">
                         No Users Found !!
