@@ -114,6 +114,26 @@
             "date": 1705483467647,
             "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\errors\\portal_247-2024-17-01-15-error.log",
             "hash": "ec6bfb8eea1738989285c20996595fbf3aba17e3111b9bf37c98d79a88d63fb2"
+        },
+        {
+            "date": 1705491014025,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\errors\\portal_247-2024-17-01-17-error.log",
+            "hash": "cf72bbe476f1fd4c2f1eb19bf644368dc89fa53385490928de2c34bbf75b9090"
+        },
+        {
+            "date": 1705498681216,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\errors\\portal_247-2024-17-01-19-error.log",
+            "hash": "89213ad2658b0bf174b61fca2792c31ff4027e6f0cd9c3a63e0078189bdceda6"
+        },
+        {
+            "date": 1705503290667,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\errors\\portal_247-2024-17-01-20-error.log",
+            "hash": "55f0df53d8ec007e6876bcea9276d0165c26e7bc86822a1154f91359cdfb04f4"
+        },
+        {
+            "date": 1705503612224,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\errors\\portal_247-2024-17-01-21-error.log",
+            "hash": "3ed0c1f40c53b9799c7c27690adb4558d9b44e92ac07e26df65e16f5aaa7cc9d"
         }
     ],
     "hashType": "sha256"

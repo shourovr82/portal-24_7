@@ -34,7 +34,7 @@ export type IUsersResponse = {
   email: string;
   createdAt: Date;
   updatedAt: Date;
-  profile: Profile | null;
+  Profile: Profile | null;
   userStatus: UserStatus;
 };
 export type IUpdateProfileReqAndResponse = {
@@ -51,4 +51,9 @@ export type IUserUpdateReqAndResponse = {
   userStatus?: UserStatus;
   role?: UserRoles;
   profileId?: string;
+};
+export type IUserFilterRequest = {
+  searchTerm?: string | undefined;
+  role?: UserRoles;
+  userStatus?: UserStatus;
 };
