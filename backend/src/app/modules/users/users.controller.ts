@@ -5,16 +5,20 @@ import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
 import { IRequestUser } from './user.interface';
 import { UserService } from './user.service';
+import { userFilterableFields } from './users.constants';
 
 const getAllUsersController = catchAsync(async (req: Request, res: Response) => {
+  const filters = pick(req.query, userFilterableFields);
   const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
-  const result = await UserService.getAllUserService(options);
+
+  const result = await UserService.getAllUserService(filters, options);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'All Users retrieved successfully',
-    data: result,
+    meta: result.meta,
+    data: result.data
   });
 });
 
@@ -26,7 +30,7 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User retrieved successfully',
-    data: result,
+    data: result
   });
 });
 
@@ -39,7 +43,7 @@ const updateProfileInfo = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Profile updated successfully',
-    data: result,
+    data: result
   });
 });
 // ! update user info
@@ -52,7 +56,7 @@ const updateUserInfo = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User updated successfully',
-    data: result,
+    data: result
   });
 });
 
@@ -64,7 +68,7 @@ const getMyProfile = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User retrieved successfully',
-    data: result,
+    data: result
   });
 });
 
@@ -73,5 +77,5 @@ export const UserController = {
   getSingleUser,
   updateProfileInfo,
   updateUserInfo,
-  getMyProfile,
+  getMyProfile
 };

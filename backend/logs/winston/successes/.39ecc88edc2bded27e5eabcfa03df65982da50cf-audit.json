@@ -89,6 +89,26 @@
             "date": 1705483467619,
             "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\successes\\portal_247-2024-17-01-15-success.log",
             "hash": "440287bd74d9899b951fc6ab2ccbb75dc7a26f9b022df5ab379f456dbeca9564"
+        },
+        {
+            "date": 1705491014011,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\successes\\portal_247-2024-17-01-17-success.log",
+            "hash": "adca7e20140cb81ae07610a15899bdb5c8c88af2b7031c941d44f1c18054145a"
+        },
+        {
+            "date": 1705498703071,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\successes\\portal_247-2024-17-01-19-success.log",
+            "hash": "13a68b57485528b388940e0dbb3ac75f7e9cdc722cf44cb2515ed9e557c8502a"
+        },
+        {
+            "date": 1705503290579,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\successes\\portal_247-2024-17-01-20-success.log",
+            "hash": "bcff854d78803847da35bc728c6a95a9c386f6c2bf58a5f0aa9a4a6f2344527e"
+        },
+        {
+            "date": 1705503629147,
+            "name": "C:\\personal\\portal-247\\backend\\logs\\winston\\successes\\portal_247-2024-17-01-21-success.log",
+            "hash": "bdeef622cd45afcb2155f64bbdb8ccd37d7b26d8c88db9476a8a405f4f1ce7a6"
         }
     ],
     "hashType": "sha256"

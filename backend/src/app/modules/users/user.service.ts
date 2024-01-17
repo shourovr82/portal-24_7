@@ -1,55 +1,83 @@
-import { Profile, User } from '@prisma/client';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Prisma, Profile, User } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import httpStatus from 'http-status';
 import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
-import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
-import { IUpdateProfileReqAndResponse, IUserUpdateReqAndResponse, IUsersResponse } from './user.interface';
+import { IUpdateProfileReqAndResponse, IUserFilterRequest, IUserUpdateReqAndResponse } from './user.interface';
+import { userRelationalFields, userRelationalFieldsMapper, userSearchableFields } from './users.constants';
+import { IGenericResponse } from '../../../interfaces/common';
 
 // ! getting all users ----------------------------------------------------------------------->>>
-const getAllUserService = async (options: IPaginationOptions): Promise<IGenericResponse<IUsersResponse[]>> => {
+
+const getAllUserService = async (filters: IUserFilterRequest, options: IPaginationOptions): Promise<IGenericResponse<User[]>> => {
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
+  const { searchTerm, ...filterData } = filters;
+
+  const andConditions = [];
+
+  if (searchTerm) {
+    andConditions.push({
+      OR: userSearchableFields.map((field: any) => ({
+        [field]: {
+          contains: searchTerm,
+          mode: 'insensitive'
+        }
+      }))
+    });
+  }
+
+  if (Object.keys(filterData).length > 0) {
+    andConditions.push({
+      AND: Object.keys(filterData).map(key => {
+        if (userRelationalFields.includes(key)) {
+          return {
+            profile: {
+              [userRelationalFieldsMapper[key]]: {
+                equals: (filterData as any)[key]
+              }
+            }
+          };
+        } else {
+          return {
+            [key]: {
+              equals: (filterData as any)[key]
+            }
+          };
+        }
+      })
+    });
+  }
+
+  // @ts-ignore
+  const whereConditions: Prisma.UserWhereInput = andConditions.length > 0 ? { AND: andConditions } : {};
 
   const result = await prisma.user.findMany({
-    where: {
+    include: {
       profile: {
-        role: {
-          in: ['ADMIN', 'USER'],
-        },
-      },
+        include: {
+          _count: true
+        }
+      }
     },
+    where: whereConditions,
     skip,
     take: limit,
-    select: {
-      userId: true,
-      email: true,
-      userStatus: true,
-      profile: {
-        select: {
-          profileId: true,
-          firstName: true,
-          lastName: true,
-          role: true,
-          profileImage: true,
-          createdAt: true,
-          updatedAt: true,
-          _count: {
-            select: {
-              Orders: true,
-              Styles: true,
-            },
-          },
-        },
-      },
-      createdAt: true,
-      updatedAt: true,
-    },
+    orderBy:
+      options.sortBy && options.sortOrder
+        ? { [options.sortBy]: options.sortOrder }
+        : {
+            createdAt: 'desc'
+          }
   });
-  const total = await prisma.user.count();
 
+  const total = await prisma.user.count({
+    where: whereConditions
+  });
   const totalPage = Math.ceil(total / limit);
 
   return {
@@ -57,19 +85,19 @@ const getAllUserService = async (options: IPaginationOptions): Promise<IGenericR
       page,
       limit,
       total,
-      totalPage,
+      totalPage
     },
-    data: result,
+    data: result
   };
 };
 
 // ! getting single user data -------------------------------------------------------->>>
-const getSingleUser = async (userId: string): Promise<IUsersResponse | null> => {
+const getSingleUser = async (userId: string): Promise<any> => {
   // Check if the user exists
   const existingUser = await prisma.user.findUnique({
     where: {
-      userId,
-    },
+      userId
+    }
   });
 
   if (!existingUser) {
@@ -78,7 +106,7 @@ const getSingleUser = async (userId: string): Promise<IUsersResponse | null> => 
 
   const result = await prisma.user.findUnique({
     where: {
-      userId,
+      userId
     },
     select: {
       userId: true,
@@ -94,12 +122,12 @@ const getSingleUser = async (userId: string): Promise<IUsersResponse | null> => 
           createdAt: true,
           updatedAt: true,
           Orders: true,
-          Styles: true,
-        },
+          Styles: true
+        }
       },
       createdAt: true,
-      updatedAt: true,
-    },
+      updatedAt: true
+    }
   });
 
   if (!result) {
@@ -125,8 +153,8 @@ const updateProfileInfo = async (
   // Check if the user exists
   const existingUser = await prisma.profile.findUnique({
     where: {
-      profileId,
-    },
+      profileId
+    }
   });
 
   if (!existingUser) {
@@ -136,14 +164,14 @@ const updateProfileInfo = async (
   // Update the Profile
   const result = await prisma.profile.update({
     where: {
-      profileId,
+      profileId
     },
     data: {
       firstName: payload?.firstName,
       lastName: payload?.lastName,
       profileImage: payload?.profileImage,
-      role: payload?.role,
-    },
+      role: payload?.role
+    }
   });
 
   if (!result) {
@@ -152,7 +180,7 @@ const updateProfileInfo = async (
 
   return {
     message: 'Profile Information Updated Successful',
-    updatedInfo: payload,
+    updatedInfo: payload
   };
 };
 
@@ -167,8 +195,8 @@ const updateUserInfo = async (
   // Check if the user exists
   const existingUser = await prisma.user.findUnique({
     where: {
-      userId,
-    },
+      userId
+    }
   });
 
   if (!existingUser) {
@@ -193,9 +221,9 @@ const updateUserInfo = async (
 
   const result = await prisma.user.update({
     where: {
-      userId,
+      userId
     },
-    data: updatedData,
+    data: updatedData
   });
   const updatedProfileData: Partial<Profile> = {};
   if (firstName) updatedProfileData['firstName'] = firstName;
@@ -205,9 +233,9 @@ const updateUserInfo = async (
   if (updatedProfileData && profileId) {
     const updateProfile = await prisma.profile.update({
       where: {
-        profileId,
+        profileId
       },
-      data: updatedProfileData,
+      data: updatedProfileData
     });
     if (!updateProfile) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'User Update Failed');
@@ -226,16 +254,16 @@ const updateUserInfo = async (
       userStatus: userStatus,
       firstName,
       lastName,
-      role,
-    },
+      role
+    }
   };
 };
 
 //! get my profile ----------------------------------------------------------------------->>>
-const getMyProfile = async (userId: string): Promise<IUsersResponse | null> => {
+const getMyProfile = async (userId: string): Promise<any> => {
   const result = await prisma.user.findUnique({
     where: {
-      userId,
+      userId
     },
     select: {
       userId: true,
@@ -251,12 +279,12 @@ const getMyProfile = async (userId: string): Promise<IUsersResponse | null> => {
           createdAt: true,
           updatedAt: true,
           Orders: true,
-          Styles: true,
-        },
+          Styles: true
+        }
       },
       createdAt: true,
-      updatedAt: true,
-    },
+      updatedAt: true
+    }
   });
 
   if (!result) {
@@ -272,5 +300,5 @@ export const UserService = {
   getSingleUser,
   updateProfileInfo,
   updateUserInfo,
-  getMyProfile,
+  getMyProfile
 };
