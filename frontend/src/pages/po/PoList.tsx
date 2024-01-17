@@ -383,9 +383,11 @@ const PoLists = () => {
                 </div>
                 <SelectPicker
                   size="lg"
-                  data={dataForSelectPicker.getAllFactoryNames(
-                    allFactoryResponse
-                  )}
+                  data={
+                    dataForSelectPicker.getAllFactoryNames(
+                      allFactoryResponse
+                    ) || []
+                  }
                   onChange={(value: string | null): void =>
                     setSelectedFactory(value as string)
                   }
@@ -399,7 +401,9 @@ const PoLists = () => {
                 />
                 <SelectPicker
                   size="lg"
-                  data={dataForSelectPicker.getAllPortNames(allPortResponse)}
+                  data={
+                    dataForSelectPicker.getAllPortNames(allPortResponse) || []
+                  }
                   style={{ width: "20%" }}
                   searchable={false}
                   onChange={(value: string | null): void =>
