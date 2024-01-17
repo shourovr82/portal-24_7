@@ -5,16 +5,7 @@ import logo from "../../assets/logo/portal-logo.png";
 import { useLoginMutation } from "../../redux/features/auth/authApi";
 import { ILogin } from "../users/addUser.interface";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import {
-  Button,
-  Checkbox,
-  Form,
-  Input,
-  InputGroup,
-  Message,
-  Modal,
-  useToaster,
-} from "rsuite";
+import { Button, Checkbox, Form, Input, InputGroup, Modal } from "rsuite";
 import EyeIcon from "@rsuite/icons/legacy/Eye";
 import EyeSlashIcon from "@rsuite/icons/legacy/EyeSlash";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -27,7 +18,6 @@ import {
 import loginPhoto from "../../assets/login/loginbg.svg";
 import moment from "moment";
 import LoginReportProblemModal from "../../components/login/LoginReportProblemModal";
-import CopyIcon from "@rsuite/icons/Copy";
 
 export default function LogIn() {
   const navigate = useNavigate();
@@ -37,7 +27,6 @@ export default function LogIn() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const location = useLocation();
-  const toaster = useToaster();
 
   const handleChange = () => {
     setVisible(!visible);
@@ -245,57 +234,13 @@ export default function LogIn() {
               </form>
             </div>
           </div>
-          <div className="mt-2    text-sm border-[2px] font-semibold shadow-md border-[#0d1065] px-2 py-1">
+          <div className="mt-2    text-sm border-[2px] font-semibold shadow-md border-[#0d1065] rounded-lg px-2 py-1">
             <h2>Login Details SUPER_ADMIN</h2>
             <div className="flex justify-between pr-4 items-center">
               <h2>Email : superadmin@gmail.com</h2>
-              <button
-                onClick={() => {
-                  navigator.clipboard
-                    .writeText("superadmin@gmail.com")
-                    .then(() => {
-                      toaster.push(
-                        <Message showIcon type="success" closable>
-                          Copied Email
-                        </Message>,
-                        { placement: "bottomCenter", duration: 2000 }
-                      );
-                    })
-                    .catch((err) => {
-                      console.error("Unable to copy text to clipboard", err);
-                    });
-                }}
-                className="hover:bg-[#0d1065c5] focus:bg-[#0d1065] focus-within:bg-[#0d1065] focus-within:text-white px-2 py-1 rounded-full hover:text-white"
-              >
-                <span>
-                  <CopyIcon className="text-xs" />
-                </span>
-              </button>
             </div>
             <div className="flex justify-between pr-4 items-center">
               <p>Password : 123456</p>
-              <button
-                onClick={() => {
-                  navigator.clipboard
-                    .writeText("123456")
-                    .then(() => {
-                      toaster.push(
-                        <Message showIcon type="success" closable>
-                          Copied Password
-                        </Message>,
-                        { placement: "bottomCenter", duration: 2000 }
-                      );
-                    })
-                    .catch((err) => {
-                      console.error("Unable to copy text to clipboard", err);
-                    });
-                }}
-                className="hover:bg-[#0d1065c5] focus:bg-[#0d1065] focus-within:bg-[#0d1065] focus-within:text-white px-2 py-1 rounded-full hover:text-white"
-              >
-                <span className="">
-                  <CopyIcon className="text-xs" />
-                </span>
-              </button>
             </div>
           </div>
         </div>
